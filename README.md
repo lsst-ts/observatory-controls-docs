@@ -1,1 +1,0 @@
-# observatory-controls-docs
