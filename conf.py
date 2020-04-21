@@ -80,6 +80,15 @@ linkcheck_retries = 2
 linkcheck_timeout = 5  # seconds
 linkcheck_ignore = [
     r'^http://localhost',
+    r'^https://ts-standardscripts.lsst.io',
+    r'^https://ts-atptg.lsst.io',
+    r'^https://ts-atmcs.lsst.io',
+    r'^https://ts-atmonochromator',
+    r'^https://ts-athexapod.lsst.io',
+    r'^https://ts-atpneumatics.lsst.io',
+    r'^https://ts-electrometer.lsst.io',
+    r'^https://ts-atcamera.lsst.io',
+    r'^https://ts-atspectrograph.lsst.io'
 ]
 
 # -- Options for HTML output ----------------------------------------------
