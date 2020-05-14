@@ -5,7 +5,7 @@ Contributing to the docs
 This documentation is open source.
 LSST welcomes contributions that make this documentation more useful and accurate.
 
-Keep in mind that everyone participating in this project is expected to follow the LSST DM `Team Culture and Conduct Standards <https://developer.lsst.io/team/code-of-conduct.html>`__.
+Keep in mind that everyone participating in this project is expected respectful to others. The `Team Culture and Conduct Standards <https://developer.lsst.io/team/code-of-conduct.html>`__ provides an example of what is expected when participating to Rubin documentation.
 
 .. _contributing-issue:
 
@@ -69,7 +69,7 @@ Documentation style guide
 =========================
 
 This documentation is written in reStructuredText.
-The `LSST DM reStructuredText style guide <https://developer.lsst.io/restructuredtext/style.html>`__ can help you create effective reStructuredText.
+Following the `LSST DM reStructuredText style guide <https://developer.lsst.io/restructuredtext/style.html>`__ can help you create effective reStructuredText.
 
 Style and voice
 ---------------
@@ -105,14 +105,13 @@ Templates
 ---------
 
 A template folder is located in the :ref:`project directory <Project-Information>`.
-It contains template pages for the Observatory Operations Documentation area, including a directory index and a procedure template.
-Users wishing to create a new folder in this area should copy/paste the template folder, then update the contents accordingly.
+It contains an index file for the directory. If you wish to create a new folder in this area should copy/paste the template folder, then update the contents accordingly.
 
 
 Prose formatting in plain text
 ------------------------------
 
-LSST DM's user documentation is written with soft wrapping, meaning that lines are as long as they need to be in the plain text file and the text editor is expected to handle wrapping.
+Rubin user documentation is written with soft wrapping, meaning that lines are as long as they need to be in the plain text file and the text editor is expected to handle wrapping.
 Never hard wrap to an arbitrary line length.
 Soft wrapping makes editing more approachable for more people (particularly those using the GitHub editor) and makes pull request line comments more useful.
 
@@ -128,7 +127,7 @@ Capitalize proper nouns as usual.
 Try not to use more than two levels of heading hierarchy.
 Using more than two levels of hierarchy might suggest an information architecture issue.
 
-Also keep in mind DM’s `reStructuredText heading styles <https://developer.lsst.io/restructuredtext/style.html#sections>`__.
+Also keep in mind heading formats, which should follow `reStructuredText heading styles <https://developer.lsst.io/restructuredtext/style.html#sections>`__.
 
 Links
 -----
