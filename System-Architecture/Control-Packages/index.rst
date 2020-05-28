@@ -5,9 +5,24 @@
 .. _System-Architecture-Control-Packages:
 
 
-.. note::
-    This is a template file that is associated with a template directory structure.
-    This note will be deleted when the section is properly populated
+################
+Control Packages
+################
+
+A control package (sometimes referred to as a control class) consists of a high-level class that can be called by a user to perform coordinated sequencing of CSCs.
+It also provides low-level access to CSCs should it be required.
+Another way to think about these packages is that they perform coordinated actions with multiple CSCs from one command.
+Examples of use-cases where control packages are useful is for things like slewing the telescope, shutting down for the night, or performing focus offsets.
+More detailed information is found with the documentation that is built with the `ts_observatory_control package <ts-observatory-control.lsst.io>`__.
+The source code for the packages are found in the `ts_observatory_control <https://github.com/lsst-ts/ts_observatory_control/tree/master>`__ repository on github.
+
+The packages can be called from notebooks, and/or used by CSCs or scripts executed by the scriptQueue.
+As a result of the continuing development of the functionality of these packages, they must have integration and unit tests written in order to be considered safe for official observatory use.
+Users looking to develop or expand the functionality from what is in these packages must follow the `Notebooks, Observing Scripts and Utilities Development Cycle <tstn-010.lsst.io>`__
+
+The control classes themselves are divided into multiple catetories, but generally can be separated by if they control aspects of the Main or Auxiliary Telescope.
+
+More information regarding CSCs are found in the :ref:`CSC Overview section <Control-Packages-General-CSC-Overview>` and the sub-pages.
 
 
 .. toctree::
@@ -18,41 +33,37 @@
     */index
 ..    *
 
-##########################
-Control Packages & Classes
-##########################
+Auxiliary Telescope Control Packages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A control package/class is a high-level grouping of CSCs.
-The idea is to create some coordinated control systems for the telescope that
-are related to a particular purpose.
-A couple of these purposes are control of the low-level telescope and control
-of the entire observatory.
-These packages become the telescope control system and observatory control system.
-Another layer of packages are the telescope's imaging system and its calibration system.
-These systems can be then used by the provided scripting system in
-order to perform coordinated functionality of the observatory.
-The control packages deal with performing actions with the observatory
-such as rotating and moving the dome or telescope mount.
-Another way to think about these packages is that they perform coordinated
-actions with multiple CSCs from one command.
-An official lsst-ts git repository has been created to store these packages.
-As a result of the continuing development of the functionality of these
-packages, they must have integration and unit tests written in order to be
-considered safe for official observatory use.
+ATCS
+----
+The ATCS is used to perform actions related to the telescope and dome motions.
+It nests the functionality of the ATMCS, ATAOS, ATPneumatics, ATHexapod, ATDome, and ATDomeTrajectory CSCs.
+This class contains multiple high-level methods to perform activities such as: opening/closing the observatory, slewing to and tracking targets and performing many types of pointing offsets.
 
-.. so I am not sure what we are trying to descibe here.  The section is called Control Packages
-.. and Classes, so I assume we are trying to define Classes?  Classes are essentially scripts that
-.. have gone through riggerous testing (as utilities) and contain functionality that can be used
-.. by more than one script.
+For more detailed descriptions see the methods summary in the `ATCS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.ATCS.html#lsst.ts.observatory.control.ATCS>`__
 
-Another level of packages will deal with helping to perform observing duties and
-integrating with the Science Platform.
-The observing duties packages are located in the lsst-ts git repo.
-The science platform packages are located in the lsst-dm repo.
-This level is considered a testing grounds for these utilities which could be
-promoted to a official control package.
+LATISS
+------
+The LATISS control package contains methods to perform setup of the spectrograph and taking various types of images (flats, darks, bias, science etc).
+It nests the functionality of the ATSpectrograph, ATCamera, ATArchiver, and ATHeaderService CSCs.
 
-Control package description, link to dev area(s) and workflow
+For more detailed descriptions see the methods summary in the `LATISS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.LATISS.html#lsst.ts.observatory.control.LATISS>`__
+
+ATCalSys
+--------
+The Auxiliary Telescope Calibration System control package is still under-development.
+
+
+Main Telescope Control Packages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These packages are still under development and have not been tagged for release.
+
+
+
+
+
 
 ..  Any Figures should be stored in the same directory as this file.
     To add images, add the image file (png, svg or jpeg preferred) to the same directory as this .rst file.
