@@ -8,13 +8,16 @@
 Control System Architecture
 ############################
 
-.. note::
-    This is a template file that is associated with a template directory structure.
-    This note will be deleted when the section is properly populated
+The LSST Control Software contains the overall control aspects of the survey and the telescope including the computers, network, communication and software infrastructure.
+It contains all work required to design, code, test and integrate, in the lab and in the field, the high level coordination software.
+The details of the design are contained in the change-controlled document `LSE-50 (Control System Architecture) <https://ls.st/lse-150>`__.
 
-Intro paragraph and link LSE-150.
+From the stand-point of the user, the architecture permits the capability to have full control at multiple levels.
+However, for ease of use, :ref:`high-level packages <System-Architecture-Control-Packages>` have been created to perform standard operations that involve the synchronization of multiple components (e.g. slewing to a new target).
 
-Quick description of sub-fields (Control Packages, CSCs, EFD, Configuration, Deployment, scriptQueue?)
+Users can also interact with individual components, which are controlled via :ref:`CSCs <Control-Packages-General-CSC-Overview>`.
+These are generally grouped according to their association with a specific telescope.
+
 
 
 .. toctree::
@@ -25,7 +28,7 @@ Quick description of sub-fields (Control Packages, CSCs, EFD, Configuration, Dep
     */index
 ..    *
 
-High-level description of architecture
+There exist multiple components for which documentation is not yet available including: the EFD, configuration management, deployment, and the scriptQueue.
 
 ..  Any Figures should be stored in the same directory as this file.
     To add images, add the image file (png, svg or jpeg preferred) to the same directory as this .rst file.

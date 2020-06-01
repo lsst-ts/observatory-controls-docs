@@ -41,9 +41,9 @@ the DDS protocol) regardless of the source's language.
 CSCs are divided between the Main Telescope, Auxiliary Telescope and overall
 observatory system.
 
-The first section describes the purpose and definition of control packages.
-The next section describes the control architecture of the observatory.
-The final section describes the control interfaces of the observatory.
+Most CSCs are utilized via higher-level control packages that handle the sequencing of multiple components, which are discussed in the :ref:`Control Packages section <System-Architecture-Control-Packages>`.
+The following sections describe the control architecture and interfaces of the observatory.
+
 
 .. contents:: Section Overview
     :local:
