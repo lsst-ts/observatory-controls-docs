@@ -4,9 +4,9 @@
 .. Recommended format is "Directory Name"-"Title Name"  -- Spaces should be replaced by hypens
 .. _CSC-Overview-System-Level-CSCs:
 
-############################
+#################
 System Level CSCs
-############################
+#################
 
 .. note::
     This is a template file that is associated with a template directory structure.
