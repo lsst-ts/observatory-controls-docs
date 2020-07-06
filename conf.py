@@ -88,7 +88,8 @@ linkcheck_ignore = [
     r'^https://ts-atpneumatics.lsst.io',
     r'^https://ts-electrometer.lsst.io',
     r'^https://ts-atcamera.lsst.io',
-    r'^https://ts-atspectrograph.lsst.io'
+    r'^https://ts-atspectrograph.lsst.io',
+    r'^https://jira.lsstcorp.org/browse/DM-24808'
 ]
 
 # -- Options for HTML output ----------------------------------------------
