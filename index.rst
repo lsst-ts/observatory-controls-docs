@@ -18,7 +18,8 @@ Control System Architecture
 ===========================
 
 The Rubin control system is based on a reactive data-driven actor-based architecture that uses a multi cast Data Distribution Service (DDS) messaging protocol middleware.
-The system consists of numerous individual components, called Controllable SAL Components (CSCs), which are generally grouped together and controlled via a higher-level control package which handles the sequencing and simplifies interactions for higher-level use-cases (e.g. slewing the telescope). This section and the links there-in detail the architecture of the control system, the different control packages, and link to the documentation to the individual CSCs.
+The system consists of numerous individual components, called Controllable SAL Components (CSCs), which are generally grouped together and controlled via a higher-level control package which handles the sequencing and simplifies interactions for higher-level use-cases (e.g. slewing the telescope).
+This section and the links there-in detail the architecture of the control system, the different control packages, and link to the documentation to the individual CSCs.
 
 
 .. toctree::
