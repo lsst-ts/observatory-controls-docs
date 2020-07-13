@@ -16,9 +16,15 @@ The database is useful for numerous activities, including: troubleshooting of so
 .. Brief explanation on how data flows from the summit to NCSA (with the idea of leading into the next part which should guide the user on when to use which instance, summit, base, ncsa).
 
 The primary location of the EFD is on the summit, however a separate instance also lives at the base facility in La Serena.
-Under normal conditions, the data is then synced to NCSA and available via the LSP within several minutes.
-It is recommended to use the NCSA instance if the information is not time critical in order to not add unncessary traffic to the Base Facility.
+Under normal conditions, the data is then synced to the US data facility and available via the science platform in near real time.
+The US data facility instance is intended to service all needs not related to on summit activities such as controller scripts and tight loop feedback.
 Direct interaction with the summit EFD is strongly discouraged and should only be used if no other viable option exists.
+
+.. note::
+
+The current global situation has caused deviation from the above plan.
+Since the closure of the summit facilities, the summit EFD has been mirrored to another instance running on the base computing infrastructure.
+This is expected to be a temporary solution and that the primary EFD will move back to the summit when activities resume.
 
 The EFD is backed by InfluxBD, details of the EFD architecture, implementation and deployment(s) are found at `https://sqr-034.lsst.io <https://sqr-034.lsst.io>`__.
 
@@ -37,11 +43,16 @@ Chronograf
 
 .. Would be nice to show some sort of screenshot here?
 
+.. figure:: /Control-User-Interfaces/weather.png
+    :name: weather
+    :target: weather.png
+
+    An example Chronograf dashboard showing weather station information on the summit from 1-2 January 2020.
+
 More information on using Chronograf can be found at the `getting started page <https://docs.influxdata.com/chronograf/v1.8/introduction/getting-started/>`__.
 
-
 EFD Client
-__________
+----------
 
 The `EFD Client <https://efd-client.lsst.io/>`__ permits access to the data from a notebook or python program.
 This is often the preferred method for more detailed analyses or where record-keeping is required.
@@ -51,7 +62,12 @@ It contains multiple methods to aid with queries and data interactions, essentia
 Accessing the EFD
 ^^^^^^^^^^^^^^^^^
 
-The following sections list the EFD instances available, where they run and who the intended audience is for each one.
+Following is a list of EFD instances.
+Please refer https://sqr-034.lsst.io for technical details: e.g. information about connecting directly to the influxDB server API.
+There are also several instances of the EFD deployed at various places that are unlikely to be of general interest.
+These are also listed in the aforementioned SQuaRE technical note.
+
+The entry titled "efd_client alias" is the string to pass to the ``EfdClient`` constructor in order to authenticate to that instance of the EFD.
 
 ..  I just 95% copied/pasted here, but I think only the summit, base and LSP instances are required to be shown?
     I would think users also don't need to know about the Kafka details?
@@ -59,76 +75,13 @@ The following sections list the EFD instances available, where they run and who 
     Seeing as this area is still in flux I'm hesitant to keep a master list here, but at the same time I don't like the idea of duplicating data.
     Maybe the best thing to do is just link this section to sqr-034. Might need some thought.
 
-
-Summit EFD
-----------
-
-Instance running at the Summit (Chile).
-
-Intended audience: Operations scripts and software. May be used by Commissioning and Science Verification teams when Base EFD is unavailable.
-
-Data at the Summit EFD is also replicated to the LDF EFD to enable project wide access.
-
-Chronograf: https://chronograf-summit-efd.lsst.codes
-
-InfluxDB HTTP API (used by the EFD Client): https://influxdb-summit-efd.lsst.codes
-
-Kafka Schema Registry: https://schema-registry-summit-efd.lsst.codes
-
-Kafka Broker: kafka-0-summit-efd.lsst.codes:31090
-
-Base EFD
---------
-
-Instance running at the Base facility (Chile), which is a on-the-fly replica of the summit EFD.
-
-Intended audience: Commissioning and Science Verification teams.
-
-The plan is to have replication from the summit to the base and from the base to LDF working soon.
-
-Chronograf: https://chronograf-base-efd.lsst.codes
-
-InfluxDB HTTP API: https://influxdb-base-efd.lsst.codes
-
-Kafka Schema Registry: https://schema-registry-base-efd.lsst.codes
-
-Kafka Broker: cp-helm-charts-cp-kafka-headless.cp-helm-charts:9092
-
-LSP Stable EFD
----------------
-
-Instance running at NCSA on the LSP production cluster.
-
-Intended audience: Everyone in the project.
-
-Chronograf: https://lsst-chronograf-efd.ncsa.illinois.edu
-
-InfluxDB HTTP API: https://lsst-influxdb-efd.ncsa.illinois.edu
-
-Kafka Schema Registry: https://lsst-schema-registry-efd.ncsa.illinois.edu
-
-Kafka Broker: cp-helm-charts-cp-kafka-headless.cp-helm-charts:9092
-
-
-LSP Integration EFD
---------------------
-
-Instance running at NCSA on the LSP development cluster.
-
-.. note::
-
-  As of March 20, this instance holds a copy of the Summit EFD data and dashboards and can be used during the shutdown of the Rubin Observatory caused by the COVID-19 outbreak.
-
-Intended audience: Commissioning and Science Verification teams.
-
-Chronograf: https://lsst-chronograf-int-efd.ncsa.illinois.edu
-
-InfluxDB HTTP API: https://lsst-influxdb-int-efd.ncsa.illinois.edu
-
-Kafka Schema Registry: https://lsst-schema-registry-int-efd.ncsa.illinois.edu
-
-Kafka Broker:  cp-helm-charts-cp-kafka-headless.cp-helm-charts:9092
-
+=====================  ================  ========================================================================  ==================================================================  ===================================
+Location               efd_client alias  Audience                                                                  Chronograf link                                                     Notes
+=====================  ================  ========================================================================  ==================================================================  ===================================
+Summit (Cerro Pachón)  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://chronograf-summit-efd.lsst.codes>`__           Currently unavailable
+Base (La Serena)       base_efd          Temporary copy of the summit EFD for use by Commissioning and V&V.        `chronograf <https://chronograf-base-efd.lsst.codes>`__             Temporary
+Data Facility (NCSA)   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://lsst-chronograf-int-efd.ncsa.illinois.edu>`__  In development.  Alias will change.
+=====================  ================  ========================================================================  ==================================================================  ===================================
 
 ..  Any Figures should be stored in the same directory as this file.
     To add images, add the image file (png, svg or jpeg preferred) to the same directory as this .rst file.
