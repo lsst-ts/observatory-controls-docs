@@ -44,8 +44,6 @@ Chronograf
   For information on the US data facility (NCSA) VPN see `instructions here <https://wiki.ncsa.illinois.edu/display/cybersec/Virtual+Private+Network+(VPN)+Service#VirtualPrivateNetwork(VPN)Service-UsingtheCiscoAnyConnectVPNClient(Required)>`_.
   For information about connecting to the Chilean VPN, please ask on the ``#rubinobs-it-chile`` LSSTC Slack channel.
 
-.. Would be nice to show some sort of screenshot here?
-
 .. figure:: /Control-User-Interfaces/weather.png
     :name: weather
     :target: weather.png
@@ -71,12 +69,6 @@ There are also several instances of the EFD deployed at various places that are 
 These are also listed in the aforementioned SQuaRE technical note.
 
 The entry titled "efd_client alias" is the string to pass to the ``EfdClient`` constructor in order to authenticate to that instance of the EFD.
-
-..  I just 95% copied/pasted here, but I think only the summit, base and LSP instances are required to be shown?
-    I would think users also don't need to know about the Kafka details?
-    It does make sense to link to a "master list" of all instances, but for most people I'm not sure it's necessary.
-    Seeing as this area is still in flux I'm hesitant to keep a master list here, but at the same time I don't like the idea of duplicating data.
-    Maybe the best thing to do is just link this section to sqr-034. Might need some thought.
 
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
 Location               VPN    efd_client alias  Audience                                                                  Chronograf link                                                     Notes
