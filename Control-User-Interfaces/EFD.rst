@@ -22,9 +22,9 @@ Direct interaction with the summit EFD is strongly discouraged and should only b
 
 .. note::
 
-The current global situation has caused deviation from the above plan.
-Since the closure of the summit facilities, the summit EFD has been mirrored to another instance running on the base computing infrastructure.
-This is expected to be a temporary solution and that the primary EFD will move back to the summit when activities resume.
+  The current global situation has caused deviation from the above plan.
+  Since the closure of the summit facilities, the summit EFD has been mirrored to another instance running on the base computing infrastructure.
+  This is expected to be a temporary solution and that the primary EFD will move back to the summit when activities resume.
 
 The EFD is backed by InfluxBD, details of the EFD architecture, implementation and deployment(s) are found at `https://sqr-034.lsst.io <https://sqr-034.lsst.io>`__.
 
@@ -40,6 +40,9 @@ Chronograf
 .. note::
 
   To login to Chronograf, you need to be a member of the GitHub lsst-sqre organization. If you are not, please request access on the ``#com-square`` LSSTC Slack channel.
+  You will also need access to the appropriate VPN to log in.
+  For information on the US data facility (NCSA) VPN see `instructions here <https://wiki.ncsa.illinois.edu/display/cybersec/Virtual+Private+Network+(VPN)+Service#VirtualPrivateNetwork(VPN)Service-UsingtheCiscoAnyConnectVPNClient(Required)>`_.
+  For information about connecting to the Chilean VPN, please ask on the ``#rubinobs-it-chile`` LSSTC Slack channel.
 
 .. Would be nice to show some sort of screenshot here?
 
@@ -75,13 +78,13 @@ The entry titled "efd_client alias" is the string to pass to the ``EfdClient`` c
     Seeing as this area is still in flux I'm hesitant to keep a master list here, but at the same time I don't like the idea of duplicating data.
     Maybe the best thing to do is just link this section to sqr-034. Might need some thought.
 
-=====================  ================  ========================================================================  ==================================================================  ===================================
-Location               efd_client alias  Audience                                                                  Chronograf link                                                     Notes
-=====================  ================  ========================================================================  ==================================================================  ===================================
-Summit (Cerro Pachón)  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://chronograf-summit-efd.lsst.codes>`__           Currently unavailable
-Base (La Serena)       base_efd          Temporary copy of the summit EFD for use by Commissioning and V&V.        `chronograf <https://chronograf-base-efd.lsst.codes>`__             Temporary
-Data Facility (NCSA)   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://lsst-chronograf-int-efd.ncsa.illinois.edu>`__  In development.  Alias will change.
-=====================  ================  ========================================================================  ==================================================================  ===================================
+=====================  =====  ================  ========================================================================  ==================================================================  ===================================
+Location               VPN    efd_client alias  Audience                                                                  Chronograf link                                                     Notes
+=====================  =====  ================  ========================================================================  ==================================================================  ===================================
+Summit (Cerro Pachón)  Chile  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://chronograf-summit-efd.lsst.codes>`__           Currently unavailable
+Base (La Serena)       Chile  base_efd          Temporary copy of the summit EFD for use by Commissioning and V&V.        `chronograf <https://chronograf-base-efd.lsst.codes>`__             Temporary
+Data Facility (NCSA)   NCSA   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://lsst-chronograf-int-efd.ncsa.illinois.edu>`__  In development.  Alias will change.
+=====================  =====  ================  ========================================================================  ==================================================================  ===================================
 
 ..  Any Figures should be stored in the same directory as this file.
     To add images, add the image file (png, svg or jpeg preferred) to the same directory as this .rst file.
