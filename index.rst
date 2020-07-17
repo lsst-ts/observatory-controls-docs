@@ -46,10 +46,11 @@ Nublado (Jupyter) Interface
 Analogous to the notebook interface used with the `LSST Science Platform Notebook Aspect Documentation <https://nb.lsst.io>`__, there is a Nublado instance that is connected to the control network.
 This enables users to interact with the system from a notebook environment which is useful for development purposes, but also has example notebooks to perform certain funtions, such as collimation of the Auxiliary Telescope.
 
-EFD and Chronograf
-^^^^^^^^^^^^^^^^^^
-The Engineering Facilities Database contains all information that is communicated via the control network, such as commands, events, telemetry and even small files.
-Interacting with the database can be performed in multiple ways, such as using the Nublado interface above, or, if a more visual user-friendly interface is required, users should consider using Chronograf.
+:ref:`EFD`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The :ref:`EFD` contains all information that is communicated via the control network, such as commands, events, telemetry and even small files.
+Interacting with the database can be performed in multiple ways depending on your use-case. A python client has been built to query the database, which can also be used via the Nublado interface mentioned above.
+However, if a more visual user-friendly interface is required, users should consider using Chronograf, which works well for specific use-cases.
 
 
 LSST Camera Image Visualization

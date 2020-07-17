@@ -89,7 +89,10 @@ linkcheck_ignore = [
     r'^https://ts-electrometer.lsst.io',
     r'^https://ts-atcamera.lsst.io',
     r'^https://ts-atspectrograph.lsst.io',
-    r'^https://jira.lsstcorp.org/browse/DM-24808'
+    r'^https://jira.lsstcorp.org/browse/DM-24808',
+    r'https://chronograf-summit-efd.lsst.codes',
+    r'https://chronograf-base-efd.lsst.codes',
+    r'https://lsst-chronograf-int-efd.ncsa.illinois.edu'
 ]
 
 # -- Options for HTML output ----------------------------------------------
