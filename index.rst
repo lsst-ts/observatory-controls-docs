@@ -14,6 +14,8 @@ It contains all work required to design, code, test and integrate, in the lab an
     This page is under heavy development and is subject to change.
 
 
+.. _Control-System-Architecture:
+
 Control System Architecture
 ===========================
 
@@ -30,37 +32,67 @@ This section and the links there-in detail the architecture of the control syste
     System-Architecture/*
 ..    *
 
+.. _Control-System-User-Interfaces:
 
 Control System User Interfaces
 ==============================
 
 Interacting with the observatory software and hardware can be performed through many different interfaces.
 
+.. _Control-System-User-Interfaces-LOVE:
+
 LSST Observing Visualization Environment (LOVE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------
 LOVE is the graphical display of the system status.
 It will also have areas where the user can interact with the system, including a ``STOP`` button and an interface to the scriptQueue.
 
-Nublado (Jupyter) Interface
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Analogous to the notebook interface used with the `LSST Science Platform Notebook Aspect Documentation <https://nb.lsst.io>`__, there is a Nublado instance that is connected to the control network.
-This enables users to interact with the system from a notebook environment which is useful for development purposes, but also has example notebooks to perform certain funtions, such as collimation of the Auxiliary Telescope.
+.. _Control-System-User-Interfaces-Nublado:
 
-:ref:`EFD`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The :ref:`EFD` contains all information that is communicated via the control network, such as commands, events, telemetry and even small files.
+Nublado (Jupyter) Interface
+---------------------------
+Analogous to the notebook interface used with the `LSST Science Platform Notebook Aspect Documentation <https://nb.lsst.io>`__, there is a Nublado instance that is connected to the control network.
+This enables users to interact with the system from a notebook environment which is useful for development purposes, but also has example notebooks to perform certain functions, such as collimation of the Auxiliary Telescope and some fault recovery procedures.
+
+.. _Control-System-User-Interfaces-Script-Queue:
+
+Script Queue
+------------
+The `ScriptQueue`_ is the main interface for users and operators to perform standard operation procedures.
+It contains a set of `SAL Scripts`_ that users can schedule, organize and monitor their execution.
+
+.. _ScriptQueue: https://ts-scriptqueue.lsst.io
+.. _SAL Script: https://ts-salobj.lsst.io/sal_scripts.html
+
+There are two ScriptQueues running in parallel in the system, one for the Main Telescope (``index=1``) and another for the Auxiliary Telescope (``index=2``).
+Users can interface with them either using the :ref:`LOVE interface <Control-System-User-Interfaces-LOVE>` (preferred) or from :ref:`Jupyter notebooks in nublado <Control-System-User-Interfaces-Nublado>`.
+
+.. _Control-System-User-Interfaces-Watcher:
+
+Watcher
+-------
+
+The `Watcher`_ is an alarm system that is responsible for monitoring the observatory status.
+The alarms sent by the `Watcher`_ are displayed in the :ref:`LOVE interface <Control-System-User-Interfaces-LOVE>` where users have the option to acknowledge it and take actions to mitigate any problems.
+
+.. _Watcher: https://ts-watcher.lsst.io
+
+See the `Watcher`_ documentation for more information about handling alarms and escalation.
+
+.. _Control-System-User-Interfaces-Engineering-Facility-Database:
+
+Engineering Facility Database
+-----------------------------
+
+The Engineering Facility Database (EFD) contains all information that is communicated via the control network, such as commands, events, telemetry and even small files.
 Interacting with the database can be performed in multiple ways depending on your use-case. A python client has been built to query the database, which can also be used via the Nublado interface mentioned above.
 However, if a more visual user-friendly interface is required, users should consider using Chronograf, which works well for specific use-cases.
 
 
+.. _Control-System-User-Interfaces-LSST-Camera-Image-Visualization:
+
 LSST Camera Image Visualization
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 Due to the large size and complexity of assembling a single LSST image, a visualization tool is being developed to enable observers to view and interact with them as they roll off the telescope. This tool is still under heavy development.
-
-
-Scheduler Visualization
-^^^^^^^^^^^^^^^^^^^^^^^
-TBR
 
 
 :ref:`Troubleshooting`
@@ -69,6 +101,7 @@ Software user manuals are often packaged and released with the code such that th
 Because issues often arise with software that is already released, this section focuses on current issues and their workarounds.
 
 
+.. _Project-Documentation-Information:
 
 Project Documentation Information
 =================================
