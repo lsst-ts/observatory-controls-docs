@@ -47,7 +47,7 @@ The ATCS is used to perform actions related to the telescope and dome motions.
 It nests the functionality of the ATMCS, ATAOS, ATPneumatics, `ATHexapod <https://ts-athexapod.lsst.io>`__, ATDome, and ATDomeTrajectory CSCs.
 This class contains multiple high-level methods to perform activities such as: opening/closing the observatory, slewing to and tracking targets and performing many types of pointing offsets.
 
-For more detailed descriptions see the methods summary in the `ATCS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.ATCS.html#lsst.ts.observatory.control.ATCS>`__
+For more detailed descriptions see the methods summary in the `ATCS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.auxtel.ATCS.html#lsst.ts.observatory.control.auxtel.ATCS>`__
 
 .. _Control-Packages-AuxTel-LATISS:
 
@@ -56,7 +56,7 @@ LATISS
 The LATISS control package contains methods to perform setup of the spectrograph and taking various types of images (flats, darks, bias, science etc).
 It nests the functionality of the ATSpectrograph, ATCamera, ATArchiver, and ATHeaderService CSCs.
 
-For more detailed descriptions see the methods summary in the `LATISS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.LATISS.html#lsst.ts.observatory.control.LATISS>`__
+For more detailed descriptions see the methods summary in the `LATISS User Manual Documentation <https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.auxtel.LATISS.html#lsst.ts.observatory.control.auxtel.LATISS>`__
 
 .. _Control-Packages-AuxTel-ATCalSys:
 
