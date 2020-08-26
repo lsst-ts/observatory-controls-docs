@@ -23,7 +23,7 @@ Due to the large number of CSCs, they are arranged according to their :ref:`high
 Main Telescope Control System (MTCS)
 ====================================
 
-.. _MTDome: https://ts-dome.lsst.io/
+.. _Dome: https://ts-dome.lsst.io/
 .. _MTDomeTrajectory: https://ts-mtdometrajectory.lsst.io/
 .. _MTMount: https://ts-mtmount.lsst.io/
 .. _MTAOS: https://ts-mtaos.lsst.io/
@@ -37,10 +37,10 @@ MTCamera
 
     * The MTCamera CSC is used to take images with the LSST Camera.
 
-`MTDome`_
+`Dome`_
 ^^^^^^^^^
 
-    * The `MTDome`_ CSC is responsible for the positioning of the main telescope dome and the light and windscreen.
+    * The `Dome`_ CSC is responsible for the positioning of the main telescope dome and the light and windscreen.
       It also handles the positioning the louvers and opening and closing the dome shutter.
       The logic that determines the ideal positioning of the dome and trajectory is handled externally in the MTDomeTrajectory CSC.
 
