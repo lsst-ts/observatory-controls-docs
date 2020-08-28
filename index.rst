@@ -14,8 +14,6 @@ It contains all work required to design, code, test and integrate, in the lab an
     This page is under heavy development and is subject to change.
 
 
-.. _Control-System-Architecture:
-
 Control System Architecture
 ===========================
 
@@ -57,11 +55,12 @@ This enables users to interact with the system from a notebook environment which
 
 Script Queue
 ------------
+
 The `ScriptQueue`_ is the main interface for users and operators to perform standard operation procedures.
 It contains a set of `SAL Scripts`_ that users can schedule, organize and monitor their execution.
 
 .. _ScriptQueue: https://ts-scriptqueue.lsst.io
-.. _SAL Script: https://ts-salobj.lsst.io/sal_scripts.html
+.. _SAL Scripts: https://ts-salobj.lsst.io/sal_scripts.html
 
 There are two ScriptQueues running in parallel in the system, one for the Main Telescope (``index=1``) and another for the Auxiliary Telescope (``index=2``).
 Users can interface with them either using the :ref:`LOVE interface <Control-System-User-Interfaces-LOVE>` (preferred) or from :ref:`Jupyter notebooks in nublado <Control-System-User-Interfaces-Nublado>`.

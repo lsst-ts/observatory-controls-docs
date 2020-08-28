@@ -25,15 +25,6 @@ The control classes themselves are divided into multiple catetories, but general
 More information regarding CSCs are found in the :ref:`CSC Overview section <Control-Packages-General-CSC-Overview>` and the sub-pages.
 
 
-.. toctree::
-    :maxdepth: 2
-    :titlesonly:
-    :glob:
-
-    */index
-..    *
-
-
 .. _Control-Packages-AuxTel:
 
 Auxiliary Telescope Control Packages

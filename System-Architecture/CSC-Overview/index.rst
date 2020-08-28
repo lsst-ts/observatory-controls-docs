@@ -21,7 +21,7 @@ Due to the large numbers of CSCs, they're generally divided into three categorie
 * :ref:`Auxiliary Telescope CSCs<CSC-Overview-Auxiliary-Telescope-CSCs>`
 * :ref:`System Level CSCs<CSC-Overview-System-Level-CSCs>`
 
-A full list of CSCs along with their developer, product owner, and repository location can be found at the `ts-xml page <ts-xml.lsst.io>`__.
+A tabulated list all the CSCs along with their developer, product owner, documentation and repository location can be found in the  `CSC Master Table <https://ts-xml.lsst.io/#master-csc-table>`__.
 
 CSCs are written primarily in Python, but also in C++, Java, and LabVIEW.
 Communication between components uses the Data Distribution Service (DDS), a standardized message protocol.

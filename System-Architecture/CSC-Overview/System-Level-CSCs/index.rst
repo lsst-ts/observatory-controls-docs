@@ -16,14 +16,6 @@ This is the top-level description of what this section is about and what it incl
 Below is a table of contents which is used to show the levels below this level.
 If there are no levels beneath this one, make sure the 2nd line is commented out
 
-.. toctree::
-    :maxdepth: 2
-    :titlesonly:
-    :glob:
-
-    *
-..    */index
-
 ..  Any Figures should be stored in the same directory as this file.
     To add images, add the image file (png, svg or jpeg preferred) to the same directory as this .rst file.
     The reST syntax for adding the image is:
