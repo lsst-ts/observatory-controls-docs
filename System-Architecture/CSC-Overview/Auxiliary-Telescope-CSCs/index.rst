@@ -15,7 +15,7 @@ As mentioned in the :ref:`Control-Packages-General-CSC-Overview`, it is convenie
 All CSCs associated with the AuxTel receive an ``AT`` prefix to their name, such as the ATHexapod or ATDome.
 CSCs in this group are strictly associated with the operation and calibration of the AuxTel and cannot be moved between systems.
 
-Although a full list of AuxTel CSCs, indicated by the ``AT`` prefix, are found in the `Master CSC Table <https://ts-xml.lsst.io/#master-csc-table>`__, it is generally most useful to associate the CSCs by the control-package it is associated with, as it done below.
+Although a full list of AuxTel CSCs, indicated by the ``AT`` prefix, are found in the `Master CSC Table <https://ts-xml.lsst.io/#master-csc-table>`__, which is auto-generated from the XML code which defines the ICDs, it is generally most useful to associate the CSCs by the control-package it is associated with, as it done below.
 
 Links are provided to the user guide when available. Interface information for each CSC can be found in the `ts-xml guide <https://ts-xml.lsst.io/>`__.
 
@@ -23,14 +23,14 @@ Links are provided to the user guide when available. Interface information for e
 Auxiliary Telescope Control System (ATCS)
 =========================================
 
-The :ref:`ATCS class <Control-Packages-AuxTel-ATCS>` is a high level control package that provides the most user-friendly interface to the Auxiliary Telescope related CSCs related to operating the telescope and dome.
+The :ref:`ATCS class <Control-Packages-AuxTel-ATCS>` is a high-level control package that provides a user-friendly interface to operating the telescope and dome related CSCs on the Auxiliary Telescope.
 
 The following AT CSCs are associated with that class, but also controllable individually if required:
 
 `ATDome <https://ts-atdome.lsst.io>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    * The `ATDome CSC <https://ts-atdome.lsst.io>`__ controls the dome shutter and rotational position.
+    * The `ATDome CSC <https://ts-atdome.lsst.io>`__ controls the dome enclosure, including the shutter and rotation (azimuth) position.
 
 `ATDomeTrajectory <https://ts-atdometrajectory.lsst.io>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -42,13 +42,11 @@ ATPtg
 
     * The AT pointing component CSC converts the celestial position to mount coordinates (altitude and azimuth) and includes an analytical model of the mount to increase pointing and tracking accuracy. It sends position commands to the AT mount control system (ATMCS).
 
-..  `ATMCS <https://ts-atmcs.lsst.io>`__
-
 `ATMCS <https://ts-atmcs.lsst.io/>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     * The AT mount control system performs the servo control of the telescope mount motors and encoders.
-        During standard on-sky operations, it receives its trajectory and position commands from the pointing component (ATPtg).
+        During standard on-sky operations, it receives its position, velocity and time (PVT vector) for target tracking from the pointing component (ATPtg).
 
 `ATPneumatics <https://ts-atpneumatics.lsst.io>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
