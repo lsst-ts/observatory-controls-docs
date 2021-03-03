@@ -52,12 +52,36 @@ Rotator
     * The Rotator CSC [#f2]_ controls the camera rotator, which is located between the camera hexapod and camera itself.
       It's primary use is to rotate the camera during observations to compenstate for field rotation that occurs in Alt-Az telescope mount designs.
 
+The rotator CSC is running on a container(mtrotator) in hexrot.cp.lsst.org.
+It is currently running in an interactive shell mode.
+
+#. ssh to hexrot.cp.lsst.org
+#. attach to container ``docker attach mtrotator``
+#. :kbd:`Control-c` to kill the running process
+#. Arrow up and run mtrotator again.
+#. Detach from the container with :kbd:`Control-p` :kbd:`Control-q`.
+
+.. warning:: Do not exit this container
+
 Hexapod
 ^^^^^^^
 
     * The Hexapod CSC [#f2]_ controls both the M2 and Camera hexapods.
       These hexapods are used to position the M2 mirror and camera along the optical axis (boresight).
       These devices are commanded by the MTAlignment and MTAOS CSCs.
+
+The Hexapod CSCs are running on containers(camhexapod and m2hexapod) in hexrot.cp.lsst.org.
+These are currently running in an interactive mode.
+
+To restart the hexapod in case of issues:
+
+#. ssh to hexrot.cp.lsst.org
+#. attach to container ``docker attach m2hexapod`` or ``docker attach camhexapod``
+#. :kbd:`Control-c` to kill the running process
+#. Arrow up and run process again.
+#. Detach from the controller with :kbd:`Control-p` and :kbd:`Control-q`.
+
+.. warning:: Do not exit any of those containers.
 
 `Dome`_
 ^^^^^^^^
