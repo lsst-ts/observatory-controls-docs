@@ -11,6 +11,15 @@ General CSC Overview
 .. warning::
     This page is under heavy development and is subject to change.
 
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Auxiliary-Telescope-CSCs/*
+    Main-Telescope-CSCs/*
+    System-Level-CSCs/*
+
 The lowest level controllable entities of the Rubin Control system are the individual Commandable Sal Components, or CSCs.
 CSCs are responsible for managing the incoming traffic of data and take appropriate actions.
 This is often the controlling of a hardware system (e.g. M1M3, M2, Telescope mount etc), but can also be purely software (e.g. Optics Controller Reconstructor, DMCS

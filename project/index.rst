@@ -16,6 +16,17 @@ This section contains files related to the setup of this documentation tree, inc
     :glob:
 
     *
+
+Template
+========
+
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Template-Folder/*
+
 ..    */index
 
 .. Any Figures should be stored in the _static subdirectory. See the README in that directory for how to insert a figure
