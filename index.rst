@@ -65,6 +65,13 @@ It contains a set of `SAL Scripts`_ that users can schedule, organize and monito
 There are two ScriptQueues running in parallel in the system, one for the Main Telescope (``index=1``) and another for the Auxiliary Telescope (``index=2``).
 Users can interface with them either using the :ref:`LOVE interface <Control-System-User-Interfaces-LOVE>` (preferred) or from :ref:`Jupyter notebooks in nublado <Control-System-User-Interfaces-Nublado>`.
 
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Control-User-Interfaces/writing-sal-scripts.rst
+
 .. _Control-System-User-Interfaces-Watcher:
 
 Watcher
