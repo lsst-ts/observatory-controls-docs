@@ -19,15 +19,13 @@ Users can also interact with individual components, which are controlled via :re
 
 These are generally grouped according to their association with a specific telescope.
 
-
-
 .. toctree::
     :maxdepth: 2
     :titlesonly:
     :glob:
 
-    */index
-..    *
+    Control-Packages/*
+    CSC-Overview/*
 
 There exist multiple components for which documentation is not yet available including: the EFD, configuration management, deployment, and the scriptQueue.
 

@@ -65,6 +65,13 @@ It contains a set of `SAL Scripts`_ that users can schedule, organize and monito
 There are two ScriptQueues running in parallel in the system, one for the Main Telescope (``index=1``) and another for the Auxiliary Telescope (``index=2``).
 Users can interface with them either using the :ref:`LOVE interface <Control-System-User-Interfaces-LOVE>` (preferred) or from :ref:`Jupyter notebooks in nublado <Control-System-User-Interfaces-Nublado>`.
 
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Control-User-Interfaces/writing-sal-scripts.rst
+
 .. _Control-System-User-Interfaces-Watcher:
 
 Watcher
@@ -86,6 +93,12 @@ The Engineering Facility Database (EFD) contains all information that is communi
 Interacting with the database can be performed in multiple ways depending on your use-case. A python client has been built to query the database, which can also be used via the Nublado interface mentioned above.
 However, if a more visual user-friendly interface is required, users should consider using Chronograf, which works well for specific use-cases.
 
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Control-User-Interfaces/EFD.rst
 
 .. _Control-System-User-Interfaces-LSST-Camera-Image-Visualization:
 
@@ -99,6 +112,12 @@ Due to the large size and complexity of assembling a single LSST image, a visual
 Software user manuals are often packaged and released with the code such that the documentation is available at the same time new features are released.
 Because issues often arise with software that is already released, this section focuses on current issues and their workarounds.
 
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Troubleshooting/*
 
 .. _Project-Documentation-Information:
 
