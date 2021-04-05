@@ -363,7 +363,7 @@ By inspecting the :ref:`example notebook <example-notebook-writing-a-sal-script>
   A ``float`` is defined as ``type: number``.
 
   Note we can add default values to entries (e.g. ``default: 0``).
-  This means that, if the value is not encountered the configuration file, it will receive the value specified in this field.
+  This means that, if the value is not encountered in the user-provided configuration, it will receive the value specified in this field.
 
 ``rot_type``
   Enumeration defining how to threat ``rot_value``.
@@ -406,8 +406,17 @@ By inspecting the :ref:`example notebook <example-notebook-writing-a-sal-script>
 ``n_grid``
   Integer specifying the number of visits in the grid.
 
-  We do not need to specify this entry in the schema, as we can determine this by the size
-  of the next entries; ``exptime``, ``obs_filter`` and ``obs_grating``.
+  .. code-block:: python
+
+    """
+    n_grid:
+      type: integer
+      minimum: 1
+      description: Integer specifying the number of visits in the grid.
+    """
+
+  This is an example of specifying an integer instead of a number (which can be both integer and float).
+  We also limit the value of this parameter to be equal to or larger than one.
 
 ``exptime``
   List of floats with the exposure time for each exposure.
@@ -525,6 +534,10 @@ The full configuration schema, added to the ``get_schema`` method in the class, 
 
             Physical: Select a fixed position for the rotator in the reference frame of
                       the telescope. Rotator will not track in this mode.
+      n_grid:
+        type: integer
+        minimum: 1
+        description: Integer specifying the number of visits in the grid.
       exptime:
         type: array
         minItems: 1
@@ -594,7 +607,7 @@ With all that in consideration the ``configure`` method would look like this:
 
     self.log.debug(
         f"target_name: {config.target_name}, rot_value: {config.rot_value}, "
-        f"rot_type: {config.rot_type}, exptime: {config.exptime}, "
+        f"n_grid: {config.n_grid}, rot_type: {config.rot_type}, exptime: {config.exptime}, "
         f"obs_filter: {config.obs_filter}, obs_grating: {config.obs_grating}."
     )
 
@@ -631,6 +644,8 @@ The metadata information is handled in the ``set_metadata`` method of the SAL Sc
 
     metadata.duration = estimated_slew_time + data_duration
 
+It is helpful to have reasonable time estimates as they are displayed via LOVE and watched by observers.
+
 .. _Writing-SAL-Scripts-The-run-Method:
 
 The ``run`` Method
@@ -666,20 +681,19 @@ Taking all that into consideration, this is what the ``run`` method of this SAL 
     await self.checkpoint("Slew finished")
 
     # Compute grid
-    n_grid = len(self.config.exptime)
-    grid_x = (np.random.rand(n_grid)-0.5)*120.
-    grid_y = (np.random.rand(n_grid)-0.5)*120.
+    grid_x = (np.random.rand(self.config.n_grid)-0.5)*120.
+    grid_y = (np.random.rand(self.config.n_grid)-0.5)*120.
 
-    for iter, xx, yy in zip(range(n_grid), grid_x, grid_y):
+    for iter, xx, yy in zip(range(self.config.n_grid), grid_x, grid_y):
 
       # Let's add some debugging messages
       self.log.debug(
-        f"Starting iteration {iter+1} of {n_grid}: "
+        f"Starting iteration {iter+1} of {self.config.n_grid}: "
         f"offset x/y: {xx},{yy} arcsec."
       )
 
       # We may also want to add a checkpoint at the start of each iteration
-      await self.checkpoint(f"iter[{iter+1}/{n_grid}]")
+      await self.checkpoint(f"iter[{iter+1}/{self.config.n_grid}]")
 
       # Offset telescope
       # Use non-relative offset as they are easier to reset
@@ -692,7 +706,7 @@ Taking all that into consideration, this is what the ``run`` method of this SAL 
         # We can also add checkpoints at before every image, this will give us
         # more granularity in controlling the script.
         await self.checkpoint(
-          f"iter[{iter+1}/{n_grid}]: "
+          f"iter[{iter+1}/{self.config.n_grid}]: "
           f"exptime: {etime}, filter: {flt}, grating: {grt}"
         )
         await latiss.take_object(exptime=etime, filter=flt, grating=grt)
@@ -779,6 +793,7 @@ A basic unit test for this SAL Script would look like this:
             {"target_name": "HD 164461"},  # need exptime, obs_filter, obs_grating
             {"target_name": "HD 164461", "exptime": [1., 2.]},  # need obs_filter, obs_grating
             {"target_name": "HD 164461", "exptime": [1., 2.], "obs_filter": ["filter_1", "filter_2"]},  # need  obs_grating
+            {"target_name": "HD 164461", "n_grid": 0 , "exptime": [1., 2.], "obs_filter": ["filter_1", "filter_2"], "obs_grating": ["grating_1", "grating_2"]},  # n_grid >= 1
             {"target_name": "HD 164461", "exptime": [0., 2.], "obs_filter": ["filter_1", "filter_2"], "obs_grating": ["grating_1", "grating_2"]},  # exptime can't be zero.
             {"target_name": "HD 164461", "exptime": [1., 2.], "obs_filter": ["filter_1", "filter_2"], "obs_grating": ["grating_1", "grating_2"], "rot_type": "BADVALUE"},  # Bad rot_type
         ):
@@ -809,16 +824,18 @@ A basic unit test for this SAL Script would look like this:
         rot_type = "SkyAuto"
 
         n_grid = 10
+        n_exp = 4
         # generate n_grid random numbers between [0, 10).
-        exptime = np.random.rand(n_grid)*10
+        exptime = np.random.rand(n_exp)*10
         # generate n_grid array with filter_1 -> filter_3
-        obs_filter = [f"filter_{i%4+1}" for i in range(n_grid)]
+        obs_filter = [f"filter_{i%4+1}" for i in range(n_exp)]
         # generate n_grid array with grating_1 -> grating_3
-        obs_grating = [f"grating_{i%4+1}" for i in range(n_grid)]
+        obs_grating = [f"grating_{i%4+1}" for i in range(n_exp)]
 
         # Basic providing only target_name, exptime, obs_filter, obs_grating
         await self.configure_script(
             target_name=target_name,
+            n_grid=n_grid,
             exptime=exptime,
             obs_filter=obs_filter,
             obs_grating=obs_grating
@@ -828,6 +845,7 @@ A basic unit test for this SAL Script would look like this:
         self.assertEqual(self.script.config.target_name, target_name)
         self.assertEqual(self.script.config.rot_value, 0.)  # check default
         self.assertEqual(self.script.config.rot_type, "PhysicalSky")  # check default
+        self.assertEqual(self.script.config.n_grid, n_grid)
         self.assertEqual(self.script.config.exptime, exptime)
         self.assertEqual(self.script.config.obs_filter, obs_filter)
         self.assertEqual(self.script.config.obs_grating, obs_grating)
@@ -837,6 +855,7 @@ A basic unit test for this SAL Script would look like this:
             target_name=target_name,
             rot_value=rot_value,
             rot_type=rot_type,
+            n_grid=n_grid,
             exptime=exptime,
             obs_filter=obs_filter,
             obs_grating=obs_grating
@@ -846,6 +865,7 @@ A basic unit test for this SAL Script would look like this:
         self.assertEqual(self.script.config.target_name, target_name)
         self.assertEqual(self.script.config.rot_value, rot_value)
         self.assertEqual(self.script.config.rot_type, rot_type)
+        self.assertEqual(self.script.config.n_grid, n_grid)
         self.assertEqual(self.script.config.exptime, exptime)
         self.assertEqual(self.script.config.obs_filter, obs_filter)
         self.assertEqual(self.script.config.obs_grating, obs_grating)
@@ -904,18 +924,20 @@ To implement this tests we would have to make the following modifications:
           # To run the script we need to configure it first.
           target_name = "HD 164461"
 
-          n_grid = 3
+          n_grid = 5
+          n_exp = 3
           # generate n_grid random numbers between [0, 10).
-          exptime = np.random.rand(n_grid)*10
+          exptime = np.random.rand(n_exp)*10
           # generate n_grid array with filter_1 -> filter_3
-          obs_filter = [f"filter_{i%4+1}" for i in range(n_grid)]
+          obs_filter = [f"filter_{i%4+1}" for i in range(n_exp)]
           # generate n_grid array with grating_1 -> grating_3
-          obs_grating = [f"grating_{i%4+1}" for i in range(n_grid)]
+          obs_grating = [f"grating_{i%4+1}" for i in range(n_exp)]
 
           # Basic providing only target_name, exptime, obs_filter, obs_grating
           await self.configure_script(
               target_name=target_name,
               exptime=exptime,
+              n_grid=n_grid,
               obs_filter=obs_filter,
               obs_grating=obs_grating
             )
