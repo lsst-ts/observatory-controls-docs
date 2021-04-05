@@ -9,8 +9,9 @@ Writing SAL Scripts
 ###################
 
 This page contains and example of how to convert a Jupyter notebook with an observatory control operation into a SAL Script that can run in the ScriptQueue.
+Having the ability to execute SAL Script via the ScriptQueue is recommended when an operation will be executed either multiple times, in concert with other SAL Scripts, or to make it readily available to others.
 
-If this is the first time you are contributing to the observatory control software, you may be interested in looking at our `development guidelines`_.
+If this is the first time you are contributing to the observatory control software, it is highly recommend that you take a look at the `development guidelines`_.
 
 .. _development guidelines: https://tssw-developer.lsst.io/
 
@@ -22,14 +23,15 @@ Starting From a Jupyter Notebook
 You most likely started by writing a Jupyter notebook and had the chance to run it a couple time on-sky.
 You now want to turn that in to a SAL Script that can be maintained, incorporated to the observatory operation routine and launched from the ScriptQueue.
 
-To use a real case scenario, let us assume you wrote a procedure that dithers the telescope in a specific pattern and take a series of observations at each position.
-As anticipated in the `Concept of Operations`_, you probably had the chance to develop most of the procedure using a Jupyter notebook, and test it in one of the `Operational Environments`_ (probably including on sky tests).
+This procedure follows from a real case scenario where a user develops an operation that dithers the telescope in a random pattern and performs a series of observations at each position.
+As anticipated in the `Concept of Operations`_, the procedure was first developed using a Jupyter notebook, and tested in one of the `Operational Environments`_ (including on sky tests).
 
 .. _Concept of Operations: https://tstn-024.lsst.io/
 .. _Operational Environments: https://obs-ops.lsst.io/Observing-Interface-Setup/environments.html
 
 To illustrate this example we created an :ref:`example notebook <example-notebook-writing-a-sal-script>`, which can now be converted into a SAL Script.
-We recommend looking at this example and making sure you understand what is being done there.
+We recommend looking at this example and making sure you understand what is being performed by the Jupyter notebook.
+Most importantly, make sure you understand how the observatory control classes are setup (``atcs`` and ``latiss``), how we parameterize the operation (defining the target and the observation setup) and how the operation is performed.
 It may also be helpful to have the Jupyter notebook opened on the side as you read through he process of converting it into a SAL Script.
 
 .. _Writing-SAL-Scripts-Initial-SAL-Script:
@@ -47,17 +49,18 @@ More instructions about the repository structure can be found in the `tstn-010`_
 .. _standard scripts: https://github.com/lsst-ts/ts_standardscripts
 .. _tstn-010: https://tstn-010.lsst.io/
 
+Because this SAL Script is not going to be used as part of regular operations, and the functionality is still in development, it should be located in the external_scripts_ repository.
 To get started you need to clone the `external scripts`_ repository.
 
 .. prompt:: bash
 
   git clone https://github.com/lsst-ts/ts_externalscripts.git
 
-Development must be done in "ticket" branches so you will also have to create a ticket in `Jira`_ to track your work.
+Development must be done on "ticket" branches so you will also have to create a ticket in `Jira`_ to track your work.
 
 .. _Jira: https://jira.lsstcorp.org/
 
-Once the ticket is created you can create a "ticket" branch to work on, e.g.;
+Once issued you can create a "ticket branch" to work on that is consistent with the name of the JIRA ticket, e.g.;
 
 .. prompt:: bash
 
@@ -74,24 +77,28 @@ The SAL Scripts repositories are organized such that:
     The format will be shown furthermore.
 
 The :ref:`example notebook <example-notebook-writing-a-sal-script>` we created was written for the Auxiliary Telescope.
-Therefore, you can create the python file to host the SAL Script code in ``python/lsst/ts/externalscripts/auxtel/`` using your preferred IDE or text editor.
+Therefore, you can create the python file to host the SAL Script code in ``python/lsst/ts/externalscripts/auxtel/``.
 Let us call the file ``slew_dither.py``, e.g. ``python/lsst/ts/externalscripts/auxtel/slew_dither.py``.
 
 .. note::
 
-  We recommend using an Integrated Development Environment (IDE) for software development, but you can also use your preferred text editor (e.g. vi/vim, emacs, etc.).
-  `PyCharm`_, `Atom`_ and `Sublime`_ are some good IDEs for Python development.
+  We recommend using an Integrated Development Environment (IDE) for software development, but you can also use your preferred code/text editor (e.g. vi/vim, emacs, etc.).
+  `PyCharm`_ is a good IDE for Python development.
+  `Atom`_, `Sublime`_ and `Visual Studio Code`_ are good graphical code editors.
+  For help setting up some of the most popular code editors visit the `editors section`_ of the DM developer guidelines.
 
 
 .. _PyCharm: https://www.jetbrains.com/pycharm/
 .. _Atom: https://atom.io/
 .. _Sublime: https://www.sublimetext.com/
+.. _Visual Studio Code: https://code.visualstudio.com/
+.. _editor section: https://developer.lsst.io/index.html#editors
 
 The first step in the process is setting up the import statements.
-We already known most of the libraries needed to run the script from the notebook, so we can go ahead and copy those to the file.
+We already know most of the libraries needed to run the script from the notebook, so we can go ahead and copy those to the file.
 
 Next we want to create a class to host the SAL Script.
-All SAL Scripts must subclass `salobj.BaseScript`_ and they must also implement a couple of abstract method.
+All SAL Scripts must subclass `salobj.BaseScript`_ and they must also implement a couple of abstract methods.
 
 .. _salobj.BaseScript: https://ts-salobj.lsst.io/py-api/lsst.ts.salobj.BaseScript.html#lsst.ts.salobj.BaseScript
 
@@ -122,6 +129,7 @@ The skeleton of the SAL Script will look like the following:
     The class documentation must be written here. You should explain what is
     the purpose of the script, what it does and all other important details
     for users.
+    We adopt numpy docstring formatting (https://numpydoc.readthedocs.io/en/latest/format.html).
 
     Parameters
     ----------
@@ -144,7 +152,8 @@ The skeleton of the SAL Script will look like the following:
 
         super().__init__(
             index=index,
-            descr="Add short description here.",
+            descr="Add short description here. This is published in the "
+                  "description field of the Script description event.",
         )
 
         # Instantiate atcs and latiss. We need to do this after the call to
@@ -221,20 +230,21 @@ The content of this file should be as follows:
 
 A couple things worth mentioning in the file above:
 
-1. The first line
+1.  The first line
 
-  .. code-block:: python
+    .. code-block:: python
 
-    #!/usr/bin/env python
+      #!/usr/bin/env python
 
   Must always be present.
   It tells the operating system that the file being executed is a Python script.
 
-2. The entry between ``from`` and ``import`` statements in line 24 is, basically, the location of your SAL Script in the package, removing the leading ``python`` and replacing ``/`` by ``.``, e.g.; ``python/lsst/ts/externalscripts/auxtel/`` becomes ``lsst.ts.externalscripts.auxtel``.
+2.  The entry between ``from`` and ``import`` statements in line 24 is derived from the location of your SAL script in the package where the leading ``python`` is removed and ``.`` replaces ``/`` (e.g.; ``python/lsst/ts/externalscripts/auxtel/`` becomes ``lsst.ts.externalscripts.auxtel``).
 
-3. The name after the ``import`` statement in line 24 is the name of the class you created, e.g. ``SlewDither``.
+3.  The name after the ``import`` statement in line 24 is the name of the class you created, e.g. ``SlewDither``.
 
-4. The call in line 26 is basically the name of the class, ``SlewDither`` (imported in line 24), followed by ``.amain()``.
+4.  The call in line 26 is basically the name of the class, ``SlewDither`` (imported in line 24), followed by ``.amain()``.
+    Check `Python Script file documentation <https://ts-salobj.lsst.io/sal_scripts.html#python-script-file>`__ in SalObj for a more detailed description.
 
 Once this file is created, we must also make sure it is "executable" by all users.
 You can do that from the command line with the following command:
@@ -249,7 +259,7 @@ You can do that from the command line with the following command:
 Configuration Schema
 --------------------
 
-Now we have a base Python module, we are ready to start filling up with some code.
+Now that we have a base Python module, we are ready to start filling it up with some code.
 
 The first step is probably to write a configuration schema for the SAL Script.
 For this we will need to carefully inspect the Jupyter notebook, and identify what are the inputs to the SAL Script.
@@ -272,23 +282,24 @@ We start with a simple header, that will be common to all configuration scheme:
   """
 
 As you can see from the code snippet above, the header consists of some basic schema definitions plus some information about the schema itself.
-Let us break the schema header line by line:
+Let's break down the schema header line-by-line:
 
-1.  The first entry (``$schema``) contains the version of the json schema specification.
-    In this case, we are adopting "draft-07".
+1.  The first entry (``$schema``) contains the version of the json schema specification; we adopt "draft-07".
 2.  The second line contains a link to the file where the schema is defined.
-    Note that the path above will not exists until we actually merge the code back to the master branch.
+    Note that the path above will not exists until we actually make a release, e.g. merge the code back to the master branch.
 3.  The third line contains the "title" of the schema, which consists of the name of the script plus a    version of the configuration.
-    Make sure you version the schema appropriately, as this provides a way for us to track down configuration versions.
+    Make sure you version the schema appropriately (using `semantic versioning`_), as this provides a way for us to track down configuration versions.
 4.  Next we add a short description of the configuration.
     Basically a phrase explaining what this schema is for.
+
+.. _semantic versioning: https://semver.org/
 
 We are now ready to add more content to the configuration file.
 The first thing to keep in mind is that json schema provides a way of specifying data structures.
 A data structure is basically a collection of "data types", that can contain a name and additional attributes.
 
 To start we have to define the type of the data structure that will contain the configuration schema.
-For that we will use the "``object``" type.
+For that we always use the "``object``" type.
 We will also want to restrict the configuration to only allow input information for the entries defined in the configuration, which is done via a modifier attribute called "``additionalProperties``".
 
 With these additions our schema will now look like this:
@@ -334,7 +345,7 @@ By inspecting the :ref:`example notebook <example-notebook-writing-a-sal-script>
         Simbad (http://simbad.u-strasbg.fr/simbad/sim-fid).
     """
 
-  Note in the ``description`` field how we can add long, multi-line descriptions.
+  Note in the ``description`` field how we can add long, multi-line descriptions by placing the >- on the first line and indenting from the "description" attribute.
 
 ``rot_value``
   Float with the rotator positioning value.
@@ -356,6 +367,7 @@ By inspecting the :ref:`example notebook <example-notebook-writing-a-sal-script>
 
 ``rot_type``
   Enumeration defining how to threat ``rot_value``.
+  See `RotType`_ documentation.
 
   .. code-block:: python
 
@@ -451,6 +463,9 @@ By inspecting the :ref:`example notebook <example-notebook-writing-a-sal-script>
 
   There is, in fact, a away around this but it will make the schema considerably harder.
   If you are interested in seeing how this can be accomplished see the :ref:`self consistent schema <Self-Consistent-Schema>` page.
+
+
+.. _RotType: https://ts-observatory-control.lsst.io/py-api/lsst.ts.observatory.control.RotType.html#rottype
 
 Finally, we can also specify which configuration parameters **must** be specified in any configuration.
 That is done using the ``required`` keyword on the top level.
@@ -909,7 +924,7 @@ To implement this tests we would have to make the following modifications:
 
           await self.run_script()
 
-          # We could implement some checks here but if the script run
+          # We could implement some checks here but if the script runs
           # successfully we are probably done!
 
 

@@ -26,7 +26,7 @@ More information about these can be found in the `ts_observatory_control
 user
 guide <https://ts-observatory-control.lsst.io/user-guide/user-guide.html>`__.
 
-.. code:: ipython3
+.. code:: python
 
     import asyncio
     import logging
@@ -52,13 +52,13 @@ you find this too verbose and want to change the level, you can replace
 ``logging.DEBUG`` with ``logging.INFO``, ``logging.WARNING``,
 ``logging.ERROR`` or skip the next cell altogether.
 
-.. code:: ipython3
+.. code:: python
 
     logging.basicConfig(format="%(name)s:%(message)s", level=logging.DEBUG)
 
 Matplotlib can be chatty so, better decrease its log level.
 
-.. code:: ipython3
+.. code:: python
 
     logging.getLogger("matplotlib").setLevel(logging.WARNING)
 
@@ -71,15 +71,15 @@ library and the control classes.
 This is done by creating a ``salobj.Domain``, an object to handle the
 DDS communication and later passing it to the control classes.
 
-.. code:: ipython3
+.. code:: python
 
     domain = salobj.Domain()
 
-.. code:: ipython3
+.. code:: python
 
     atcs = ATCS(domain)
 
-.. code:: ipython3
+.. code:: python
 
     latiss = LATISS(domain)
 
@@ -90,11 +90,11 @@ The internal ``salobj.Remote`` classes can get very chatty due to the
 incomming traffic from the CSCs. You can reduce this by using a method
 provided by the control classes.
 
-.. code:: ipython3
+.. code:: python
 
     atcs.set_rem_loglevel(logging.ERROR)
 
-.. code:: ipython3
+.. code:: python
 
     latiss.set_rem_loglevel(logging.ERROR)
 
@@ -110,7 +110,7 @@ the command will not return until it’s completed. For more information
 see documentation in the `asyncio
 library <https://docs.python.org/3.8/library/asyncio.html>`__.
 
-.. code:: ipython3
+.. code:: python
 
     await asyncio.gather(atcs.start_task, latiss.start_task)
 
@@ -143,7 +143,7 @@ Target definition
 
 The next cell defines the target to slew to and the rotator value/type.
 
-.. code:: ipython3
+.. code:: python
 
     target_name = "HD 164461"
     rot_value = 0.
@@ -152,11 +152,11 @@ The next cell defines the target to slew to and the rotator value/type.
 Define offset grid
 ~~~~~~~~~~~~~~~~~~
 
-.. code:: ipython3
+.. code:: python
 
     n_grid = 11  # how many visits in the grid
 
-.. code:: ipython3
+.. code:: python
 
     grid_x = (np.random.rand(n_grid)-0.5)*120.  # offset in image coordinate x-axis (in arcsec)
     grid_y = (np.random.rand(n_grid)-0.5)*120.  # offset in image coordinate y-axis (in arcsec)
@@ -164,7 +164,7 @@ Define offset grid
 We are in a Jupyter notebook so we might as well plot the grid generated
 above.
 
-.. code:: ipython3
+.. code:: python
 
     plt.plot(grid_x, grid_y, '.:')
 
@@ -174,7 +174,7 @@ above.
 Define observations setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: ipython3
+.. code:: python
 
     exptime = [5., 10., 20.]  # list of exposure times in seconds
     obs_filter = ["RG610", "RG610", "RG610"]  # list of filters
@@ -186,7 +186,7 @@ Run observation sequence
 Now we have the parameters defined we can run a loop that will execute
 the dithering and observing sequence.
 
-.. code:: ipython3
+.. code:: python
 
     await atcs.slew_object(name=target_name, rot=rot_value, rot_type=rot_type)
 
@@ -208,7 +208,7 @@ configuration and taking an image with any of the ``LATISS.take_*``
 commands, check with observatory personnel whether this condition was
 already resolved.
 
-.. code:: ipython3
+.. code:: python
 
     for xx, yy in zip(grid_x, grid_y):
         # Offset telescope
@@ -219,7 +219,7 @@ already resolved.
         for etime, flt, grt in zip(exptime, obs_filter, obs_grating):
             await latiss.take_object(exptime=etime, filter=flt, grating=grt)
 
-.. code:: ipython3
+.. code:: python
 
     # Reset offset
     await atcs.offset_xy(x=0., y=0., relative=False)
