@@ -15,7 +15,7 @@ As mentioned in the :ref:`Control-Packages-General-CSC-Overview`, it is convenie
 All CSCs associated with the AuxTel receive an ``AT`` prefix to their name, such as the ATHexapod or ATDome.
 CSCs in this group are strictly associated with the operation and calibration of the AuxTel and cannot be moved between systems.
 
-Although a full list of AuxTel CSCs, indicated by the ``AT`` prefix, are found in the `Master CSC Table <https://ts-xml.lsst.io/#master-csc-table>`__, which is auto-generated from the XML code which defines the ICDs, it is generally most useful to associate the CSCs by the control-package it is associated with, as it done below.
+Although a full list of AuxTel CSCs, indicated by the ``AT`` prefix, are found in the `CSC Table <https://ts-xml.lsst.io/#csc-table>`__, which is auto-generated from the XML code which defines the ICDs, it is generally most useful to associate the CSCs by the control-package it is associated with, as it done below.
 
 Links are provided to the user guide when available. Interface information for each CSC can be found in the `ts-xml guide <https://ts-xml.lsst.io/>`__.
 
