@@ -49,7 +49,7 @@ More instructions about the repository structure can be found in the `tstn-010`_
 .. _standard scripts: https://github.com/lsst-ts/ts_standardscripts
 .. _tstn-010: https://tstn-010.lsst.io/
 
-Because this SAL Script is not going to be used as part of regular operations, and the functionality is still in development, it should be located in the external_scripts_ repository.
+Because this SAL Script is not going to be used as part of regular operations, and the functionality is still in development, it should be located in the `external scripts`_ repository.
 To get started you need to clone the `external scripts`_ repository.
 
 .. prompt:: bash
@@ -92,7 +92,7 @@ Let us call the file ``slew_dither.py``, e.g. ``python/lsst/ts/externalscripts/a
 .. _Atom: https://atom.io/
 .. _Sublime: https://www.sublimetext.com/
 .. _Visual Studio Code: https://code.visualstudio.com/
-.. _editor section: https://developer.lsst.io/index.html#editors
+.. _editors section: https://developer.lsst.io/index.html#editors
 
 The first step in the process is setting up the import statements.
 We already know most of the libraries needed to run the script from the notebook, so we can go ahead and copy those to the file.

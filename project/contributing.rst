@@ -1,136 +1,147 @@
-########################
-Contributing to the docs
-########################
+##################################################
+Contributing to Observatory Controls Documentation
+##################################################
+
+Below are instructions and guidelines on contributing to the `Rubin Observatory Controls Documentation <https://obs-controls.lsst.io>`__.
+This documentation is built with `Sphinx <https://www.sphinx-doc.org/en/master/>`__ and published to `<https://obs-controls.lsst.io>`__.
 
 This documentation is open source.
-LSST welcomes contributions that make this documentation more useful and accurate.
+Rubin welcomes contributions that make this documentation more useful and accurate.
 
-Keep in mind that everyone participating in this project is expected respectful to others. The `Team Culture and Conduct Standards <https://developer.lsst.io/team/code-of-conduct.html>`__ provides an example of what is expected when participating to Rubin documentation.
+Keep in mind that everyone participating in this project is expected respectful to others. 
+The `Team Culture and Conduct Standards <https://developer.lsst.io/team/code-of-conduct.html>`__ provides an example of what is expected when participating to Rubin documentation.
 
-.. _contributing-issue:
+.. _Contributing-Issue:
 
 Raising an issue
 ================
 
-If you spot an issue with the documentation, the best thing to do is `raise a GitHub issue in the observatory-ops-docs repo <https://github.com/lsst-ts/observatory-ops-docs/issues/new>`__.
+If you spot an issue with the documentation, the best thing to do is `raise a GitHub issue in the observatory-controls-docs repo <https://github.com/lsst-ts/observatory-controls-docs/issues/new>`__.
 Include any relevant URLs with your issue description.
 
 
-.. _contributing-pr:
+.. _Contributing-PR:
 
-Creating a pull request
+Creating a Pull Request
 =======================
 
-You can contribute directly to the `observatory-ops-docs <https://github.com/lsst-ts/observatory-ops-docs>`__ repo by creating a pull request.
-If you’re intending to make a substantial change, it’s a good idea to create a GitHub issue first with your proposal.
-LSST can’t accept contributions that don’t fit with our strategy and roadmap.
+You can contribute directly to the `Rubin Observatory Controls Documentation <https://obs-controls.lsst.io>`__ repo by creating a pull request.
+If you are intending to make a substantial change, it is a good idea to create a GitHub issue first with your proposal.
+LSST cannot accept contributions that are not aligned with our strategy and roadmap.
 
 These sections can help you create a successful pull request:
 
--  :ref:`building-the-docs`
--  :ref:`doc-style-guide`
+  * :ref:`Contributing-Building-the-Docs`
+  * :ref:`Contributing-Doc-Style-Guide`
 
-.. _building-the-docs:
+.. _Contributing-Building-the-Docs:
 
-Building the docs locally
-=========================
+Building the Documentation Locally
+==================================
 
 These are the basic steps to clone and build the docs:
 
-.. code-block:: bash
+#. Clone the GitHub repository:
 
-   git clone https://github.com/lsst-ts/observatory-controls-docs
-   cd nb_lsst_io
+   .. code-block:: bash
 
-Next, create a Python virtual environment (with `venv <https://docs.python.org/3/tutorial/venv.html>`__, for example).
+      git clone https://github.com/lsst-ts/observatory-controls-docs
+      cd observatory-controls-docs
 
-Once you’ve done that, install the Python dependencies:
+#. Create a Python virtual environment (with `venv <https://docs.python.org/3/tutorial/venv.html>`__, for example):
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   pip install -r requirements.txt
+      python3 -m venv .venv
+      source .venv/bin/activate
 
-Finally, run these commands to build and validate the documentation:
+   .. note::
+      Activate this virtual environment in another shell by re-running the ``source`` command.
 
-.. code-block:: bash
+#. Install the Python dependencies:
 
-   make html
-   make linkcheck
+   .. code-block:: bash
 
-To force a complete rebuild of the documentation, you can clean-up the existing build:
+      python -m pip install --upgrade pip
+      python -m pip install -r requirements.txt
 
-.. code-block:: bash
+#. You are now able to edit the cloned repository.
+   The remaining items below are commands used to build and validate the documentation. These commands must be executed from the top-level directory.
 
-   make clean
+#. Build the site:
 
-.. _doc-style-guide:
+   .. code-block:: bash
 
-Documentation style guide
+      make html
+
+   .. note::
+      Open ``_build/html/index.html`` in a browser to review it.
+
+#. Validate the documentation build:
+
+   .. code-block:: bash
+
+      make linkcheck
+
+   .. note::
+      If some links are behind a login, you might need to ignore them.
+      Look at the ``linkcheck_ignore`` variable in ``conf.py`` for examples of how to do this.
+
+#. Completely clear the build:
+
+   .. code-block:: bash
+
+      make clean
+
+
+.. _Contributing-Deployment:
+
+Deployment
+==========
+
+Whenever you push to the GitHub repository, the site is built for the corresponding branch.
+Find your build at https://obs-controls.lsst.io/v/. 
+You can push to a branch you've created at any time.
+
+The ``main`` branch is always published as https://obs-controls.lsst.io. 
+Only authorized individuals can merge to ``main`` (may be delegated).
+To incorporate your suggestions, create a :ref:`pull request <contributing-pr>`.
+
+Approval Process
+----------------
+
+#. Verify the content with all authors and contributors.
+
+#. Create a PR.
+
+#. Request the following to review the PR:
+
+   * Patrick Ingraham
+   * Any applicable Product Owner
+
+#. Respond to the comments received during the review process.
+
+#. After all reviewers approve, the submitter will squash commits and merge to main.
+
+.. _Contributing-Doc-Style-Guide:
+
+Documentation Style Guide
 =========================
 
-This documentation is written in reStructuredText.
-Following the `LSST DM reStructuredText style guide <https://developer.lsst.io/restructuredtext/style.html>`__ can help you create effective reStructuredText.
+.. _Contributing-New-to-reST:
 
-Style and voice
----------------
+New to reStrcturedText and Sphinx
+---------------------------------
 
-This is user documentation, which is different from academic writing.
-Here are some tips:
+Check out these resources and guides. Sources files are available to compare raw reST and HTML outputs.
 
-- Make sure that all of your writing is in the service of users.
+  * `reStructuredText Introductory and Tutorial Material <https://docutils.sourceforge.io/rst.html>`__ and references therein.
 
-- Write with the active voice and in the present tense as much as possible.
+  * `reStructuredText Primer <https://docutils.sourceforge.io/docs/user/rst/quickstart.html>`__
 
-- Address the user directly (“you can…”).
-  Never use “we” since that’s ambiguous.
-  If “we” means “LSST,” then name “LSST.”
-  If “we” means the user, then say “you.”
-  Even in tutorials, don’t use “we” to refer to an imaginary writer assisting the user.
+  * `reStructuredText Quick Reference <https://docutils.sourceforge.io/docs/user/rst/quickref.html>`__
 
-- Write simply, with short sentences and short paragraphs.
-  Chunk information with headers.
+  * `reStructuredText Primer from Sphinx <https://www.sphinx-doc.org/en/1.8/usage/restructuredtext/basics.html>`_
 
-- Write confidently and precisely, yet also casually.
-  Contractions are good.
+  * `reStructuredText Style Guide for Rubin Observatory Data Management Developers <https://developer.lsst.io/restructuredtext/style.html>`__
 
-For further discussion about specific style issues, refer to the `Google Developer Documentation Style Guide <https://developers.google.com/style/>`_.
-
-File names
-----------
-
-Always use hyphens to separate words in file names.
-Do not use underscores or spaces.
-
-Templates
----------
-
-A template folder is located in the :ref:`project directory <Project-Information>`.
-It contains an index file for the directory. If you wish to create a new folder in this area should copy/paste the template folder, then update the contents accordingly.
-
-
-Prose formatting in plain text
-------------------------------
-
-Rubin user documentation is written with soft wrapping, meaning that lines are as long as they need to be in the plain text file and the text editor is expected to handle wrapping.
-Never hard wrap to an arbitrary line length.
-Soft wrapping makes editing more approachable for more people (particularly those using the GitHub editor) and makes pull request line comments more useful.
-
-More specifically, use `semantic line formatting <https://rhodesmill.org/brandon/2012/one-sentence-per-line/>`__.
-Generally this means that each sentence should be its own line in the text file. This makes examining the differences between documentation versions easier while appearing as a single paragraph in the Sphinx rendered text.
-
-Titles and headings
--------------------
-
-Use sentence case for headings (don’t use title case).
-Capitalize proper nouns as usual.
-
-Try not to use more than two levels of heading hierarchy.
-Using more than two levels of hierarchy might suggest an information architecture issue.
-
-Also keep in mind heading formats, which should follow `reStructuredText heading styles <https://developer.lsst.io/restructuredtext/style.html#sections>`__.
-
-Links
------
-
-Never use "here" as link text.
-Instead, make the relevant noun or phrase the link.
