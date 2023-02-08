@@ -107,6 +107,20 @@ LSST Camera Image Visualization
 Due to the large size and complexity of assembling a single LSST image, a visualization tool is being developed to enable observers to view and interact with them as they roll off the telescope. This tool is still under heavy development.
 
 
+.. _Obs-Ops-Operational-Tutorials:
+
+System Testing, Deployments, and Upgrades
+==================================================================
+
+Procedures for system testing, software build, deployment and upgrades at the summit and at TTS are compiled here.
+
+.. toctree::
+    :maxdepth: 2
+    :glob:
+    :titlesonly:
+
+    System-Testing-Deployments-and-Upgrades/index
+
 :ref:`Troubleshooting`
 ======================
 Software user manuals are often packaged and released with the code such that the documentation is available at the same time new features are released.
