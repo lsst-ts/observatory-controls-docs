@@ -67,6 +67,7 @@ default_role = "py:obj"
 
 # Intersphinx
 intersphinx_mapping = {
+    "obs-ops": ("https://obs-ops.lsst.io", None)
     # 'python': ('https://docs.python.org/3/', None),
 }
 
@@ -81,19 +82,34 @@ linkcheck_retries = 2
 linkcheck_timeout = 5  # seconds
 linkcheck_ignore = [
     r"^http://localhost",
-    r"^https://ts-standardscripts.lsst.io",
-    r"^https://ts-atptg.lsst.io",
+    r"^https://jira.lsstcorp.org/browse/DM-24808",
+    r"^https://ts-atcamera.lsst.io",
+    r"^https://ts-athexapod.lsst.io",
     r"^https://ts-atmcs.lsst.io",
     r"^https://ts-atmonochromator",
-    r"^https://ts-athexapod.lsst.io",
     r"^https://ts-atpneumatics.lsst.io",
-    r"^https://ts-electrometer.lsst.io",
-    r"^https://ts-atcamera.lsst.io",
+    r"^https://ts-atptg.lsst.io",
     r"^https://ts-atspectrograph.lsst.io",
-    r"^https://jira.lsstcorp.org/browse/DM-24808",
-    r"https://chronograf-summit-efd.lsst.codes",
+    r"^https://ts-electrometer.lsst.io",
+    r"^https://ts-standardscripts.lsst.io",
+    r"^ls.st",  # TLS cert on ls.st is invalid and may cause issues
+    r"http://love.tu.lsst.org",
+    r"http://love01.cp.lsst.org/*",
+    r"http://love1.tu.lsst.org",
+    r"https://anaconda.org",
     r"https://chronograf-base-efd.lsst.codes",
+    r"https://chronograf-summit-efd.lsst.codes",
     r"https://lsst-chronograf-int-efd.ncsa.illinois.edu",
+    r"https://rancher.cp.lsst.org",
+    r"https://rancher.ls.lsst.org",
+    r"https://rancher.tu.lsst.org",
+    r"https://summit-lsp.lsst.codes/*",
+    r"https://tssw-ci.lsst.org/",
+    r"https://tucson-teststand.lsst.codes/*",
+    r"https://www.jenkins.io/doc/book/glossary/#agent",
+    r"https://www.jenkins.io/doc/book/glossary/#controller",
+    r"https://www.jenkins.io/doc/book/glossary/#pipeline",
+    r"https://www.jenkins.io/doc/book/glossary/#project",
 ]
 
 # -- Options for HTML output ----------------------------------------------
