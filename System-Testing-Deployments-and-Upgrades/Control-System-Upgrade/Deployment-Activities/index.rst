@@ -18,6 +18,11 @@ If changes are necessary to these scripts from work described in the previous se
   As the person running the deployment, you have absolute control over the system to complete this process.
   No one should do anything without your express consent.
 
+.. important::
+
+  Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs
+  to be done with care and should be coordinated with the hardware/software experts for those systems.
+
 #. Log into the machines for bare metal deployments and Kubernetes access (:ref:`Summit <Deployment-Activities-Summit-BareMetal>`, :ref:`TTS <Deployment-Activities-TTS-BareMetal>`)
 #. Use LOVE or Nublado to send all CSC systems to OFFLINE state.
 
@@ -40,6 +45,7 @@ If changes are necessary to these scripts from work described in the previous se
         * You can check this after every shutdown or just periodically.
     #. Cleanup CSCs and Daemons on DM and Camera machines (:ref:`Summit <Deployment-Activities-Summit-DM-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-DM-Camera-Shutdown>`).
         * One can work with the system principles to shutdown the services.
+        * Notify people doing the camera upgrade that the system is ready for them to proceed with :ref:`Stage 1<camera-install-stage-1>`.
     #. Shutdown LOVE and associated daemon (:ref:`Summit <Deployment-Activities-Summit-LOVE-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Shutdown>`).
         * This step will become unnecessary when it moves to Kubernetes.
     #. Shutdown and Cleanup Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-TandS-BM-Shutdown>`).
@@ -95,6 +101,7 @@ If changes are necessary to these scripts from work described in the previous se
         * The script will pause again here. Do not proceed further with the script, but leave it alive.
     #. The above now represents a minimal system that other system principles can be allowed to start their daemons/CSCs.
         * Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`) to inform the system principles.
+          In particular notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     #. Startup Rest of Kubernetes Services.
         * Go back to where your running ``sync_apps.py`` script is and type ``go`` and enter to proceed with syncing the rest of the apps.
         * The rest of the apps will be synced automatically so no further intervention is necessary.
