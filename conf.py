@@ -110,6 +110,10 @@ linkcheck_ignore = [
     r"https://www.jenkins.io/doc/book/glossary/#controller",
     r"https://www.jenkins.io/doc/book/glossary/#pipeline",
     r"https://www.jenkins.io/doc/book/glossary/#project",
+    r"http://ccs.lsst.org",
+    r"https://foreman.cp.lsst.org",
+    r"https://foreman.tu.lsst.org",
+    r"https://foreman.ls.lsst.org",
 ]
 
 # -- Options for HTML output ----------------------------------------------
