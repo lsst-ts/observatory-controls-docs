@@ -20,8 +20,7 @@ If changes are necessary to these scripts from work described in the previous se
 
 .. important::
 
-  Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs
-  to be done with care and should be coordinated with the hardware/software experts for those systems.
+  Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs to be done with care and should be coordinated with the hardware/software experts for those systems.
 
 #. Log into the machines for bare metal deployments and Kubernetes access (:ref:`Summit <Deployment-Activities-Summit-BareMetal>`, :ref:`TTS <Deployment-Activities-TTS-BareMetal>`)
 #. Use LOVE or Nublado to send all CSC systems to OFFLINE state.
