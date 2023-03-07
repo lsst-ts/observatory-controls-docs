@@ -190,11 +190,14 @@ For the SAL Script above, the entry would look like:
 
 Which is basically the name of the file, without the trailing ``.py``.
 
-The last step in the process is to create the executable file in the ``scripts/``.
+Executable
+^^^^^^^^^^
+
+The last step in the process is to create the executable file in the ``python/lsst/ts/externalscripts/data/scripts/`` directory.
 This is the file that is actually executed by the ``ScriptQueue`` when running the SAL Script.
-Here we also maintain the same directory hierarchy, so an Auxiliary Telescope SAL Script should be created under the ``auxtel`` directory.
+Here we also maintain the same directory hierarchy of the modules, so an Auxiliary Telescope SAL Script should be created under the ``auxtel`` directory.
 It is also a good idea to create the executable file with the same name as that of the SAL Script.
-In this case, we create ``scripts/slew_dither.py``.
+In this case, we create ``python/lsst/ts/externalscripts/data/scripts/slew_dither.py``.
 
 The content of this file should be as follows:
 
@@ -251,8 +254,13 @@ You can do that from the command line with the following command:
 
 .. prompt:: bash
 
-  chmod a+x scripts/slew_dither.py
+  chmod a+x python/lsst/ts/externalscripts/data/scripts/slew_dither.py
 
+Alternatively, you can also change the permission of the file after adding it to the git repository with the following command:
+
+.. prompt:: bash
+
+  git update-index --chmod=+x python/lsst/ts/externalscripts/data/scripts/slew_dither.py
 
 .. _Writing-SAL-Scripts-Configuration-Schema:
 
