@@ -81,7 +81,7 @@ If changes are necessary to these scripts from work described in the previous se
         * Verify that each daemon has actually started by running: *docker logs ospl-daemon* and checking for a line that says "daemon ready".
         * To monitor the number of daemons ("federations") as you bring up daemons and single-process CSCs, run the following (:ref:`Summit <Deployment-Activities-Summit-Federation-Check>`, :ref:`TTS <Deployment-Activities-TTS-Federation-Check>`, :ref:`BTS <Deployment-Activities-BTS-Federation-Check>`):
             *docker exec ospl-daemon grep "federations" durability.log*
-    #. Startup Minimal Kubernetes Services (:ref:`TTS <Deployment-Activities-TTS-Minimal-K8S-System>`, :ref:`BTS <Deployment-Activities-BTS-Minimal-K8S-System>`)
+    #. Startup Minimal Kubernetes Services on the Summit (:ref:`TTS <Deployment-Activities-TTS-Minimal-K8S-System>`, :ref:`BTS <Deployment-Activities-BTS-Minimal-K8S-System>`)
         * This uses the ``sync_apps.py`` script found in `https://github.com/lsst-ts/argocd-csc/bin <https://github.com/lsst-ts/argocd-csc/tree/main/bin>`_.
         * The script is run in the same place that Kubernetes (*kubectl*) interactions are run.
         * Log into the argocd pod by doing the following:
@@ -113,6 +113,9 @@ If changes are necessary to these scripts from work described in the previous se
     * This step is completed when either all CSCs are in STANDBY/OFFLINE or CSCs with issues cannot be fixed in a reasonable (~30 minutes) amount of time.
     * If leaving this step with CSCs in non-working order, make sure to report that on the site specific Slack channel.
 #. Certain sites require that some CSCs be put into ENABLED state (:ref:`Summit <Deployment-Activities-Summit-Enabled-CSCs>`, :ref:`TTS <Deployment-Activities-TTS-Enabled-CSCs>`, :ref:`BTS <Deployment-Activities-BTS-Enabled-CSCs>`).
+#. The following additional services also need to be synced after a Cycle upgrade.
+    * schedview (Summit)
+    * rubintv-broadcasters (Summit and TTS)
 #. If not carrying on with integration testing, folks can be told they can use Nublado again via the site specific Slack channel.
 
 Site Specific Variations
