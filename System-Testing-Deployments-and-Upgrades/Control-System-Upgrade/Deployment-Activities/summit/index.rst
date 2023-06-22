@@ -60,8 +60,8 @@ Bare Metal Machines
 Odd State Components
 --------------------
 
-ATMCS and ATPneumatics do not respond to being sent to OFFLINE and will remain in STANDBY with heartbeats still present.
-ATPtg has some race condition where it looks to remain in STANDBY but the CSC is actually OFFLINE (no heartbeat is seen).
+ATMCS does not yet respond properly to exitControl and will remain in STANDBY with heartbeats still present.
+ATPneumatics does not always respond to being sent to OFFLINE.  It may remain in STANDBY with heartbeats still present.
 
 .. _Deployment-Activities-Summit-LOVE-Summary:
 
@@ -69,6 +69,14 @@ LOVE Summary View
 -----------------
 
 The overall system summary state view is called ``ASummary State View``.
+
+.. _Deployment-Activities-Summit-Federation-Check:
+
+Checking the Number of Federations
+----------------------------------
+
+This uses a script in https://github.com/lsst-ts/k8s-admin.
+Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 
 .. _Deployment-Activities-Summit-DM-Camera-Shutdown:
 
@@ -234,17 +242,26 @@ Enabled CSCs
 
 The following CSCs are configured to go into ENABLED state automatically upon launching:
 
-* Watcher
 * ScriptQueue:1
 * ScriptQueue:2
 
 There are a few CSCs that must be put into ENABLED state before declaring an end to the deployment.
 These are:
 
-* WeatherStation:1
+* ``set_summary_state.py``
 
-The WeatherStation:1 can be started by using the ``set_summary_state.py`` script once the ScriptQueues are ENABLED.
-The systems require specific configuration settings for optimal operation.
-They are:
+  .. code:: bash
 
-* WeatherStation:1 - default
+    data:
+      - [ESS:1, ENABLED]
+      - [ESS:101, ENABLED] 
+      - [ESS:102, ENABLED]
+      - [ESS:103, ENABLED]
+      - [ESS:104, ENABLED]
+      - [ESS:105, ENABLED]
+      - [ESS:201, ENABLED]
+      - [ESS:202, ENABLED]
+      - [ESS:203, ENABLED] 
+      - [ESS:204, ENABLED]
+      - [ESS:301, ENABLED]
+      - [Watcher, ENABLED]
