@@ -22,13 +22,13 @@ If changes are necessary to these scripts from work described in the previous se
 
   Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs to be done with care and should be coordinated with the hardware/software experts for those systems.
 
-#. Log into the machines for bare metal deployments and Kubernetes access (:ref:`Summit <Deployment-Activities-Summit-BareMetal>`, :ref:`TTS <Deployment-Activities-TTS-BareMetal>`)
+#. Log into the machines for bare metal deployments and Kubernetes access (:ref:`Summit <Deployment-Activities-Summit-BareMetal>`, :ref:`TTS <Deployment-Activities-TTS-BareMetal>`, :ref:`BTS <Deployment-Activities-BTS-BareMetal>`)
 #. Use LOVE or Nublado to send all CSC systems to OFFLINE state.
 
     * **WARNING**: Not all CSCs report OFFLINE; these will instead report STANDBY as the last state seen.
       Check for heartbeats to be sure. (:ref:`Summit <Deployment-Activities-Summit-Odd-State>`)
     * Preference is to use LOVE, but Nublado is a good fall back in case LOVE isn't working.
-    * An overall status view is available from LOVE (:ref:`Summit <Deployment-Activities-Summit-LOVE-Summary>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Summary>`).
+    * An overall status view is available from LOVE (:ref:`Summit <Deployment-Activities-Summit-LOVE-Summary>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Summary>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Summary>`).
     * You can also consult these dashboards on Chronograf. The names are the same across sites.
         * ``AT Summary State Monitor``
         * ``MT Summary State Monitor``
