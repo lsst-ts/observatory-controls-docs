@@ -117,13 +117,13 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin`` scripts in ``base-teststand`` directory.
+* Uses the ``docker-compose-admin/base-teststand/update_repo`` script, which is checked out to the dco user home directory.
 * Repos to update:
     * ``docker-compose-ops`` (love01, tel-hw1)
     * ``LOVE-integration-tools`` (love01)
     * ``ts_ddsconfig`` (love01, tel-hw1) NOTE: Only necessary if there are updates.
-    * Become the dco user: *sudo -iu dco*
-    * *./update_repo <repo path> <branch or version>*
+* Become the dco user: *sudo -iu dco*
+* *./update_repo <repo path> <branch or version>*
 
 .. _Deployment-Activities-BTS-Main-Daemon-Startup:
 

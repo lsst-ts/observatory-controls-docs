@@ -177,17 +177,13 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin`` scripts in ``summit`` directory.
+* Uses the ``docker-compose-admin/summit/update_repo`` script, which is checked out to the dco user home directory.
 * Directories to update:
-    * ``/deploy-lsstts/docker-compose-ops`` (azar1, azar2, love01, love02)
-    * ``/deploy-lsstts/ts_ddsconfig`` (azar1, azar2, love01, love02)
-    * ``/deploy-lsstts/LOVE-integration-tools`` (love01, love02)
-    * *sudo ./update_repo <repo path> <branch or version>*
-* This will fail if the branch has local modifications. At that point you may as well just do the job manually. Here is one way to do that:
-    * *cd /deploy-lsstts/<problem directory>*
-    * *git status*
-    * *sudo git reset --hard origin/<current ticket branch>*
-    * Return to the ``docker-compose-admin`` scripts and run the *update_repo* command again.
+    * ``docker-compose-ops`` (azar1, azar2, love01, love02)
+    * ``LOVE-integration-tools`` (love01, love02)
+    * ``ts_ddsconfig`` (azar1, azar2, love01, love02) NOTE: Only necessary if there are updates.
+* Become the dco user: *sudo -iu dco*
+* *sudo ./update_repo <repo path> <branch or version>*
 
 .. _Deployment-Activities-Summit-Main-Daemon-Startup:
 
