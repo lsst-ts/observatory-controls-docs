@@ -78,20 +78,15 @@ Checking the Number of Federations
 This uses a script in https://github.com/lsst-ts/k8s-admin.
 Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 
-.. _Deployment-Activities-Summit-DM-Camera-Shutdown:
+.. _Deployment-Activities-Summit-Camera-Shutdown:
 
-Shutdown DM and Camera Services
+Shutdown Camera Services
 -------------------------------
 
-* Shutdown/Cleanup daemon on Archiver machines:
-    * *docker stop ospl-daemon*
-    * *docker rm ospl-daemon*
 * Shutdown Camera OCS Bridges:
     * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
-    * CCCamera: *sudo systemctl stop comcam-ocs-bridge.service*
 * Shutdown Camera Daemons
     * *sudo systemctl stop opensplice.service*
-    * Command is the same everywhere.
 
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 

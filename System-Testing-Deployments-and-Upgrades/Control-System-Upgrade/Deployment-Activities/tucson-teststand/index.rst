@@ -60,9 +60,9 @@ Checking the Number of Federations
 This uses a script in https://github.com/lsst-ts/k8s-admin.
 Run *./feds-check-k8s* from a machine with *kubectl* and the proper kubeconfig file.
 
-.. _Deployment-Activities-TTS-DM-Camera-Shutdown:
+.. _Deployment-Activities-TTS-Camera-Shutdown:
 
-Shutdown DM and Camera Services
+Shutdown Camera Services
 -------------------------------
 
 * Shutdown Camera OCS Bridges:

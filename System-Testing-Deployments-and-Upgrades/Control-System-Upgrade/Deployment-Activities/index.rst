@@ -43,7 +43,7 @@ If changes are necessary to these scripts from work described in the previous se
         * *docker exec ospl-daemon grep "federations" durability.log*
         * You must give the daemon some time (30 seconds to 2 minutes) before getting worried that the number isn't going down once you start shutting down daemons.
         * You can check this after every shutdown or just periodically.
-    #. Cleanup CSCs and Daemons on DM and Camera machines (:ref:`Summit <Deployment-Activities-Summit-DM-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-DM-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-DM-Camera-Shutdown>`).
+    #. Cleanup CSCs and Daemons on DM and Camera machines (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
         * One can work with the system principles to shutdown the services.
         * Notify people doing the camera upgrade that the system is ready for them to proceed with :ref:`Stage 1<camera-install-stage-1>`.
     #. Shutdown LOVE and associated daemon (:ref:`Summit <Deployment-Activities-Summit-LOVE-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Shutdown>`).
