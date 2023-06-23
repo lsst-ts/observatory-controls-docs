@@ -53,5 +53,6 @@ Site Specific Variations
 
     summit/*
     tucson-teststand/*
+    base-teststand/*
 
 .. _vanward: https://vanward.lsst.io
