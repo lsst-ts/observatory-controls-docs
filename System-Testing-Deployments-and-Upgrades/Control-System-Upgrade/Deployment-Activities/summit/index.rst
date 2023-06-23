@@ -44,8 +44,6 @@ Bare Metal Machines
     * Can also use: https://k8slens.dev/.
 * ATCamera (Tony Johnson): auxtel-mcm.cp.lsst.org
 * CCCamera(Tony Johnson): comcam-mcm.cp.lsst.org
-* ATArchiver (Steve Pietrowicz): auxtel-archiver.cp.lsst.org
-* CCArchiver (Steve Pietrowicz): comcam-archiver.cp.lsst.org
 * M1M3 Dev (Petr Kubánek): m1m3-dev.cp.lsst.org
 * M1M3 Test (Petr Kubánek): m1m3-test.cp.lsst.org
 * M1M3 Support cRIO (Petr Kubánek): 139.229.178.182
@@ -213,6 +211,28 @@ If LOVE2 is operating, go to love02.
     * *./launch_daemon*
     * Ensure daemon is ready before proceeding.
     * *./launch_love*
+
+.. _Deployment-Activities-Summit-Camera-Startup:
+
+Startup Camera Services
+-------------------------------
+
+This needs to be done from auxtel-mcm.
+
+* Start Camera Daemons
+    * *sudo systemctl start opensplice.service*
+* Start Camera OCS Bridges:
+    * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
+    * Ensure bridge services are running:
+	* ATCamera: *sudo systemctl status ats-ocs-bridge.service*
+* Transition to OFFLINE_AVAILABLE:
+    * ATCamera:
+        * *ccs-shell*
+        * *ccs> set target ats-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
 
 .. _Deployment-Activities-Summit-TandS-BM-Startup:
 

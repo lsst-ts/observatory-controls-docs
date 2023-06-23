@@ -96,6 +96,7 @@ If changes are necessary to these scripts from work described in the previous se
         * Check that all the logs say "Running" at the bottom. M1M3 now has an indicator saying: "Partial producers are all running".
         * Once all the kafka-producers are verified to be running, stop here but leave the script alive.
     #. Startup Bare Metal LOVE (:ref:`Summit <Deployment-Activities-Summit-LOVE-Startup>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Startup>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Startup>`).
+    #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
     #. Continue Kubernetes Deployment
         * Go back to where your running ``sync_apps.py`` script is and type ``go`` and enter to move onto syncing the obssys apps.
         * Use the Argo CD UI to verify that the containers are pulling and running.

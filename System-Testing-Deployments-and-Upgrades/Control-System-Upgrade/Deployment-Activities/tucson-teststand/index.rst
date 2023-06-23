@@ -171,6 +171,39 @@ This needs to be done from love1.
     * Ensure daemon is ready before proceeding.
     * *./launch_love*
 
+.. _Deployment-Activities-TTS-Camera-Startup:
+
+Startup Camera Services
+-------------------------------
+
+This needs to be done from auxtel-mcm and comcam-mcm.
+
+* Start Camera Daemons
+    * *sudo systemctl start opensplice.service*
+    * Command is the same on both machines.
+    * Wait for the daemon to be ready before starting the bridge services.
+* Start Camera OCS Bridges:
+    * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
+    * CCCamera: *sudo systemctl start comcam-ocs-bridge.service*
+    * Ensure bridge services are running:
+        * ATCamera: *sudo systemctl status ats-ocs-bridge.service*
+        * CCCamera: *sudo systemctl status comcam-ocs-bridge.service*
+* Transition to OFFLINE_AVAILABLE:
+    * ATCamera:
+        * *ccs-shell*
+        * *ccs> set target ats-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+    * CCCamera:
+        * *ccs-shell*
+        * *ccs> set target comcam-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+
 .. _Deployment-Activities-TTS-TandS-BM-Startup:
 
 Startup T&S Bare Metal Services
