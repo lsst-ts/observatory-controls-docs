@@ -8,7 +8,7 @@ This section contains site specific variations for the Base test stand.
 Resources
 ---------
 
-* LOVE (k8s): http://love01.ls.lsst.org
+* LOVE: http://love01.ls.lsst.org
 * Argo CD: https://base-lsp.lsst.codes/argo-cd
 * Chronograf: https://base-lsp.lsst.codes/chronograf
 * Nublado: https://base-lsp.lsst.codes/
@@ -61,7 +61,7 @@ Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 .. _Deployment-Activities-BTS-Camera-Shutdown:
 
 Shutdown Camera Services
--------------------------------
+------------------------
 
 * Shutdown ATCamera OCS Bridges:
     * *sudo systemctl stop ats-ocs-bridge.service*
@@ -75,7 +75,7 @@ Shutdown LOVE
 
 This needs to be done from love01.
 
-* Uses the ``docker-compose-admin`` scripts in ``base-teststand/love01`` directory, which are checked out to the dco user home directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/love01`` directory, which are are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_love*
     * *./shutdown_daemon*
@@ -87,7 +87,7 @@ Shutdown T&S Bare Metal Services
 
 Handle tel-hw1:
 
-* Uses the ``docker-compose-admin`` scripts in ``base-teststand/tel-hw1`` directory, which are checked out to the dco user home directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/tel-hw1`` directory, which are are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_atmcs_atp*
     * *./shutdown_m1m3*
@@ -107,7 +107,7 @@ Shutdown Main Daemon
 
 This needs to be done from azar01.
 
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar01``, which are checked out to the dco user home directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/azar01``, which are are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_daemon*
 
@@ -117,7 +117,7 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin/base-teststand/update_repo`` script, which is checked out to the dco user home directory.
+* Uses the ``docker-compose-admin/base-teststand/update_repo`` script, which is linked into the dco user home directory.
 * Repos to update:
     * ``docker-compose-ops`` (love01, tel-hw1)
     * ``LOVE-integration-tools`` (love01)
@@ -132,7 +132,7 @@ Startup Main Daemon
 
 This needs to be done from azar01.
 
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar01`` directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/azar01`` directory, which are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./launch_daemon*
     * Ensure daemon is ready before proceeding.
@@ -147,16 +147,12 @@ Follow the first three bullet points in that step and then continue the process 
 
 * *python sync_apps.py -p --no-sync=love* 
 * NOTE: the --no-sync=love flag will prevent an error regarding resources not existing.
-* csc-cluster-config, ospl-config and ospl-main-daemon apps will be synced automatically.
-* Once the ospl-main-daemon app is synced, the script will pause.
-* Check the logs on Argo CD UI to see if daemon is ready.
-* Type ``go`` and enter to move onto syncing the ospl-daemon app
+* csc-cluster-config and ospl-config apps will be synced automatically.
 * Once the ospl-daemon app is synced, the script will pause.
 * Check the logs on Argo CD UI to see if daemons are ready.
 * Type ``go`` and enter to move onto syncing the kafka-producers app.
 * Script will again pause once the kafka-producers are synced.
-* The kafka-producers use a startup probe, so once all of the pods show a green heart, type ``go`` and enter to move onto syncing the love app.
-* Once the love app is synced, stop here and return to step 6.4 in the main document.
+* The kafka-producers use a startup probe, so once all of the pods show a green heart, stop here and return to step 6.4 in the main document.
 * Make sure you leave the script running.
 
 .. _Deployment-Activities-BTS-LOVE-Startup:
@@ -166,7 +162,7 @@ Startup LOVE
 
 This needs to be done from love01.
 
-* Uses the ``docker-compose-admin`` scripts in ``base-teststand/love01`` directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/love01`` directory, which are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./launch_daemon*
     * Ensure daemon is ready before proceeding.
@@ -175,7 +171,7 @@ This needs to be done from love01.
 .. _Deployment-Activities-BTS-Camera-Startup:
 
 Startup Camera Services
--------------------------------
+-----------------------
 
 This needs to be done from auxtel-mcm.
 
@@ -201,7 +197,7 @@ Startup T&S Bare Metal Services
 
 Handle tel-hw1
 
-* Uses the ``docker-compose-admin`` scripts in ``base-teststand/tel-hw1`` directory.
+* Uses the ``docker-compose-admin`` scripts in ``base-teststand/tel-hw1`` directory, which are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./launch_daemon*
     * Ensure daemon is ready before proceeding.
@@ -214,8 +210,7 @@ Enabled CSCs
 ------------
 
 If proceeding with integration testing, the CSCs will be brought to ENABLED state as part of that process.
-All of the startup processes maybe necessary for recovering the BTS from any maintenance.
-In this case, all of the CSCs must be returned to ENABLED state.
+All of the startup processes may be necessary for recovering the BTS from any maintenance.
 The following components will automatically transition to ENABLED state when launched:
 
 * WeatherForecast
@@ -224,12 +219,15 @@ The following components will automatically transition to ENABLED state when lau
 * DSM:1
 * DSM:2
 
-For the other components, leverage the following scripts.
+For the other components, the BTS will be handled in the same way as the Summit.  For reference, see
+`Observatory and Control System Guidelines for BTS <https://confluence.lsstcorp.org/display/LSSTCOM/Observatory+and+Control+System+Guidelines+for+BTS>`_
+
+Only leverage the following scripts, if necessary.
 Required configurations will be given for each script execution.
 
 .. note::
 
-    ATCamera must be in OFFLINE_AVAILABLE state before putting them into ENABLED state.
+    ATCamera and CCCamera must be in OFFLINE_AVAILABLE state before putting them into ENABLED state.
 
 * ``set_summary_state.py``
 

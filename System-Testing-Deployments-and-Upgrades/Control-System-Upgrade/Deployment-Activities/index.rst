@@ -43,7 +43,7 @@ If changes are necessary to these scripts from work described in the previous se
         * *docker exec ospl-daemon grep "federations" durability.log*
         * You must give the daemon some time (30 seconds to 2 minutes) before getting worried that the number isn't going down once you start shutting down daemons.
         * You can check this after every shutdown or just periodically.
-    #. Cleanup CSCs and Daemons on DM and Camera machines (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
+    #. Cleanup CSCs and Daemons Camera machines (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
         * One can work with the system principles to shutdown the services.
         * Notify people doing the camera upgrade that the system is ready for them to proceed with :ref:`Stage 1<camera-install-stage-1>`.
     #. Shutdown LOVE and associated daemon (:ref:`Summit <Deployment-Activities-Summit-LOVE-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Shutdown>`).
@@ -72,31 +72,17 @@ If changes are necessary to these scripts from work described in the previous se
 #. Once all configurations are in place, deployment of the new system can begin.
     * Be patient with container pulling (goes for everything containerized here).
 
-    #. Update ESS Controllers (Summit only)
-        * Updating the ESS controllers requires logging into the following machines:
-            * hexrot-ess01.cp.lsst.org
-            * auxtel-ess01.cp.lsst.org
-            * auxtel-ess02.cp.lsst.org
-            * auxtel-lightning01.cp.lsst.org
-            * mtdome-ess01.cp.lsst.org
-            * mtdome-ess02.cp.lsst.org
-            * mtdome-ess03.cp.lsst.org
-        * To stop, update and restart the container, issue the following commands:
-            * *docker stop ess-controller*
-            * *docker rm ess-controller*
-            * *docker image pull lsstts/ess-controller-aarch64:latest*
-            * *docker run -it --name ess-controller --network host --privileged lsstts/ess-controller-aarch64*
+    #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
     #. Update Nublado
         * From the site specific Argo CD UI, find the ``cachemachine`` app.
         * It should indicate ``OutOfSync`` (yellow) status, so click the ``Sync`` button to begin the process.
         * Once it syncs, a new pod will start from the ``cachemachine`` **deployment**.
-        * Delete that running pod so a new one starts up.
         * The Nublado pull will be completed when the child processes from the new pod all complete and no downstream APIs are shown in the UI.
     #. Startup Main OSPL daemon (:ref:`Summit <Deployment-Activities-Summit-Main-Daemon-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Main-Daemon-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Main-Daemon-Startup>`) and verify that it has started.
         * Verify that each daemon has actually started by running: *docker logs ospl-daemon* and checking for a line that says "daemon ready".
         * To monitor the number of daemons ("federations") as you bring up daemons and single-process CSCs, run the following (:ref:`Summit <Deployment-Activities-Summit-Federation-Check>`, :ref:`TTS <Deployment-Activities-TTS-Federation-Check>`, :ref:`BTS <Deployment-Activities-BTS-Federation-Check>`):
             *docker exec ospl-daemon grep "federations" durability.log*
-    #. Startup Minimal Kubernetes Services on the Summit (:ref:`TTS <Deployment-Activities-TTS-Minimal-K8S-System>`, :ref:`BTS <Deployment-Activities-BTS-Minimal-K8S-System>`)
+    #. Startup Minimal Kubernetes Services (:ref:`TTS <Deployment-Activities-TTS-Minimal-K8S-System>`, :ref:`BTS <Deployment-Activities-BTS-Minimal-K8S-System>`)
         * This uses the ``sync_apps.py`` script found in `https://github.com/lsst-ts/argocd-csc/bin <https://github.com/lsst-ts/argocd-csc/tree/main/bin>`_.
         * The script is run in the same place that Kubernetes (*kubectl*) interactions are run.
         * Log into the argocd pod by doing the following:

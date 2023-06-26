@@ -29,7 +29,7 @@ Once able to log into Rancher:
 Non-Production Systems
 ----------------------
 
-The Tucson Teststand operates all CSCs and systems on the production domain.
+The Tucson test stand operates all CSCs and systems on the production domain.
 
 .. _Deployment-Activities-TTS-BareMetal:
 
@@ -43,7 +43,7 @@ Bare Metal Machines
     * Can also use: https://k8slens.dev/.
 * ATCamera (Tony Johnson): auxtel-mcm.tu.lsst.org
 * CCCamera (Tony Johnson): comcam-mcm.tu.lsst.org
-* Calibration Systems (Erik Dennihy): loonie.tu.lsst.org
+* Calibration Systems (Parker Fagrelius): loonie.tu.lsst.org
 
 .. _Deployment-Activities-TTS-LOVE-Summary:
 
@@ -63,7 +63,7 @@ Run *./feds-check-k8s* from a machine with *kubectl* and the proper kubeconfig f
 .. _Deployment-Activities-TTS-Camera-Shutdown:
 
 Shutdown Camera Services
--------------------------------
+------------------------
 
 * Shutdown Camera OCS Bridges:
     * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
@@ -79,7 +79,7 @@ Shutdown LOVE
 
 This needs to be done from love1.
 
-* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/love1`` directory, which are checked out to the dco user home directory.
+* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/love1`` directory, which are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_love*
     * *./shutdown_daemon*
@@ -91,7 +91,7 @@ Shutdown T&S Bare Metal Services
 
 Handle tel-hw1:
 
-* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/tel-hw1`` directory, which are checked out to the dco user home directory.
+* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/tel-hw1`` directory, which are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_atmcs_atp*
     * *./shutdown_m1m3*
@@ -122,7 +122,7 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin/tucson-teststand/update_repo`` script, which is checked out to the dco user home directory.
+* Uses the ``docker-compose-admin/tucson-teststand/update_repo`` script, which is linked into the dco user home directory.
 * Repos to update:
     * ``docker-compose-ops`` (love1, tel-hw1)
     * ``LOVE-integration-tools`` (love1)

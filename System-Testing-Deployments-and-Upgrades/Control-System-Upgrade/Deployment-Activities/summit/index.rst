@@ -79,11 +79,12 @@ Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 .. _Deployment-Activities-Summit-Camera-Shutdown:
 
 Shutdown Camera Services
--------------------------------
+------------------------
 
 * Shutdown Camera OCS Bridges:
     * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
-* Shutdown Camera Daemons
+    * CCCamera: *sudo systemctl stop comcam-ocs-bridge.service*
+* Shutdown Camera Daemons (command is the same on both machines)
     * *sudo systemctl stop opensplice.service*
 
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
@@ -193,12 +194,12 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin/summit/update_repo`` script, which is checked out to the dco user home directory.
+* Uses the ``docker-compose-admin/summit/update_repo`` script, which is linked into the dco user home directory.
 * Directories to update:
     * ``docker-compose-ops`` (azar1, azar2, love01, love02)
     * ``LOVE-integration-tools`` (love01, love02)
     * ``ts_ddsconfig`` (azar1, azar2, love01, love02) NOTE: Only necessary if there are updates.
-* Become the dco user: *sudo -iu dco*
+* Become the dco user: *sudo -iu dco* (The dco has not been setup on love01, so use the scripts in your home directory.)
 * *sudo ./update_repo <repo path> <branch or version>*
 
 .. _Deployment-Activities-Summit-Main-Daemon-Startup:
@@ -233,20 +234,29 @@ If LOVE2 is operating, go to love02.
 .. _Deployment-Activities-Summit-Camera-Startup:
 
 Startup Camera Services
--------------------------------
+-----------------------
 
 This needs to be done from auxtel-mcm.
 
-* Start Camera Daemons
+* Start Camera Daemons (command is the same on both machines)
     * *sudo systemctl start opensplice.service*
 * Start Camera OCS Bridges:
     * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
+    * CCCamera: *sudo systemctl start comcam-ocs-bridge.service*
     * Ensure bridge services are running:
 	* ATCamera: *sudo systemctl status ats-ocs-bridge.service*
+	* CCCamera: *sudo systemctl status comcam-ocs-bridge.service*
 * Transition to OFFLINE_AVAILABLE:
     * ATCamera:
         * *ccs-shell*
         * *ccs> set target ats-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+    * CCCamera:
+        * *ccs-shell*
+        * *ccs> set target comcam-ocs-bridge*
         * *ccs> lock*
         * *ccs> setAvailable*
         * *ccs> unlock*
