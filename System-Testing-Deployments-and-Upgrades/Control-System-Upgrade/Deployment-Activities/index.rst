@@ -51,7 +51,8 @@ If changes are necessary to these scripts from work described in the previous se
     #. Shutdown and Cleanup Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-TandS-BM-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-TandS-BM-Shutdown>`).
     #. Cleanup Kubernetes Deployment.
         * Below uses scripts in this repo: https://github.com/lsst-ts/k8s-admin.
-        * Execute the following (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`): *./cleanup_all -d*
+        * Execute the following (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`):
+            *./cleanup_all -d*
             * The *-d* is important as that cleans up the OSPL daemons too.
         * If the script fails, you can use Argo CD to delete the **job/deployment/daemonset** associated with each application you wish to stop. Be sure to delete the job/deployment/daemonset box not the application itself. Note that auxtel and the other "app of apps" meta applications have no jobs; you have to deal with each application individually.
         * Execute the following (Summit (pending k8s deployment), :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`): *./cleanup_love*
@@ -71,6 +72,20 @@ If changes are necessary to these scripts from work described in the previous se
 #. Once all configurations are in place, deployment of the new system can begin.
     * Be patient with container pulling (goes for everything containerized here).
 
+    #. Update ESS Controllers (Summit only)
+        * Updating the ESS controllers requires logging into the following machines:
+            * hexrot-ess01.cp.lsst.org
+            * auxtel-ess01.cp.lsst.org
+            * auxtel-ess02.cp.lsst.org
+            * auxtel-lightning01.cp.lsst.org
+            * mtdome-ess01.cp.lsst.org
+            * mtdome-ess02.cp.lsst.org
+            * mtdome-ess03.cp.lsst.org
+        * To stop, update and restart the container, issue the following commands:
+            * *docker stop ess-controller*
+            * *docker rm ess-controller*
+            * *docker image pull lsstts/ess-controller-aarch64:latest*
+            * *docker run -it --name ess-controller --network host --privileged lsstts/ess-controller-aarch64*
     #. Update Nublado
         * From the site specific Argo CD UI, find the ``cachemachine`` app.
         * It should indicate ``OutOfSync`` (yellow) status, so click the ``Sync`` button to begin the process.

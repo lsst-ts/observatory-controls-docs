@@ -169,6 +169,24 @@ This needs to be done from azar1.
 * Uses the ``docker-compose-admin`` scripts in ``summit/azar1`` directory.
     * *./shutdown_daemon*
 
+.. _Deployment-Activities-Summit-Update-ESS-Controllers:
+
+Update ESS Controllers
+----------------------
+    * Updating the ESS controllers requires logging into the following machines:
+        * hexrot-ess01.cp.lsst.org
+        * auxtel-ess01.cp.lsst.org
+        * auxtel-ess02.cp.lsst.org
+        * auxtel-lightning01.cp.lsst.org
+        * mtdome-ess01.cp.lsst.org 
+        * mtdome-ess02.cp.lsst.org
+        * mtdome-ess03.cp.lsst.org 
+    * To stop, update and restart the container, issue the following commands:
+        * *docker stop ess-controller*
+        * *docker rm ess-controller*
+        * *docker image pull lsstts/ess-controller-aarch64:latest*
+        * *docker run -it --name ess-controller --network host --privileged lsstts/ess-controller-aarch64*
+
 .. _Deployment-Activities-Summit-Update-Configuration:
 
 Update Configuration
