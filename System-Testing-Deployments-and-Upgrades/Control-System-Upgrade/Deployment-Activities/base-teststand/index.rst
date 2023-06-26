@@ -90,7 +90,6 @@ Handle tel-hw1:
 * Uses the ``docker-compose-admin`` scripts in ``base-teststand/tel-hw1`` directory, which are are linked into the dco user home directory.
     * Become the dco user: *sudo -iu dco*
     * *./shutdown_atmcs_atp*
-    * *./shutdown_m1m3*
     * *./shutdown_daemon*
 
 .. _Deployment-Activities-BTS-Kubernetes:
@@ -202,7 +201,6 @@ Handle tel-hw1
     * *./launch_daemon*
     * Ensure daemon is ready before proceeding.
     * *./launch_atmcs_atp*
-    * *./launch_m1m3*
 
 .. _Deployment-Activities-BTS-Enabled-CSCs:
 
@@ -225,10 +223,16 @@ For the other components, the BTS will be handled in the same way as the Summit.
 Only leverage the following scripts, if necessary.
 Required configurations will be given for each script execution.
 
-.. note::
+* ``set_summary_state.py``
 
-    ATCamera and CCCamera must be in OFFLINE_AVAILABLE state before putting them into ENABLED state.
+  .. code:: bash
 
+    data:
+      - [MTAirCompressor:1, ENABLED]
+      - [MTAirCompressor:2, ENABLED]
+      - [LaserTracker, ENABLED]
+      - [GenericCamera:1, ENABLED]
+      - [GCHeaderService:1 ENABLED]
 * ``set_summary_state.py``
 
   .. code:: bash

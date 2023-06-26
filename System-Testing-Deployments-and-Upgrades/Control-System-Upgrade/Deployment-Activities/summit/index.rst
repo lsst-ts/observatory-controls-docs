@@ -236,7 +236,7 @@ If LOVE2 is operating, go to love02.
 Startup Camera Services
 -----------------------
 
-This needs to be done from auxtel-mcm.
+This needs to be done from auxtel-mcm and comcam-mcm.
 
 * Start Camera Daemons (command is the same on both machines)
     * *sudo systemctl start opensplice.service*

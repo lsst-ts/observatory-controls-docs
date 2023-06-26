@@ -2,7 +2,7 @@ Deploying the Upgrade
 =====================
 
 These are the activities that are performed when the time of deployment comes around.
-You will need access to a number of resources (:ref:`Summit <Deployment-Activities-Summit-Resources>`, :ref:`TTS <Deployment-Activities-TTS-Resources>`, :ref:`BTS <Deployment-Activities-BS-Resources>`) at the sites so be sure that you have the credentials to do so.
+You will need access to a number of resources (:ref:`Summit <Deployment-Activities-Summit-Resources>`, :ref:`TTS <Deployment-Activities-TTS-Resources>`, :ref:`BTS <Deployment-Activities-BTS-Resources>`) at the sites so be sure that you have the credentials to do so.
 A number of scripts are available for easing the bare metal docker-compose deployment handling.
 The scripts can be retrieved from this repo: https://github.com/lsst-ts/docker-compose-admin.
 Use the scripts from the appropriate site directory.

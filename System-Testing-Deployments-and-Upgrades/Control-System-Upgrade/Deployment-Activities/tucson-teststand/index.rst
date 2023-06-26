@@ -174,7 +174,7 @@ This needs to be done from love1.
 .. _Deployment-Activities-TTS-Camera-Startup:
 
 Startup Camera Services
--------------------------------
+-----------------------
 
 This needs to be done from auxtel-mcm and comcam-mcm.
 
@@ -241,8 +241,16 @@ Required configurations will be given for each script execution.
     Both ATCamera and CCCamera must be in OFFLINE_AVAILABLE state before putting them into ENABLED state.
 
 * ``auxtel/enable_atcs.py``
+
+  .. code:: bash
+
+    atcamera: Normal
 * ``auxtel/enable_latiss.py``
 * ``maintel/enable_mtcs.py``
+
+  .. code:: bash
+
+    mtm1m3: Default
 * ``maintel/enable_comcam.py``
 * ``set_summary_state.py``
 
