@@ -228,16 +228,6 @@ Required configurations will be given for each script execution.
   .. code:: bash
 
     data:
-      - [MTAirCompressor:1, ENABLED]
-      - [MTAirCompressor:2, ENABLED]
-      - [LaserTracker, ENABLED]
-      - [GenericCamera:1, ENABLED]
-      - [GCHeaderService:1 ENABLED]
-* ``set_summary_state.py``
-
-  .. code:: bash
-
-    data:
       - [ESS:1, ENABLED]
       - [ESS:101, ENABLED]
       - [ESS:102, ENABLED]
