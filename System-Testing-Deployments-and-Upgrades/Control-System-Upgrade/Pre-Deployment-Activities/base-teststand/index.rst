@@ -26,4 +26,4 @@ Slack Channel for Announcements
 RSP Configuration File
 ----------------------
 
-``services/cachemachine/values-base-teststand.yaml``
+``applications/cachemachine/values-base.yaml``
