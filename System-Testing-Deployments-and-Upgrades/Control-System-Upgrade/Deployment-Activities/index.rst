@@ -97,7 +97,6 @@ If changes are necessary to these scripts from work described in the previous se
         * Check that all the logs say "Running" at the bottom. M1M3 now has an indicator saying: "Partial producers are all running".
         * Once all the kafka-producers are verified to be running, stop here but leave the script alive.
     #. Startup Bare Metal LOVE (:ref:`Summit <Deployment-Activities-Summit-LOVE-Startup>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Startup>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Startup>`).
-    #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
     #. Continue Kubernetes Deployment
         * Go back to where your running ``sync_apps.py`` script is and type ``go`` and enter to move onto syncing the obssys apps.
         * Use the Argo CD UI to verify that the containers are pulling and running.
@@ -108,6 +107,8 @@ If changes are necessary to these scripts from work described in the previous se
     #. Startup Rest of Kubernetes Services.
         * Go back to where your running ``sync_apps.py`` script is and type ``go`` and enter to proceed with syncing the rest of the apps.
         * The rest of the apps will be synced automatically so no further intervention is necessary.
+    #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
+        * This is done by us for a system restart, but is handled by the Camera team for a Cycle upgrade.
     #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>`, :ref:`TTS <Deployment-Activities-TTS-TandS-BM-Startup>`, :ref:`BTS <Deployment-Activities-BTS-TandS-BM-Startup>`).
 #. Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into STANDBY/OFFLINE. Daemons can also be monitored for connection using the methods listed above.
     * Use the site specific resources to help ascertain this condition.
