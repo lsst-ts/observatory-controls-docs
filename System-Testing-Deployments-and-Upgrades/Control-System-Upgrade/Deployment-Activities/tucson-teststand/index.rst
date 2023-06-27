@@ -43,9 +43,7 @@ Bare Metal Machines
     * Can also use: https://k8slens.dev/.
 * ATCamera (Tony Johnson): auxtel-mcm.tu.lsst.org
 * CCCamera (Tony Johnson): comcam-mcm.tu.lsst.org
-* ATArchiver (Steve Pietrowicz): auxtel-archiver.tu.lsst.org
-* CCArchiver (Steve Pietrowicz): comcam-archiver.tu.lsst.org
-* Calibration Systems (Patrick Ingraham): loonie.tu.lsst.org
+* Calibration Systems (Parker Fagrelius): loonie.tu.lsst.org
 
 .. _Deployment-Activities-TTS-LOVE-Summary:
 
@@ -60,16 +58,13 @@ Checking the Number of Federations
 ----------------------------------
 
 This uses a script in https://github.com/lsst-ts/k8s-admin.
-Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
+Run *./feds-check-k8s* from a machine with *kubectl* and the proper kubeconfig file.
 
-.. _Deployment-Activities-TTS-DM-Camera-Shutdown:
+.. _Deployment-Activities-TTS-Camera-Shutdown:
 
-Shutdown DM and Camera Services
--------------------------------
+Shutdown Camera Services
+------------------------
 
-* Shutdown/Cleanup daemon on Archiver machines:
-    * *docker stop ospl-daemon*
-    * *docker rm ospl-daemon*
 * Shutdown Camera OCS Bridges:
     * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
     * CCCamera: *sudo systemctl stop comcam-ocs-bridge.service*
@@ -84,7 +79,8 @@ Shutdown LOVE
 
 This needs to be done from love1.
 
-* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/love1`` directory.
+* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/love1`` directory, which are linked into the dco user home directory.
+    * Become the dco user: *sudo -iu dco*
     * *./shutdown_love*
     * *./shutdown_daemon*
 
@@ -95,7 +91,8 @@ Shutdown T&S Bare Metal Services
 
 Handle tel-hw1:
 
-* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/tel-hw1`` directory.
+* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand/tel-hw1`` directory, which are linked into the dco user home directory.
+    * Become the dco user: *sudo -iu dco*
     * *./shutdown_atmcs_atp*
     * *./shutdown_m1m3*
     * *./shutdown_daemon*
@@ -125,17 +122,13 @@ Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin`` scripts in ``tucson-teststand`` directory.
-* Directories to update:
-    * ``/deploy-lsstts/docker-compose-ops`` (love1, tel-hw1)
-    * ``/deploy-lsstts/ts_ddsconfig`` (love1, tel-hw1)
-    * ``/deploy-lsstts/LOVE-integration-tools`` (love1)
-    * *sudo ./update_repo <repo path> <branch or version>*
-* This will fail if the branch has local modifications. At that point you may as well just do the job manually. Here is one way to do that:
-    * *cd /deploy-lsstts/<problem directory>*
-    * *git status*
-    * *sudo git reset --hard origin/<current ticket branch>*
-    * Return to the ``docker-compose-admin`` scripts and run the *update_repo* command again.
+* Uses the ``docker-compose-admin/tucson-teststand/update_repo`` script, which is linked into the dco user home directory.
+* Repos to update:
+    * ``docker-compose-ops`` (love1, tel-hw1)
+    * ``LOVE-integration-tools`` (love1)
+    * ``ts_ddsconfig`` (love1, tel-hw1) NOTE: Only necessary if there are updates.
+* Become the dco user: *sudo -iu dco*
+* *./update_repo <repo path> <branch or version>*
 
 .. _Deployment-Activities-TTS-Main-Daemon-Startup:
 
@@ -153,7 +146,7 @@ Startup Minimal Kubernetes System
 This replaces most of step 6.3 in the main document.
 Follow the first three bullet points in that step and then continue the process with the next steps.
 
-* *python sync_apps.py -p*
+* *python sync_apps.py -p -t*
 * csc-cluster-config, ospl-config and ospl-main-daemon apps will be synced automatically.
 * Once the ospl-main-daemon app is synced, the script will pause.
 * Check the logs on Argo CD UI to see if daemon is ready.
@@ -178,6 +171,39 @@ This needs to be done from love1.
     * Ensure daemon is ready before proceeding.
     * *./launch_love*
 
+.. _Deployment-Activities-TTS-Camera-Startup:
+
+Startup Camera Services
+-----------------------
+
+This needs to be done from auxtel-mcm and comcam-mcm.
+
+* Start Camera Daemons
+    * *sudo systemctl start opensplice.service*
+    * Command is the same on both machines.
+    * Wait for the daemon to be ready before starting the bridge services.
+* Start Camera OCS Bridges:
+    * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
+    * CCCamera: *sudo systemctl start comcam-ocs-bridge.service*
+    * Ensure bridge services are running:
+        * ATCamera: *sudo systemctl status ats-ocs-bridge.service*
+        * CCCamera: *sudo systemctl status comcam-ocs-bridge.service*
+* Transition to OFFLINE_AVAILABLE:
+    * ATCamera:
+        * *ccs-shell*
+        * *ccs> set target ats-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+    * CCCamera:
+        * *ccs-shell*
+        * *ccs> set target comcam-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+
 .. _Deployment-Activities-TTS-TandS-BM-Startup:
 
 Startup T&S Bare Metal Services
@@ -201,7 +227,7 @@ All of the startup processes maybe necessary for recovering the TTS from any mai
 In this case, all of the CSCs must be returned to ENABLED state.
 The following components will automatically transition to ENABLED state when launched:
 
-* Watcher
+* WeatherForecast
 * ScriptQueue:1
 * ScriptQueue:2
 * DSM:1
@@ -218,22 +244,13 @@ Required configurations will be given for each script execution.
 
   .. code:: bash
 
-    athexapod: ncsa
-    atdome: current
-    ataos: current
-* ``auxtel/enable_latiss.py``
-
-  .. code:: bash
-
     atcamera: Normal
-    atspectrograph: current
+* ``auxtel/enable_latiss.py``
 * ``maintel/enable_mtcs.py``
 
   .. code:: bash
 
     mtm1m3: Default
-    mthexapod_1: default
-    mthexapod_2: default
 * ``maintel/enable_comcam.py``
 
   .. code:: bash
@@ -244,42 +261,39 @@ Required configurations will be given for each script execution.
   .. code:: bash
 
     data:
-      -
-        - DIMM:1
-        - ENABLED
-        - current
-      -
-        - DIMM:2
-        - ENABLED
-        - current
-      -
-        - WeatherStation:1
-        - ENABLED
-        - default
+      - [MTAirCompressor:1, ENABLED]
+      - [MTAirCompressor:2, ENABLED]
+      - [LaserTracker, ENABLED]
+      - [GenericCamera:1, ENABLED]
+      - [GCHeaderService:1 ENABLED]
 * ``set_summary_state.py``
 
   .. code:: bash
 
     data:
-      -
-        - Scheduler:1
-        - ENABLED
-        - standstill
-      -
-        - Scheduler:2
-        - ENABLED
-        - standstill
-      -
-        - OCPS:1
-        - ENABLED
-        - LATISS
-      -
-        - OCPS:2
-        - ENABLED
-        - LSSTComCam
+      - [ESS:1, ENABLED]
+      - [ESS:101, ENABLED]
+      - [ESS:102, ENABLED]
+      - [ESS:103, ENABLED]
+      - [ESS:104, ENABLED]
+      - [ESS:105, ENABLED]
+      - [ESS:201, ENABLED]
+      - [ESS:202, ENABLED] 
+      - [ESS:203, ENABLED]
+      - [ESS:204, ENABLED]
+      - [ESS:301, ENABLED]
+* ``set_summary_state.py``
 
-.. note::
+  .. code:: bash
 
-  The Schedulers **MUST** be ENABLED **AFTER** ATPtg and MTPtg have been ENABLED.
-  Otherwise they will go into FAULT state.
-  That is why this script execution is run last.
+    data:
+      - [Scheduler:1, ENABLED]
+      - [Scheduler:2, ENABLED]
+      - [OCPS:1, ENABLED]
+      - [OCPS:2, ENABLED]
+* ``set_summary_state.py``
+
+  .. code:: bash
+
+    data:
+      - [Watcher, ENABLED]

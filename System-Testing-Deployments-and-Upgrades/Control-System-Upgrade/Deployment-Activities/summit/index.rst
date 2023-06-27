@@ -44,8 +44,6 @@ Bare Metal Machines
     * Can also use: https://k8slens.dev/.
 * ATCamera (Tony Johnson): auxtel-mcm.cp.lsst.org
 * CCCamera(Tony Johnson): comcam-mcm.cp.lsst.org
-* ATArchiver (Steve Pietrowicz): auxtel-archiver.cp.lsst.org
-* CCArchiver (Steve Pietrowicz): comcam-archiver.cp.lsst.org
 * M1M3 Dev (Petr Kubánek): m1m3-dev.cp.lsst.org
 * M1M3 Test (Petr Kubánek): m1m3-test.cp.lsst.org
 * M1M3 Support cRIO (Petr Kubánek): 139.229.178.182
@@ -60,8 +58,8 @@ Bare Metal Machines
 Odd State Components
 --------------------
 
-ATMCS and ATPneumatics do not respond to being sent to OFFLINE and will remain in STANDBY with heartbeats still present.
-ATPtg has some race condition where it looks to remain in STANDBY but the CSC is actually OFFLINE (no heartbeat is seen).
+ATMCS does not yet respond properly to exitControl and will remain in STANDBY with heartbeats still present.
+ATPneumatics does not always respond to being sent to OFFLINE.  It may remain in STANDBY with heartbeats still present.
 
 .. _Deployment-Activities-Summit-LOVE-Summary:
 
@@ -70,20 +68,24 @@ LOVE Summary View
 
 The overall system summary state view is called ``ASummary State View``.
 
-.. _Deployment-Activities-Summit-DM-Camera-Shutdown:
+.. _Deployment-Activities-Summit-Federation-Check:
 
-Shutdown DM and Camera Services
--------------------------------
+Checking the Number of Federations
+----------------------------------
 
-* Shutdown/Cleanup daemon on Archiver machines:
-    * *docker stop ospl-daemon*
-    * *docker rm ospl-daemon*
+This uses a script in https://github.com/lsst-ts/k8s-admin.
+Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
+
+.. _Deployment-Activities-Summit-Camera-Shutdown:
+
+Shutdown Camera Services
+------------------------
+
 * Shutdown Camera OCS Bridges:
     * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
     * CCCamera: *sudo systemctl stop comcam-ocs-bridge.service*
-* Shutdown Camera Daemons
+* Shutdown Camera Daemons (command is the same on both machines)
     * *sudo systemctl stop opensplice.service*
-    * Command is the same everywhere.
 
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 
@@ -168,23 +170,37 @@ This needs to be done from azar1.
 * Uses the ``docker-compose-admin`` scripts in ``summit/azar1`` directory.
     * *./shutdown_daemon*
 
+.. _Deployment-Activities-Summit-Update-ESS-Controllers:
+
+Update ESS Controllers
+----------------------
+    * Updating the ESS controllers requires logging into the following machines:
+        * hexrot-ess01.cp.lsst.org
+        * auxtel-ess01.cp.lsst.org
+        * auxtel-ess02.cp.lsst.org
+        * auxtel-lightning01.cp.lsst.org
+        * mtdome-ess01.cp.lsst.org 
+        * mtdome-ess02.cp.lsst.org
+        * mtdome-ess03.cp.lsst.org 
+    * To stop, update and restart the container, issue the following commands:
+        * *docker stop ess-controller*
+        * *docker rm ess-controller*
+        * *docker image pull lsstts/ess-controller-aarch64:latest*
+        * *docker run -it --name ess-controller --network host --privileged lsstts/ess-controller-aarch64*
+
 .. _Deployment-Activities-Summit-Update-Configuration:
 
 Update Configuration
 --------------------
 
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin`` scripts in ``summit`` directory.
+* Uses the ``docker-compose-admin/summit/update_repo`` script, which is linked into the dco user home directory.
 * Directories to update:
-    * ``/deploy-lsstts/docker-compose-ops`` (azar1, azar2, love01, love02)
-    * ``/deploy-lsstts/ts_ddsconfig`` (azar1, azar2, love01, love02)
-    * ``/deploy-lsstts/LOVE-integration-tools`` (love01, love02)
-    * *sudo ./update_repo <repo path> <branch or version>*
-* This will fail if the branch has local modifications. At that point you may as well just do the job manually. Here is one way to do that:
-    * *cd /deploy-lsstts/<problem directory>*
-    * *git status*
-    * *sudo git reset --hard origin/<current ticket branch>*
-    * Return to the ``docker-compose-admin`` scripts and run the *update_repo* command again.
+    * ``docker-compose-ops`` (azar1, azar2, love01, love02)
+    * ``LOVE-integration-tools`` (love01, love02)
+    * ``ts_ddsconfig`` (azar1, azar2, love01, love02) NOTE: Only necessary if there are updates.
+* Become the dco user: *sudo -iu dco* (The dco has not been setup on love01, so use the scripts in your home directory.)
+* *sudo ./update_repo <repo path> <branch or version>*
 
 .. _Deployment-Activities-Summit-Main-Daemon-Startup:
 
@@ -215,6 +231,37 @@ If LOVE2 is operating, go to love02.
     * Ensure daemon is ready before proceeding.
     * *./launch_love*
 
+.. _Deployment-Activities-Summit-Camera-Startup:
+
+Startup Camera Services
+-----------------------
+
+This needs to be done from auxtel-mcm and comcam-mcm.
+
+* Start Camera Daemons (command is the same on both machines)
+    * *sudo systemctl start opensplice.service*
+* Start Camera OCS Bridges:
+    * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
+    * CCCamera: *sudo systemctl start comcam-ocs-bridge.service*
+    * Ensure bridge services are running:
+	* ATCamera: *sudo systemctl status ats-ocs-bridge.service*
+	* CCCamera: *sudo systemctl status comcam-ocs-bridge.service*
+* Transition to OFFLINE_AVAILABLE:
+    * ATCamera:
+        * *ccs-shell*
+        * *ccs> set target ats-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+    * CCCamera:
+        * *ccs-shell*
+        * *ccs> set target comcam-ocs-bridge*
+        * *ccs> lock*
+        * *ccs> setAvailable*
+        * *ccs> unlock*
+        * *ccs> exit*
+
 .. _Deployment-Activities-Summit-TandS-BM-Startup:
 
 Startup T&S Bare Metal Services
@@ -234,17 +281,26 @@ Enabled CSCs
 
 The following CSCs are configured to go into ENABLED state automatically upon launching:
 
-* Watcher
 * ScriptQueue:1
 * ScriptQueue:2
 
 There are a few CSCs that must be put into ENABLED state before declaring an end to the deployment.
 These are:
 
-* WeatherStation:1
+* ``set_summary_state.py``
 
-The WeatherStation:1 can be started by using the ``set_summary_state.py`` script once the ScriptQueues are ENABLED.
-The systems require specific configuration settings for optimal operation.
-They are:
+  .. code:: bash
 
-* WeatherStation:1 - default
+    data:
+      - [ESS:1, ENABLED]
+      - [ESS:101, ENABLED] 
+      - [ESS:102, ENABLED]
+      - [ESS:103, ENABLED]
+      - [ESS:104, ENABLED]
+      - [ESS:105, ENABLED]
+      - [ESS:201, ENABLED]
+      - [ESS:202, ENABLED]
+      - [ESS:203, ENABLED] 
+      - [ESS:204, ENABLED]
+      - [ESS:301, ENABLED]
+      - [Watcher, ENABLED]
