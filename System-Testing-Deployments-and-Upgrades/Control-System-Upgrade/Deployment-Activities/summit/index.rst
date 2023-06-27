@@ -52,6 +52,13 @@ Bare Metal Machines
 * ATMCS/ATPneumatics cRIO (Tiago Ribeiro): 139.229.170.47
 * AT PMD (Eric Coughlin): at-keener.cp.lsst.org
 * M2 Control (Te-Wei Tsai): m2-control.cp.lsst.org
+* ESS:1 Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
+* ESS:201 Controller RPi (Wouter van Reeven): auxtel-ess01.cp.lsst.org
+* ESS:204 Controller RPi (Wouter van Reeven): auxtel-ess02.cp.lsst.org
+* ESS:203 Controller RPi (Wouter van Reeven): auxtel-lightning01.cp.lsst.org
+* ESS:101 Controller RPi (Wouter van Reeven): mtdome-ess01.cp.lsst.org
+* ESS:102 Controller RPi (Wouter van Reeven): mtdome-ess02.cp.lsst.org
+* ESS:103 Controller RPi (Wouter van Reeven): mtdome-ess03.cp.lsst.org
 
 .. _Deployment-Activities-Summit-Odd-State:
 
