@@ -10,7 +10,7 @@ If changes are necessary to these scripts from work described in the previous se
 
 .. note::
 
-  The deployment is only concerned with CSCs and systems (:ref:`Summit <Deployment-Activities-Summit-Non-Production>`, :ref:`TTS <Deployment-Activities-TTS-Non-Production>`) in the production domain (domainId = 0).
+  The deployment is only concerned with CSCs and systems (:ref:`Summit <Deployment-Activities-Summit-Non-Production>`, :ref:`TTS <Deployment-Activities-TTS-Non-Production>`, :ref:`BTS <Deployment-Activities-BTS-Non-Production>`) in the production domain (domainId = 0).
   All other domains are left alone.
 
 .. attention::
@@ -39,8 +39,7 @@ If changes are necessary to these scripts from work described in the previous se
 
 #. With all the systems OFFLINE, you can log out of your Nubaldo instance as we will clean them up soon.
 #. Once all systems are in OFFLINE, still running CSCs/systems and OSPL daemons need to be cleaned up.
-    #. Get number of currently running daemons/CSCs still in OFFLINE from main OSPL daemon: (:ref:`Summit <Deployment-Activities-Summit-Federation-Check>`, :ref:`TTS <Deployment-Activities-TTS-Federation-Check>`, :ref:`BTS <Deployment-Activities-BTS-Federation-Check>`)
-        * *docker exec ospl-daemon grep "federations" durability.log*
+    #. Get number of currently running daemons from main OSPL daemon: (:ref:`Summit <Deployment-Activities-Summit-Federation-Check>`, :ref:`TTS <Deployment-Activities-TTS-Federation-Check>`, :ref:`BTS <Deployment-Activities-BTS-Federation-Check>`)
         * You must give the daemon some time (30 seconds to 2 minutes) before getting worried that the number isn't going down once you start shutting down daemons.
         * You can check this after every shutdown or just periodically.
     #. Cleanup CSCs and Daemons Camera machines (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
@@ -53,18 +52,21 @@ If changes are necessary to these scripts from work described in the previous se
         * Below uses scripts in this repo: https://github.com/lsst-ts/k8s-admin.
         * Execute the following (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`):
             *./cleanup_all -d*
-            * The *-d* is important as that cleans up the OSPL daemons too.
-        * If the script fails, you can use Argo CD to delete the **job/deployment/daemonset** associated with each application you wish to stop. Be sure to delete the job/deployment/daemonset box not the application itself. Note that auxtel and the other "app of apps" meta applications have no jobs; you have to deal with each application individually.
-        * Execute the following (Summit (pending k8s deployment), :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`): *./cleanup_love*
+
+                * The *-d* is important as that cleans up the OSPL daemons too.
+
+                * If the script fails, you can use Argo CD to delete the **job/deployment/daemonset** associated with each application you wish to stop. Be sure to delete the job/deployment/daemonset box not the application itself. Note that auxtel and the other "app of apps" meta applications have no jobs; you have to deal with each application individually.
+        * Execute the following (Summit (pending k8s deployment), :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`):
+	    *./cleanup_love*
     #. Cleanup Nublado namespaces (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`).
-        * Below uses a script in this repo: https://github.com/lsst-ts/k8s-admin.
-        * *./cleanup_nublado*
+        * The script is located in this repo: https://github.com/lsst-ts/k8s-admin.
+        *./cleanup_nublado*
     #. Check to ensure all daemons have disconnected.
         * If the reported number is not 0, you will need to investigate further to find the source of the rogue process.
     #. Shutdown and Cleanup Main Daemon (:ref:`Summit <Deployment-Activities-Summit-Main-Daemon-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Main-Daemon-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Main-Daemon-Shutdown>`).
 #. With everything shutdown, the configurations need to be updated before deployment starts.
     * Ensure SQuaRE has approved the ``cachemachine`` PR and then merge the PR.
-    * Rebase Argo CD branch to single commit, create a PR and merge PR.
+    * Ensure Argo CD branch contains all the necessary updates, then create a PR and merge it.
     * All other configuration repositories should have the necessary commits already on branches and pushed to GitHub.
     * Update configuration repositories on bare metal machine deployments (:ref:`Summit <Deployment-Activities-Summit-Update-Configuration>`, :ref:`TTS <Deployment-Activities-TTS-Update-Configuration>`, :ref:`BTS <Deployment-Activities-BTS-Update-Configuration>`).
         * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
