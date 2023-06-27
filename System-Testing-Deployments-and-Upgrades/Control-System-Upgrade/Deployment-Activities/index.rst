@@ -108,7 +108,7 @@ If changes are necessary to these scripts from work described in the previous se
         * Go back to where your running ``sync_apps.py`` script is and type ``go`` and enter to proceed with syncing the rest of the apps.
         * The rest of the apps will be synced automatically so no further intervention is necessary.
     #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
-        * This is done by us for a system restart, but is handled by the Camera team for a Cycle upgrade.
+        * This is done by the deployment team for a system restart, but is handled by the Camera team for a Cycle upgrade.
     #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>`, :ref:`TTS <Deployment-Activities-TTS-TandS-BM-Startup>`, :ref:`BTS <Deployment-Activities-BTS-TandS-BM-Startup>`).
 #. Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into STANDBY/OFFLINE. Daemons can also be monitored for connection using the methods listed above.
     * Use the site specific resources to help ascertain this condition.

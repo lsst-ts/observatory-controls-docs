@@ -252,6 +252,10 @@ Required configurations will be given for each script execution.
 
     mtm1m3: Default
 * ``maintel/enable_comcam.py``
+
+  .. code:: bash
+
+    cccamera: Normal
 * ``set_summary_state.py``
 
   .. code:: bash
