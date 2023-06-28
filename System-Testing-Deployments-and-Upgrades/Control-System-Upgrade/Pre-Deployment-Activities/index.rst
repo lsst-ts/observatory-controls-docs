@@ -4,6 +4,7 @@ Preparing for Deployment
 There are a few things that must be done before the deployment happens and while the builds of deployable artifacts are ongoing.
 
 #. Create a Jira ticket for the cycle build configuration work.
+
    * The ``create_configuration_tickets`` script in the vanward_ package will create all the necessary Jira tickets.
    * Link these tickets into the appropriate cycle build Confluence page (see :ref:`Upgrading the Interface (XML) <Control-System-Upgrade-Getting-Ready-Upgrading-Interface-XML>` for details).
 #. Prepare the configuration for the cycle build in the git repositories listed in :ref:`Control-System-Upgrade-Pre-Deployment-Activities-Repositories` using the Jira tickets above as the appropriate branches.

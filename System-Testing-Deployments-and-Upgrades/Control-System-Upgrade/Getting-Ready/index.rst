@@ -16,12 +16,11 @@ Upgrading the Interface (XML)
     * This is identified by label of: ``ts_xml X.Y``.
     * Use the ``release_tickets`` script in the vanward_ package.
 #. Ensure that all work merged in the `ts_xml <https://github.com/lsst-ts/ts_xml.git>`_ repository has a ticket associated with it in the release.
-    * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/procedures/reporting-xml-release-work.html>`_ 
-procedure.
+    * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/procedures/reporting-xml-release-work.html>`_ procedure.
     * Use the ``find_merges_without_release_tickets`` script in the vanward_ package.
 #. Send a reminder about the work closure deadline at least one day prior AND the day of the closure.
 #. Ensure that all work tickets are closed when the deadline passes (use Step 4 script).
-#. Work with the Telescope and Site build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
+#. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
 
 Upgrading SAL
 =============
@@ -57,7 +56,7 @@ While below is an example, use your best judgment to set dates and make sure the
 * Integration testing from Day 15 to Day 17.
 * Summit deployment on Day 20.
 
-From the time that the work closes to the end of building the deployment artifact is about one week.
+From the time that the work closes to the end of building the deployment artifacts is about one week.
 The one week time-frame allows for issues to be discovered and resolved.
 After the initial TTS deployment the CSC developers have about 2.5 days to react to changes in the interface.
 If possible, try to inform folks of those changes ahead of time, but this is not always possible.
