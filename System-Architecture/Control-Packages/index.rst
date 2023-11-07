@@ -14,7 +14,7 @@ It also provides low-level access to :ref:`CSCs <Control-Packages-General-CSC-Ov
 Another way to think about these packages is that they perform coordinated actions of multiple CSCs from a single command.
 Examples of use-cases where control packages are useful is for things like slewing the telescope, shutting down for the night, or performing focus offsets.
 More detailed information is found with the documentation that is built with the `ts_observatory_control package <https://ts-observatory-control.lsst.io>`__.
-The source code for the packages are found in the `ts_observatory_control <https://github.com/lsst-ts/ts_observatory_control/tree/master>`__ repository on github.
+The source code for the packages are found in the `ts_observatory_control <https://github.com/lsst-ts/ts_observatory_control>`__ repository on github.
 
 The packages can be called from notebooks, and/or used by CSCs or scripts executed by the scriptQueue.
 As a result of the continuing development of the functionality of these packages, they must have integration and unit tests written in order to be considered safe for official observatory use.
