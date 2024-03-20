@@ -16,7 +16,7 @@ Upgrading the Interface (XML)
     * This is identified by label of: ``ts_xml X.Y``.
     * Use the ``release_tickets`` script in the vanward_ package.
 #. Ensure that all work merged in the `ts_xml <https://github.com/lsst-ts/ts_xml.git>`_ repository has a ticket associated with it in the release.
-    * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/procedures/reporting-xml-release-work.html>`_ procedure.
+    * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/development-guidelines/xml/reporting-xml-release-work.html#reporting-xml-release-work>`_ procedure.
     * Use the ``find_merges_without_release_tickets`` script in the vanward_ package.
 #. Send a reminder about the work closure deadline at least one day prior AND the day of the closure.
 #. Ensure that all work tickets are closed when the deadline passes (use Step 4 script).
