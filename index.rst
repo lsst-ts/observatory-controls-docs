@@ -109,6 +109,24 @@ Due to the large size and complexity of assembling a single LSST image, a visual
 
 .. _Obs-Ops-Operational-Tutorials:
 
+System Development Guidelines and Policies
+==================================================================
+
+The CSC interface definitions are data objects and they are stored in the `ts_xml <https://github.com/lsst-ts/ts_xml>`_ repository.
+This is where CSCs and their APIs are defined.
+The Service Abstraction Layer (SAL) is an utility that consumes the XML to produce language specific libraries that enable communication over the DDS network.
+The procedures for maintaining these definitions are defined in the `ts_xml <https://github.com/lsst-ts/ts_xml>`_ repository itself.
+As each CSC is developed under the guidelines of the specific team doing the work, there is no single resource to look at to define CSC development.
+However, there are certain system level policies that govern the development processes.
+
+System-Level Policies
+---------------------
+:ref:`XML_Units`
+
+Team Specific Development Guidelines
+------------------------------------
+`TSSW Developers Guide <https://tssw-developer.lsst.io>`_.
+
 System Testing, Deployments, and Upgrades
 ==================================================================
 
