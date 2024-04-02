@@ -90,7 +90,7 @@ If changes are necessary to these scripts from work described in the previous se
         * Log into the argocd pod by doing the following:
             * *python argocd_login.py /path/to/auth_file*
             * The *auth_file* must contain the appropriate site username/password on separate lines.
-        * *python sync_apps.py -p \-\-no-sync=love*
+        * *python sync_apps.py -p
         * csc-cluster-config, ospl-config and ospl-daemon apps will be synced automatically.
         * Once the ospl-daemon app is synced, the script will pause.
         * Check the logs on Argo CD UI to see if daemons are ready.

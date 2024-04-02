@@ -146,8 +146,7 @@ Startup Minimal Kubernetes System
 This replaces most of step 6.3 in the main document.
 Follow the first three bullet points in that step and then continue the process with the next steps.
 
-* *python sync_apps.py -p --no-sync=love* 
-* NOTE: the --no-sync=love flag will prevent an error regarding resources not existing.
+* *python sync_apps.py -p 
 * csc-cluster-config and ospl-config apps will be synced automatically.
 * Once the ospl-daemon app is synced, the script will pause.
 * Check the logs on Argo CD UI to see if daemons are ready.
