@@ -311,5 +311,6 @@ These are:
       - [ESS:202, ENABLED]
       - [ESS:203, ENABLED] 
       - [ESS:204, ENABLED]
+      - [ESS:205, ENABLED]
       - [ESS:301, ENABLED]
       - [Watcher, ENABLED]
