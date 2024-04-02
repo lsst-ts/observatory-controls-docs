@@ -97,7 +97,9 @@ Handle tel-hw1:
 Interacting with Kubernetes
 ---------------------------
 
-Commands can be executed from your own machine with *kubectl* and the proper kubeconfig file.
+Commands can be executed from your own machine with *kubectl* and the manke.yaml kubeconfig file.
+
+Download from https://rancher.ls.lsst.org/dashboard
 
 .. _Deployment-Activities-BTS-Main-Daemon-Shutdown:
 
@@ -118,7 +120,7 @@ Update Configuration
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
 * Uses the ``docker-compose-admin/base-teststand/update_repo`` script, which is linked into the dco user home directory.
 * Repos to update:
-    * ``docker-compose-ops`` (love01, tel-hw1)
+    * ``docker-compose-ops`` (azar01, love01, tel-hw1)
     * ``LOVE-integration-tools`` (love01)
     * ``ts_ddsconfig`` (love01, tel-hw1) NOTE: Only necessary if there are updates.
 * Become the dco user: *sudo -iu dco*

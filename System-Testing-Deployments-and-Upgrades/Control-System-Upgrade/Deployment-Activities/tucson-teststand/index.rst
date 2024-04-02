@@ -106,7 +106,9 @@ Log into the machines listed in that section then stop and remove all running co
 Interacting with Kubernetes
 ---------------------------
 
-Commands can be executed from your own machine with *kubectl* and the proper kubeconfig file.
+Commands can be executed from your own machine with *kubectl* and the pillan.yaml kubeconfig file.
+
+Download from https://rancher.tu.lsst.org/dashboard
 
 .. _Deployment-Activities-TTS-Main-Daemon-Shutdown:
 
