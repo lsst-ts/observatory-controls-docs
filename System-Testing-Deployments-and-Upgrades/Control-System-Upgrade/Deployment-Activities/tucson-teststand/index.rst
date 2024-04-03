@@ -106,7 +106,9 @@ Log into the machines listed in that section then stop and remove all running co
 Interacting with Kubernetes
 ---------------------------
 
-Commands can be executed from your own machine with *kubectl* and the proper kubeconfig file.
+Commands can be executed from your own machine with *kubectl* and the pillan.yaml kubeconfig file.
+
+Download from https://rancher.tu.lsst.org/dashboard
 
 .. _Deployment-Activities-TTS-Main-Daemon-Shutdown:
 
@@ -281,6 +283,7 @@ Required configurations will be given for each script execution.
       - [ESS:202, ENABLED] 
       - [ESS:203, ENABLED]
       - [ESS:204, ENABLED]
+      - [ESS:205, ENABLED]
       - [ESS:301, ENABLED]
 * ``set_summary_state.py``
 

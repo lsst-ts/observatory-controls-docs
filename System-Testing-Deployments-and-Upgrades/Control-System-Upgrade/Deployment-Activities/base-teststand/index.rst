@@ -97,7 +97,9 @@ Handle tel-hw1:
 Interacting with Kubernetes
 ---------------------------
 
-Commands can be executed from your own machine with *kubectl* and the proper kubeconfig file.
+Commands can be executed from your own machine with *kubectl* and the manke.yaml kubeconfig file.
+
+Download from https://rancher.ls.lsst.org/dashboard
 
 .. _Deployment-Activities-BTS-Main-Daemon-Shutdown:
 
@@ -118,7 +120,7 @@ Update Configuration
 * Gather the branch for the configurations and version number for ``ts_ddsconfig``.
 * Uses the ``docker-compose-admin/base-teststand/update_repo`` script, which is linked into the dco user home directory.
 * Repos to update:
-    * ``docker-compose-ops`` (love01, tel-hw1)
+    * ``docker-compose-ops`` (azar01, love01, tel-hw1)
     * ``LOVE-integration-tools`` (love01)
     * ``ts_ddsconfig`` (love01, tel-hw1) NOTE: Only necessary if there are updates.
 * Become the dco user: *sudo -iu dco*
@@ -144,8 +146,7 @@ Startup Minimal Kubernetes System
 This replaces most of step 6.3 in the main document.
 Follow the first three bullet points in that step and then continue the process with the next steps.
 
-* *python sync_apps.py -p --no-sync=love* 
-* NOTE: the --no-sync=love flag will prevent an error regarding resources not existing.
+* *python sync_apps.py -p 
 * csc-cluster-config and ospl-config apps will be synced automatically.
 * Once the ospl-daemon app is synced, the script will pause.
 * Check the logs on Argo CD UI to see if daemons are ready.
@@ -238,5 +239,6 @@ Required configurations will be given for each script execution.
       - [ESS:202, ENABLED]
       - [ESS:203, ENABLED]
       - [ESS:204, ENABLED]
+      - [ESS:205, ENABLED]
       - [ESS:301, ENABLED]
       - [Watcher, ENABLED]

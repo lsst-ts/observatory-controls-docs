@@ -165,7 +165,9 @@ M2 Control:
 Interacting with Kubernetes
 ---------------------------
 
-Commands can be executed from your own machine with *kubectl* and the proper kubeconfig file.
+Commands can be executed from your own machine with *kubectl* and the yagan.yaml kubeconfig file.
+
+Download from https://rancher.cp.lsst.org/dashboard
 
 .. _Deployment-Activities-Summit-Main-Daemon-Shutdown:
 
@@ -309,5 +311,6 @@ These are:
       - [ESS:202, ENABLED]
       - [ESS:203, ENABLED] 
       - [ESS:204, ENABLED]
+      - [ESS:205, ENABLED]
       - [ESS:301, ENABLED]
       - [Watcher, ENABLED]
