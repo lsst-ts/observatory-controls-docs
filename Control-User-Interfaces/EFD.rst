@@ -13,7 +13,7 @@ Engineering Facilities Database
 The Engineering Facilities Database (EFD) records all interactions between components that occur over the middleware.
 The database is useful for numerous activities, including: troubleshooting of software or hardware related issues, optimization of observing parameters (e.g. focus as a function of temperature), and recovering useful data that happened during an observation that may not be in the header.
 
-.. Brief explanation on how data flows from the summit to NCSA (with the idea of leading into the next part which should guide the user on when to use which instance, summit, base, ncsa).
+.. Brief explanation on how data flows from the summit to USDF (with the idea of leading into the next part which should guide the user on when to use which instance, summit, base, usdf).
 
 The primary location of the EFD is on the summit, however a separate instance also lives at the base facility in La Serena.
 Under normal conditions, the data is then synced to the US data facility and available via the science platform in near real time.
@@ -41,7 +41,6 @@ Chronograf
 
   To login to Chronograf, you need to be a member of the GitHub lsst-sqre organization. If you are not, please request access on the ``#com-square`` LSSTC Slack channel.
   You will also need access to the appropriate VPN to log in.
-  For information on the US data facility (NCSA) VPN see `instructions here <https://wiki.ncsa.illinois.edu/display/cybersec/Virtual+Private+Network+(VPN)+Service#VirtualPrivateNetwork(VPN)Service-UsingtheCiscoAnyConnectVPNClient(Required)>`_.
   For information about connecting to the Chilean VPN, please ask on the ``#rubinobs-it-chile`` LSSTC Slack channel.
 
 .. figure:: /Control-User-Interfaces/weather.png
@@ -75,7 +74,9 @@ Location               VPN    efd_client alias  Audience                        
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
 Summit (Cerro Pachón)  Chile  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://chronograf-summit-efd.lsst.codes>`__           Currently unavailable
 Base (La Serena)       Chile  base_efd          Temporary copy of the summit EFD for use by Commissioning and V&V.        `chronograf <https://chronograf-base-efd.lsst.codes>`__             Temporary
-Data Facility (NCSA)   NCSA   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://lsst-chronograf-int-efd.ncsa.illinois.edu>`__  In development.  Alias will change.
+Data Facility (USDF)   None   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://usdf-rsp.slac.stanford.edu/chronograf`__
+
+>`__  In development.  Alias will change.
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
 
 ..  Any Figures should be stored in the same directory as this file.
