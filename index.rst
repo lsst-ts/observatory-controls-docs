@@ -72,6 +72,26 @@ Users can interface with them either using the :ref:`LOVE interface <Control-Sys
 
     Control-User-Interfaces/writing-sal-scripts.rst
 
+.. _Control-System-User-Interfaces-BLOCK-Execution:
+
+Scheduler-driven JSON BLOCK Execution
+-------------------------------------
+
+Users also have the option of executing JSON BLOCKS, which are collections of SAL Scripts and their configurations via the Scheduler.
+BLOCKS are loaded into the Scheduler during the CSC enable stage, validated for JSON format, and then made availabe for execution by the Scheduler.
+The user then commands the Scheduler to add the JSON BLOCK to the `ScriptQueue`_ via the addBLOCK command. 
+
+The BLOCK repositories are organized by Scheduler, and can be found in the `ts config ocs`_ repository.
+
+.. _ts config ocs: https://github.com/lsst-ts/ts_config_ocs
+
+.. toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :glob:
+
+    Control-User-Interfaces/writing-json-block-files.rst
+
 .. _Control-System-User-Interfaces-Watcher:
 
 Watcher

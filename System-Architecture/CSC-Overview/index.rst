@@ -128,7 +128,7 @@ CSC Configuration
 ^^^^^^^^^^^^^^^^^
 
 As required, CSCs have a configuration system for handling various settings and options.
-For salobj based CSCs, the configuration system uses a YAML based schema inside of git configuration repositories that are divided according to the telescope that are used on (i.e. main telescope MT, auxiliary telescope AT). Configuration details can be found in `tstn-017 <tstn-017.lsst.io>`__. Details on configuration specifics for individual CSCs can be found in their respective user manuals.
+For salobj based CSCs, the configuration system uses a YAML based schema inside of git configuration repositories that are divided according to the telescope that are used on (i.e. main telescope MT, auxiliary telescope AT). Configuration details can be found in `tstn-017 <https://tstn-017.lsst.io>`__. Details on configuration specifics for individual CSCs can be found in their respective user manuals.
 Changing a configuration of a CSC requires that the CSC is in the standby state.
 The ``start`` command, which transitions a CSC from the ``standby`` to ``diabled`` state, contains a ``settingsToApply`` parameter which expects a string of the label of a configuration.
 In order to find this label, an event ``settingVersions`` is published when the CSC transitions to the standby state.
@@ -140,9 +140,9 @@ CSC Control Interface
 ^^^^^^^^^^^^^^^^^^^^^
 
 The control interface for the telescope components is a modified Model-View-Controller pattern where the model handles the state machine, the view handles displaying of information and the controller implements handling the functionality of the component.
-`Salobj <ts-salobj.lsst.io>`__, a python wrapper around SAL and DDS, implements both the state machine handling and SAL DDS handling for a component.
+`Salobj <https://ts-salobj.lsst.io>`__, a python wrapper around SAL and DDS, implements both the state machine handling and SAL DDS handling for a component.
 As such, the actual separation between model and controller is abstracted into the notion of a CSC.
-This is why `Salobj <ts-salobj.lsst.io>`__ CSCs look slightly different from a surface level overview compared to other CSCs.
+This is why `Salobj <https://ts-salobj.lsst.io>`__ CSCs look slightly different from a surface level overview compared to other CSCs.
 
 The core communication methodology for the middleware architecture is called publish-subscribe.
 The idea is that a component publishes responses and a listener will subscribe to the component.
