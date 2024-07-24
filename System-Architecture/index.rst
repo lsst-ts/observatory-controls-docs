@@ -26,6 +26,7 @@ These are generally grouped according to their association with a specific teles
 
     Control-Packages/*
     CSC-Overview/*
+    Supporting-Infrastructure/*
 
 There exist multiple components for which documentation is not yet available including: the EFD, configuration management, deployment, and the scriptQueue.
 
