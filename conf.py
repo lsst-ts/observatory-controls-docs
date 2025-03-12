@@ -116,6 +116,8 @@ linkcheck_ignore = [
     r"https://foreman.cp.lsst.org",
     r"https://foreman.tu.lsst.org",
     r"https://foreman.ls.lsst.org",
+    r"^https://jira.lsstcorp.org",
+    r"^https://confluence.lsstcorp.org"
 ]
 
 # -- Options for HTML output ----------------------------------------------
