@@ -2,7 +2,7 @@
 
 .. This is the label that can be used as for cross referencing in the given area
 .. Recommended format is "Directory Name"-"Title Name"  -- Spaces should be replaced by hypens
-.. _EFD:
+.. _Control-User-Interfaces-EFD:
 
 ###############################
 Engineering Facilities Database

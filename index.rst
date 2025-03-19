@@ -118,7 +118,7 @@ However, if a more visual user-friendly interface is required, users should cons
     :titlesonly:
     :glob:
 
-    Control-User-Interfaces/EFD.rst
+    Control-User-Interfaces/efd
 
 .. _Control-System-User-Interfaces-LSST-Camera-Image-Visualization:
 
@@ -127,7 +127,7 @@ LSST Camera Image Visualization
 Due to the large size and complexity of assembling a single LSST image, a visualization tool is being developed to enable observers to view and interact with them as they roll off the telescope. This tool is still under heavy development.
 
 
-.. _Obs-Ops-Operational-Tutorials:
+.. _System-Development-Guidelines-Polices:
 
 System Development Guidelines and Policies
 ==================================================================
@@ -147,7 +147,7 @@ System-Level Policies
     :glob:
     :titlesonly:
 
-    Control-User-Interfaces/XML_Units
+    Control-User-Interfaces/xml-units
 
 Team Specific Development Guidelines
 ------------------------------------

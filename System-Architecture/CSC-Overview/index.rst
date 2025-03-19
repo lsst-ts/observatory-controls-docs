@@ -183,7 +183,7 @@ It is published at a set rate.
 
 The full process for defining CSCs and all the topics is described in the `ts_xml README <https://github.com/lsst-ts/ts_xml/blob/main/README.md>`_.
 However, of particular interest is the policy regarding defining units in the XML definition files.
-For that, please refer to the :ref:`XML_Units` document.
+For that, please refer to the :ref:`XML-Units` document.
 
 Sources
 =======
