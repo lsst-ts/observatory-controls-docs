@@ -1,5 +1,5 @@
 [project]
-title = "Rubin Observatory Controls Documentation"
+title = "Controls Documentation"
 copyright = "2020-2025 Association of Universities for Research in Astronomy, Inc. (AURA)"
 version = "Latest"
 base_url = "https://obs-controls.lsst.io"

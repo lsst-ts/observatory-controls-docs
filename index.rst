@@ -141,7 +141,13 @@ However, there are certain system level policies that govern the development pro
 
 System-Level Policies
 ---------------------
-:ref:`XML_Units`
+
+.. toctree::
+    :maxdepth: 2
+    :glob:
+    :titlesonly:
+
+    Control-User-Interfaces/XML_Units
 
 Team Specific Development Guidelines
 ------------------------------------
