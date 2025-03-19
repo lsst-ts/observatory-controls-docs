@@ -32,14 +32,16 @@ Due to the large numbers of CSCs, they're generally divided into three categorie
 
 A tabulated list all the CSCs along with their developer, product owner, documentation and repository location can be found in the  `CSC Table <https://ts-xml.lsst.io/#csc-table>`__.
 
-CSCs are written primarily in Python, but also in C++, Java, and LabVIEW.
-Communication between components uses the Data Distribution Service (DDS), a standardized message protocol.
+CSCs are written primarily in Python, but also in C++ and Java.
+Communication between components uses the Kafka messaging protocol.
 The commands, events, and telemetry associated with each CSC are found under the CSC name in the `SAL Interfaces (ts_xml) <https://ts-xml.lsst.io/sal_interfaces/index.html>`__.
 
-In order to facilitate flexible DDS communication between various components written in different languages, a higher-level interface, called the Service Abstraction Layer (SAL) was created to
-provide a solution.
-It abstracts the software communication of the hardware component written in a particular language such as C++, LabVIEW and Java by using DDS messages sent over the network.
-This also allows for components to be commanded by other languages(that support the DDS protocol) regardless of the source's language.
+Each programming language has its own mechanism for generating the Avro schemas used for the Kafka messaging protocol.
+C++ code uses the Service Abstraction Layer (SAL) to generate libraries containing the schemas needed for communication to theri consituant components.
+Java code uses a separate utility to generate the Avro schemas.
+This utility is maintained by the camera software team.
+Python (Salobj) code consumes the XML interface definition directly and converts it to the schemas on demand.
+
 
 Most CSCs are utilized via higher-level control packages that handle the sequencing of multiple components, which are discussed in the :ref:`Control Packages section<System-Architecture-Control-Packages>`.
 
@@ -48,11 +50,8 @@ The following sections describe the control architecture and interfaces of the o
 Description of CSC Control Architecture
 =======================================
 
-The :ref:`control architecture for the observatory <Control-System-Architecture>` is a decentralized system of individual software components that use a DDS message based framework to communicate with one another.
+The :ref:`control architecture for the observatory <Control-System-Architecture>` is a decentralized system of individual software components that use the Kafka message based framework to communicate with one another.
 Not only do CSCs receive commands from a user or a :ref:`control package <System-Architecture-Control-Packages>`, but CSCs can also subscribe to other CSCs in order to control or receive pertinent information.
-Internally, a software development kit (SDK) has been written to provide an abstraction layer over the raw DDS format.
-The SDK is called the Service Abstraction Layer(SAL) which provides functionality for generating the libraries necessary for creating CSCs.
-SAL uses Adlink's OpenSplice DDS library as the core DDS implementer and then creates a high level abstraction for creating and reading DDS messages.
 
 
 State Machine Description
@@ -140,27 +139,28 @@ CSC Control Interface
 ^^^^^^^^^^^^^^^^^^^^^
 
 The control interface for the telescope components is a modified Model-View-Controller pattern where the model handles the state machine, the view handles displaying of information and the controller implements handling the functionality of the component.
-`Salobj <https://ts-salobj.lsst.io>`__, a python wrapper around SAL and DDS, implements both the state machine handling and SAL DDS handling for a component.
+`Salobj <https://ts-salobj.lsst.io>`__, a python wrapper around Kafka, implements both the state machine handling and Kafka handling for a component.
 As such, the actual separation between model and controller is abstracted into the notion of a CSC.
 This is why `Salobj <https://ts-salobj.lsst.io>`__ CSCs look slightly different from a surface level overview compared to other CSCs.
 
 The core communication methodology for the middleware architecture is called publish-subscribe.
 The idea is that a component publishes responses and a listener will subscribe to the component.
 The listener is also called the commandee because it can send commands to the component.
-The DDS protocol uses a one to many publish/subscribe model where one component can publish while many components can subscribe.
+The Kafka uses a one to many publish/subscribe model where one component can publish while many components can subscribe.
 
 Components can subscribe to commands as well as publish events and telemetry.
 Each of these things are considered a topic and each topic handles one particular function.
 A topic can contain items which describe a particular attribute of a topic.
 A quick note on the last statement, SAL requires at least one item per topic, but that item is standardized by the Telescope and Site Software team and should not be relevant to an operator.
-DDS is a minimum-service protocol which means that there is a quality of service (QoS) attribute which determines the effort the protocol will go through to send a message.
+Kafka has numerous settings to adjust the delivery level of service, but the main one that the Kafka brokers use is the producer acknowledgement.
+The system is currently configured to wait for an acknowledgement from the lead broker for the given topic that it has received the message.
 
 Each of the command, event and telemetry topics are sent across the network when the CSC either issues a command or is receiving an acknowledgment or topic.
 Generically, topics are created and have their attributes set as needed during the life cycle of a CSC.
 To an operator, the items attribute will be extremely relevant, as this will divulge the actual data about a topic.
 
 To create a command, a command topic object is generated and the parameters of the command become items inside of the topic.
-The items are then set inside of the topic and published to the network by the DDS system.
+The items are then set inside of the topic and published to the Kafka brokers.
 When issuing a command, the topic is sent and the controller of the CSC handles the command and then returns an acknowledgement of a command received.
 The next step is for the CSC to perform the command to send an in-progress indication.
 When the CSC is done performing the command successfully, it will publish that the command is done.

@@ -69,7 +69,7 @@ The first step in interacting with the system is to setup the SalObj
 library and the control classes.
 
 This is done by creating a ``salobj.Domain``, an object to handle the
-DDS communication and later passing it to the control classes.
+Kafka communication and later passing it to the control classes.
 
 .. code:: python
 
@@ -98,8 +98,8 @@ provided by the control classes.
 
     latiss.set_rem_loglevel(logging.ERROR)
 
-Wait for salobj to finish setup DDS communication.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Wait for salobj to finish setup Kafka communication.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This is a background task that we need to ``await`` before we can
 communicate with the components.
