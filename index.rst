@@ -17,7 +17,7 @@ It contains all work required to design, code, test and integrate, in the lab an
 Control System Architecture
 ===========================
 
-The Rubin control system is based on a reactive data-driven actor-based architecture that uses a multi cast Data Distribution Service (DDS) messaging protocol middleware.
+The Rubin control system is based on a reactive data-driven actor-based architecture that uses `Kafka <https://kafka.apache.org/>`_ as the messaging protocol middleware.
 The system consists of numerous individual components, called Controllable SAL Components (CSCs), which are generally grouped together and controlled via a higher-level control package which handles the sequencing and simplifies interactions for higher-level use-cases (e.g. slewing the telescope).
 This section and the links there-in detail the architecture of the control system, the different control packages, and link to the documentation to the individual CSCs.
 
@@ -118,7 +118,7 @@ However, if a more visual user-friendly interface is required, users should cons
     :titlesonly:
     :glob:
 
-    Control-User-Interfaces/EFD.rst
+    Control-User-Interfaces/efd
 
 .. _Control-System-User-Interfaces-LSST-Camera-Image-Visualization:
 
@@ -127,21 +127,29 @@ LSST Camera Image Visualization
 Due to the large size and complexity of assembling a single LSST image, a visualization tool is being developed to enable observers to view and interact with them as they roll off the telescope. This tool is still under heavy development.
 
 
-.. _Obs-Ops-Operational-Tutorials:
+.. _System-Development-Guidelines-Polices:
 
 System Development Guidelines and Policies
 ==================================================================
 
 The CSC interface definitions are data objects and they are stored in the `ts_xml <https://github.com/lsst-ts/ts_xml>`_ repository.
 This is where CSCs and their APIs are defined.
-The Service Abstraction Layer (SAL) is an utility that consumes the XML to produce language specific libraries that enable communication over the DDS network.
+The Service Abstraction Layer (SAL) is an utility that consumes the XML to produce language specific libraries for C++ code that enable communication to the Kafka brokers.
+SalObj (Python) based CSCs consume the XML directly.
+Java based CSCs convert the XML using a separate utility.
 The procedures for maintaining these definitions are defined in the `ts_xml <https://github.com/lsst-ts/ts_xml>`_ repository itself.
 As each CSC is developed under the guidelines of the specific team doing the work, there is no single resource to look at to define CSC development.
 However, there are certain system level policies that govern the development processes.
 
 System-Level Policies
 ---------------------
-:ref:`XML_Units`
+
+.. toctree::
+    :maxdepth: 2
+    :glob:
+    :titlesonly:
+
+    Control-User-Interfaces/xml-units
 
 Team Specific Development Guidelines
 ------------------------------------

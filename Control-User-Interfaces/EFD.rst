@@ -2,7 +2,7 @@
 
 .. This is the label that can be used as for cross referencing in the given area
 .. Recommended format is "Directory Name"-"Title Name"  -- Spaces should be replaced by hypens
-.. _EFD:
+.. _Control-User-Interfaces-EFD:
 
 ###############################
 Engineering Facilities Database
@@ -72,11 +72,8 @@ The entry titled "efd_client alias" is the string to pass to the ``EfdClient`` c
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
 Location               VPN    efd_client alias  Audience                                                                  Chronograf link                                                     Notes
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
-Summit (Cerro Pachón)  Chile  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://chronograf-summit-efd.lsst.codes>`__           Currently unavailable
-Base (La Serena)       Chile  base_efd          Temporary copy of the summit EFD for use by Commissioning and V&V.        `chronograf <https://chronograf-base-efd.lsst.codes>`__             Temporary
-Data Facility (USDF)   None   ldf_int_efd       Anyone on project interacting with the EFD through the science platform.  `chronograf <https://usdf-rsp.slac.stanford.edu/chronograf`__
-
->`__  In development.  Alias will change.
+Summit (Cerro Pachón)  Chile  summit_efd        Operations scripts and software. Last resort backup.                      `chronograf <https://summit-lsp.lsst.codes/chronograf>`__           
+Data Facility (USDF)   None   usdf_efd          Anyone on project interacting with the EFD through the science platform.  `chronograf <https://usdf-rsp.slac.stanford.edu/chronograf>`__
 =====================  =====  ================  ========================================================================  ==================================================================  ===================================
 
 ..  Any Figures should be stored in the same directory as this file.

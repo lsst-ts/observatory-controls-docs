@@ -25,7 +25,7 @@ Template
     :titlesonly:
     :glob:
 
-    Template-Folder/*
+    Template-Folder/index
 
 ..    */index
 

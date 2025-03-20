@@ -60,6 +60,7 @@ If changes are necessary to these scripts from work described in the previous se
 	    *./cleanup_love*
     #. Cleanup Nublado namespaces (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`).
         * The script is located in this repo: https://github.com/lsst-ts/k8s-admin.
+
         *./cleanup_nublado*
     #. Check to ensure all daemons have disconnected.
         * If the reported number is not 0, you will need to investigate further to find the source of the rogue process.
@@ -90,7 +91,7 @@ If changes are necessary to these scripts from work described in the previous se
         * Log into the argocd pod by doing the following:
             * *python argocd_login.py /path/to/auth_file*
             * The *auth_file* must contain the appropriate site username/password on separate lines.
-        * *python sync_apps.py -p
+        * *python sync_apps.py -p*
         * csc-cluster-config, ospl-config and ospl-daemon apps will be synced automatically.
         * Once the ospl-daemon app is synced, the script will pause.
         * Check the logs on Argo CD UI to see if daemons are ready.

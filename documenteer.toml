@@ -1,0 +1,47 @@
+[project]
+title = "Controls Documentation"
+copyright = "2020-2025 Association of Universities for Research in Astronomy, Inc. (AURA)"
+version = "Latest"
+base_url = "https://obs-controls.lsst.io"
+github_url = "https://github.com/lsst-ts/observatory-controls-docs"
+
+[sphinx.linkcheck]
+ignore = [
+    "^http://localhost",
+    "^https://jira.lsstcorp.org/browse/DM-24808",
+    "^https://ts-atcamera.lsst.io",
+    "^https://ts-athexapod.lsst.io",
+    "^https://ts-atmcs.lsst.io",
+    "^https://ts-atmonochromato",
+    "^https://ts-atpneumatics.lsst.io",
+    "^https://ts-atptg.lsst.io",
+    "^https://ts-atspectrograph.lsst.io",
+    "^https://ts-electrometer.lsst.io",
+    "^https://ts-standardscripts.lsst.io",
+    "^ls.st",
+    "http://love.tu.lsst.org",
+    "http://love01.cp.lsst.org/*",
+    "http://love1.tu.lsst.org",
+    "http://love01.ls.lsst.org/*",
+    "https://anaconda.org",
+    "https://chronograf-base-efd.lsst.codes",
+    "https://chronograf-summit-efd.lsst.codes",
+    "https://lsst-chronograf-int-efd.ncsa.illinois.edu",
+    "https://rancher.cp.lsst.org",
+    "https://rancher.ls.lsst.org",
+    "https://rancher.tu.lsst.org",
+    "https://summit-lsp.lsst.codes/*",
+    "https://tssw-ci.lsst.org/",
+    "https://base-lsp.lsst.codes/*",
+    "https://tucson-teststand.lsst.codes/*",
+    "https://www.jenkins.io/doc/book/glossary/#agent",
+    "https://www.jenkins.io/doc/book/glossary/#controlle",
+    "https://www.jenkins.io/doc/book/glossary/#pipeline",
+    "https://www.jenkins.io/doc/book/glossary/#project",
+    "http://ccs.lsst.org",
+    "https://foreman.cp.lsst.org",
+    "https://foreman.tu.lsst.org",
+    "https://foreman.ls.lsst.org",
+    "^https://jira.lsstcorp.org",
+    "^https://confluence.lsstcorp.org"
+]

@@ -29,7 +29,7 @@ Prerequisites
 =============
 
 * Requesting authorization happens as part of interacting with the Observatory Control System.
-  Before you start, make sure you have :ref:`announced the component usage <Operational-Tutorials-Annouce-Component-Usage>`.
+  Before you start, make sure you have `announced the component usage <https://obs-ops.lsst.io/Communications/announce-component-usage.html>`_.
 
 * The authorization system may require an observing specialist or other administrator approval (in LOVE).
   Make sure you coordinate with the observing specialists to approve your request beforehand.
