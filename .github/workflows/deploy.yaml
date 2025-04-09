@@ -13,7 +13,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.11
+          python-version: 3.12
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -24,8 +24,10 @@ jobs:
       - name: Build site
         run: make html
 
-      - name: Upload to LSST the Docs
-        env:
-          LTD_USERNAME: ts-ci
-          LTD_PASSWORD: ${{ secrets.LTD_PASSWORD }}
-        run: ltd upload --product obs-controls --gh --dir _build/html
+      - name: Upload documentation
+        uses: lsst-sqre/ltd-upload@v1
+        with:
+          project: "obs-controls"
+          dir: "_build/html"
+          username: ts-ci
+          password: ${{ secrets.LTD_PASSWORD }}

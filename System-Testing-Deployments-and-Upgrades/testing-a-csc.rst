@@ -36,7 +36,7 @@ Prerequisites
 
 - Announcements are to be made in the summit-annouce Slack channel
 - People who participate in testing or infrastructure support/development must be actively monitoring that channel
-- All announcements for all work that may affect the summit DDS network or its infrastructure are required
+- All announcements for all work that may affect the summit control network or its infrastructure are required
 - Access to LOVE is required as well as access to the azar2 node with Docker rights.
 - If the CSC under test already is deployed at the summit, access to ArgoCD is required as well.
 
