@@ -8,65 +8,48 @@ This section contains site specific variations for the summit.
 Resources
 ---------
 
-* LOVE: http://love01.cp.lsst.org
+* LOVE: https://summit-lsp.lsst.codes/love and http://love01.cp.lsst.org
 * Argo CD: https://summit-lsp.lsst.codes/argo-cd
 * Chronograf: https://chronograf-summit-efd.lsst.codes/
 * Nublado: https://summit-lsp.lsst.codes/
-* Rancher: https://rancher.cp.lsst.org (1)
+* Rancher: https://rancher.cp.lsst.org
 * Slack: #summit-announce
-
-(1) Need to get kubeconfig file from here.
-File a `Jira ticket <https://jira.lsstcorp.org/projects/IHS>`_ with Chilean IT for access.
-Once able to log into Rancher:
-
-#. Select the yagan cluster.
-#. Click the Kubeconfig File button in top-right.
-#. Near bottom of dialog, click the download link.
-
-.. _Deployment-Activities-Summit-Non-Production:
-
-Non-Production Systems
-----------------------
-
-The non-production domain systems list is kept here: `Summit deployment <https://confluence.lsstcorp.org/display/LTS/Summit+deployment>`_.
 
 .. _Deployment-Activities-Summit-BareMetal:
 
 Bare Metal Machines
 -------------------
 
-* Main OSPL Daemon: azar1.cp.lsst.org
-* T&S CSCs: azar2.cp.lsst.org
+* T&S CSCs: azar2.cp.lsst.org, azar03.cp.lsst.org
+* Auxtel illumination control machine: auxtel-ill-control.cp.lsst.org
 * LOVE: love01.cp.lsst.org
-* LOVE2: love02.cp.lsst.org
-* Kubernetes: Can be done from own machine, just need kubeconfig file and kubectl installed.
-    * Systems run on the yagan cluster.
-    * Can also use: https://k8slens.dev/.
 * ATCamera (Tony Johnson): auxtel-mcm.cp.lsst.org
 * CCCamera(Tony Johnson): comcam-mcm.cp.lsst.org
-* M1M3 Dev (Petr Kubánek): m1m3-dev.cp.lsst.org
-* M1M3 Test (Petr Kubánek): m1m3-test.cp.lsst.org
-* M1M3 Support cRIO (Petr Kubánek): 139.229.178.182
-* M1M3 VMS cRIO (Petr Kubánek): 139.229.178.183
-* M2 VMS cRIO (Petr Kubánek): 139.229.178.193
-* ATMCS/ATPneumatics cRIO (Tiago Ribeiro): 139.229.170.47
-* AT PMD (Eric Coughlin): at-keener.cp.lsst.org
-* M2 Control (Te-Wei Tsai): m2-control.cp.lsst.org
-* ESS:1 Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
-* ESS:201 Controller RPi (Wouter van Reeven): auxtel-ess01.cp.lsst.org
-* ESS:204 Controller RPi (Wouter van Reeven): auxtel-ess02.cp.lsst.org
-* ESS:203 Controller RPi (Wouter van Reeven): auxtel-lightning01.cp.lsst.org
-* ESS:101 Controller RPi (Wouter van Reeven): mtdome-ess01.cp.lsst.org
-* ESS:102 Controller RPi (Wouter van Reeven): mtdome-ess02.cp.lsst.org
-* ESS:103 Controller RPi (Wouter van Reeven): mtdome-ess03.cp.lsst.org
+* MTCamera (Tony Johnson): lsstcam-mcm.cp.lsst.org
+* M1M3 Support cRIO (Petr Kubánek): m1m3-crio-ss.cp.lsst.org
+* M1M3 VMS cRIO (Petr Kubánek): m1m3-crio-vms.cp.lsst.org
+* M1M3 TS cRIO (Petr Kubánek):m1m3-crio-ts.cp.lsst.org
+* M2 VMS cRIO (Petr Kubánek): m2-crio-vms01.cp.lsst.org
+.. * M2 Control (Te-Wei Tsai): m2-control.cp.lsst.org
+* ESS:1 (Camera Hexapod/Rotator) Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
+* ESS:2 (M2 Hexapod) Controller RPi (Wouter van Reeven): m2hex-ess01.cp.lsst.org
+* ESS:106 (M2 Mirror): m2-ess01.cp.lsst.org
+* ESS:107 (Laser Enclosure): laser-rpi.cp.lsst.org
+* ESS:111 (Camera Inlet Humidity) Controller RPi: camera-ess01.cp.lsst.org
+* ESS:112 (M2 Humidity) Controller RPi: m2-ess02.cp.lsst.org
+* ESS:113 (M1M3 Humidity) Controller RPi: m1m3-ess01.cp.lsst.org
+* ESS:201 (Auxtel Misc) Controller RPi (Wouter van Reeven): auxtel-ess01.cp.lsst.org
+* ESS:203 (Auxtel Lightning) Controller RPi (Wouter van Reeven): auxtel-lightning01.cp.lsst.org
+* ESS:204 (Auxtel Windsonic) Controller RPi (Wouter van Reeven): auxtel-ess02.cp.lsst.org
+* ESS:307 (DIMM): dimm.cp.lsst.org
 
-.. _Deployment-Activities-Summit-Odd-State:
+.. .. _Deployment-Activities-Summit-Odd-State:
 
-Odd State Components
---------------------
+.. Odd State Components
+.. --------------------
 
-ATMCS does not yet respond properly to exitControl and will remain in STANDBY with heartbeats still present.
-ATPneumatics does not always respond to being sent to OFFLINE.  It may remain in STANDBY with heartbeats still present.
+.. ATMCS does not yet respond properly to exitControl and will remain in STANDBY with heartbeats still present.
+.. ATPneumatics does not always respond to being sent to OFFLINE.  It may remain in STANDBY with heartbeats still present.
 
 .. _Deployment-Activities-Summit-LOVE-Summary:
 
@@ -75,109 +58,83 @@ LOVE Summary View
 
 The overall system summary state view is called ``ASummary State View``.
 
-.. _Deployment-Activities-Summit-Federation-Check:
+.. .. _Deployment-Activities-Summit-Federation-Check:
 
-Checking the Number of Federations
-----------------------------------
+.. Checking the Number of Federations
+.. ----------------------------------
 
-This uses a script in https://github.com/lsst-ts/k8s-admin.
-Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
+.. This uses a script in https://github.com/lsst-ts/k8s-admin.
+.. Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 
 .. _Deployment-Activities-Summit-Camera-Shutdown:
 
 Shutdown Camera Services
 ------------------------
 
-* Shutdown Camera OCS Bridges:
-    * ATCamera: *sudo systemctl stop ats-ocs-bridge.service*
-    * CCCamera: *sudo systemctl stop comcam-ocs-bridge.service*
-* Shutdown Camera Daemons (command is the same on both machines)
-    * *sudo systemctl stop opensplice.service*
+* Shutdown ATCamera OCS Bridges:
+    * from ``auxtel-mcm.cp.lsst.org`` run ``sudo systemctl stop ats-ocs-bridge.service``.
+* Shutdown MTCamera OCS Bridges:
+    * from ``lsstcam-mcm.cp.lsst.org`` run ``sudo systemctl stop ocs-bridge.service``.
+
 
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 
 Shutdown LOVE
 -------------
 
-This needs to be done from love01.
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/love01`` directory.
-    * *./shutdown_love*
-    * *./shutdown_daemon*
-
-If LOVE2 is operating, go to love02.
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/love02`` directory.
-    * *./shutdown_love*
-    * *./shutdown_daemon*
+This needs to be done from love01.lsst.org as ``dco`` user.
+* ``sudo -iu dco``
+* Run ``./shutdown_love``.
 
 .. _Deployment-Activities-Summit-TandS-BM-Shutdown:
 
 Shutdown T&S Bare Metal Services
 --------------------------------
 
-Handle azar2:
+Handle azar03:
 
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar2`` directory.
-    * *./shutdown_eas*
-    * *./shutdown_daemon*
-
-Handle AT systems (ATMCS and ATPneumatics):
-
-* *ssh admin@139.229.170.47*
-* *vim setup.env*
-* Line 60: replace 0 with 2 in the **LSST_DDS_DOMAIN_ID** variable.
-* *reboot && exit*
+* As ``dco`` user, run ``./shutdown_gc``
 
 Handle M1M3 cRIO:
 
-* *ssh admin@139.229.178.182*
-* */etc/init.d/ts-M1M3support stop*
+* ``ssh admin@ m1m3-crio-ss.cp.lsst.org``
+* ``/etc/init.d/ts-M1M3support stop``
 
 Handle M1M3 VMS cRIO:
 
-* *ssh admin@139.229.178.183*
-* */etc/init.d/ts-VMS stop*
+* ``ssh admin@ m1m3-crio-vms.cp.lsst.org``
+* ``/etc/init.d/ts-VMS stop``
+
+Handle M1M3 Thermal System cRIO:
+
+* ``ssh admin@m1m3-crio-ts.cp.lsst.org``
+* ``/etc/init.d/ts-m1m3thermal stop``
 
 Handle M2 VMS cRIO:
 
-* *ssh admin@139.229.178.193*
-* */etc/init.d/ts-VMS stop*
+* ``ssh admin@m2-crio-vms01.cp.lsst.org``
+* ``/etc/init.d/ts-VMS stop``
 
-Handle M1M3 Dev & Test:
-
-* ssh to those machines.
-* *ps wuax | grep splice*
-* *sudo kill <PID>* on any processes turned up by the previous command.
-
-AT PMD (at-keener):
-
-* Uses ``docker-compose-ops``, so should be similar to azar2 (just doesn't have ``docker-compose-admin`` scripts).
-
-M2 Control:
-
-* ssh to that machine.
-* *ps wuax | grep splice*
-* *sudo kill <PID>* on any processes turned up by the previous command.
+.. M2 Control:
+.. * ssh to that machine.
+.. * *ps wuax | grep splice*
+.. * *sudo kill <PID>* on any processes turned up by the previous command.
 
 .. _Deployment-Activities-Summit-Kubernetes:
 
 Interacting with Kubernetes
 ---------------------------
+Commands can be executed from your own machine with ``kubectl`` and the ``yagan.yaml`` kubeconfig file.
+You can obtain the kubeconfig file from https://rancher.cp.lsst.org. If you don't have access, file a `Jira ticket <https://rubinobs.atlassian.net/jira/software/c/projects/IHS/boards/201>`_ with IT.
+Once you're able to log into Rancher:
 
-Commands can be executed from your own machine with *kubectl* and the yagan.yaml kubeconfig file.
+#. Select the yagan cluster.
+#. Click the Kubeconfig File button in top-right.
+#. Near bottom of dialog, click the download link.
+#. Save the config file under your local ``.kube`` directory as ``yagan.yaml``
+#. Point to the required cluster by doing ``export KUBECONFIG=~/.kube/yagan.yaml`` and ``kubectl config use-context yagan``.
+#. Ensure you are pointing to the right cluster by doing ``kubectl config current-context``.
 
-Download from https://rancher.cp.lsst.org/dashboard
-
-.. _Deployment-Activities-Summit-Main-Daemon-Shutdown:
-
-Shutdown Main Daemon
---------------------
-
-This needs to be done from azar1.
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar1`` directory.
-    * *./shutdown_daemon*
 
 .. _Deployment-Activities-Summit-Update-ESS-Controllers:
 
@@ -185,103 +142,75 @@ Update ESS Controllers
 ----------------------
     * Updating the ESS controllers requires logging into the following machines:
         * hexrot-ess01.cp.lsst.org
+        * m2hex-ess01.cp.lsst.org
+        * m2-ess01.cp.lsst.org
+        * m2-ess02.cp.lsst.org
+        * m1m3-ess01.cp.lsst.org
+        * laser-rpi.cp.lsst.org
+        * camera-ess01.cp.lsst.org
         * auxtel-ess01.cp.lsst.org
         * auxtel-ess02.cp.lsst.org
         * auxtel-lightning01.cp.lsst.org
-        * mtdome-ess01.cp.lsst.org 
-        * mtdome-ess02.cp.lsst.org
-        * mtdome-ess03.cp.lsst.org 
-    * To stop, update and restart the container, issue the following commands:
-        * *docker stop ess-controller*
-        * *docker rm ess-controller*
-        * *docker image pull lsstts/ess-controller-aarch64:latest*
-        * *docker run -it --name ess-controller --network host --privileged lsstts/ess-controller-aarch64*
+        * dimm.cp.lsst.org
+    * Most use docker-compose-ops. To stop, update and restart controllers:
+        * Become the dco user: ``sudo -iu dco``
+        * ``./shutdown_controller``
+        * ``sudo ./update_repo docker-compose-ops/ {name_of_deployment_branch}``
+        * ``./launch_controller``
 
 .. _Deployment-Activities-Summit-Update-Configuration:
 
 Update Configuration
 --------------------
 
-* Gather the branch for the configurations and version number for ``ts_ddsconfig``.
-* Uses the ``docker-compose-admin/summit/update_repo`` script, which is linked into the dco user home directory.
-* Directories to update:
-    * ``docker-compose-ops`` (azar1, azar2, love01, love02)
-    * ``LOVE-integration-tools`` (love01, love02)
-    * ``ts_ddsconfig`` (azar1, azar2, love01, love02) NOTE: Only necessary if there are updates.
-* Become the dco user: *sudo -iu dco* (The dco has not been setup on love01, so use the scripts in your home directory.)
-* *sudo ./update_repo <repo path> <branch or version>*
-
-.. _Deployment-Activities-Summit-Main-Daemon-Startup:
-
-Startup Main Daemon
--------------------
-
-This needs to be done from azar1.
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar1`` directory.
-    * *./launch_daemon*
+* Most configurations for the different applications deployed to the Summit can be found in the Phalanx repo (https://github.com/lsst-sqre/phalanx). Make sure those are correct.
+* Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/summit/update_repo`` script, which is linked into the ``dco`` user home directory.
+To update this machines:
+    * Log into the machine.
+    * Become the dco user: ``sudo -iu dco``
+    * Run ``sudo ./update_repo <repo-path> <branch>``. The directories to be updated are:
+        * ``docker-compose-ops`` (azar2, azar03, love01, auxtel-ill-control)
+        * ``LOVE-integration-tools`` (love01)
 
 .. _Deployment-Activities-Summit-LOVE-Startup:
 
 Startup LOVE
 -------------
 
-This needs to be done from love01.
+This needs to be done from ``love01``. After ``docker-compose-ops`` and ``LOVE-integration-tools`` have been updated:
 
-* Uses the ``docker-compose-admin`` scripts in ``summit/love01`` directory.
-    * *./launch_daemon*
-    * Ensure daemon is ready before proceeding.
-    * *./launch_love*
-
-If LOVE2 is operating, go to love02.
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/love02`` directory.
-    * *./launch_daemon*
-    * Ensure daemon is ready before proceeding.
-    * *./launch_love*
+* Become the dco user: ``sudo -iu dco``
+* ``./launch_love``
 
 .. _Deployment-Activities-Summit-Camera-Startup:
 
 Startup Camera Services
 -----------------------
 
-This needs to be done from auxtel-mcm and comcam-mcm.
+This needs to be done from ``auxtel-mcm.cp.lsst.org`` and ``lsstcam-mcm.cp.lsst.org``. This step is usually performed by the camera team.
 
-* Start Camera Daemons (command is the same on both machines)
-    * *sudo systemctl start opensplice.service*
-* Start Camera OCS Bridges:
-    * ATCamera: *sudo systemctl start ats-ocs-bridge.service*
-    * CCCamera: *sudo systemctl start comcam-ocs-bridge.service*
-    * Ensure bridge services are running:
-	* ATCamera: *sudo systemctl status ats-ocs-bridge.service*
-	* CCCamera: *sudo systemctl status comcam-ocs-bridge.service*
+* Startup ATCamera OCS Bridges:
+    * from ``auxtel-mcm.cp.lsst.org`` run ``sudo systemctl start ats-ocs-bridge.service``.
+* Startup MTCamera OCS Bridges:
+    * from ``lsstcam-mcm.cp.lsst.org`` run ``sudo systemctl start ocs-bridge.service``.
+* Ensure bridge services are running using:
+    ``sudo systemctl status {name_of_bridge_service}.service``.
 * Transition to OFFLINE_AVAILABLE:
+    * *ccs-shell*
     * ATCamera:
-        * *ccs-shell*
         * *ccs> set target ats-ocs-bridge*
-        * *ccs> lock*
-        * *ccs> setAvailable*
-        * *ccs> unlock*
-        * *ccs> exit*
-    * CCCamera:
-        * *ccs-shell*
-        * *ccs> set target comcam-ocs-bridge*
-        * *ccs> lock*
-        * *ccs> setAvailable*
-        * *ccs> unlock*
-        * *ccs> exit*
+    * MTCamera:
+        * *ccs> set target ocs-bridge*
+    * *ccs> setAvailable --withLock*
+    * *ccs> exit*
 
 .. _Deployment-Activities-Summit-TandS-BM-Startup:
 
 Startup T&S Bare Metal Services
 -------------------------------
+Handle ``azar03``:
 
-Handle azar2:
-
-* Uses the ``docker-compose-admin`` scripts in ``summit/azar2`` directory.
-    * *./launch_daemon*
-    * Ensure daemon is ready before proceeding.
-    * *./launch_eas*
+* As ``dco`` user, run ``./launch_gc``
 
 .. _Deployment-Activities-Summit-Enabled-CSCs:
 
@@ -301,16 +230,31 @@ These are:
   .. code:: bash
 
     data:
+      - [EAS, ENABLED]
+      - [DREAM, ENABLED]
       - [ESS:1, ENABLED]
-      - [ESS:101, ENABLED] 
-      - [ESS:102, ENABLED]
-      - [ESS:103, ENABLED]
+      - [ESS:2, ENABLED]
       - [ESS:104, ENABLED]
       - [ESS:105, ENABLED]
+      - [ESS:106, ENABLED]
+      - [ESS:108, ENABLED]
+      - [ESS:109 ENABLED]
+      - [ESS:110, ENABLED]
+      - [ESS:111, ENABLED]
+      - [ESS:112, ENABLED]
+      - [ESS:113, ENABLED]
+      - [ESS:114, ENABLED]
+      - [ESS:115, ENABLED]
+      - [ESS:116, ENABLED]
+      - [ESS:117, ENABLED]
       - [ESS:201, ENABLED]
       - [ESS:202, ENABLED]
       - [ESS:203, ENABLED] 
       - [ESS:204, ENABLED]
-      - [ESS:205, ENABLED]
       - [ESS:301, ENABLED]
+      - [ESS:302, ENABLED]
+      - [ESS:303, ENABLED]
+      - [ESS:304, ENABLED]
+      - [ESS:305, ENABLED]
+      - [ESS:306, ENABLED]
       - [Watcher, ENABLED]

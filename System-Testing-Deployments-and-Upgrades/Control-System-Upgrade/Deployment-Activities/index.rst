@@ -50,7 +50,7 @@ If changes are necessary to these scripts from work described in the previous se
         * To clean up Nublado, run:
             *./cleanup_nublado*
 #. With everything shutdown, the configurations need to be updated before deployment starts.
-    * Ensure Phalanx branch contains all the necessary updates, then create a PR and merge it.
+    * Ensure Phalanx branch (https://github.com/lsst-sqre/phalanx) contains all the necessary updates, then create a PR and merge it.
     * All other configuration repositories should have the necessary commits already on branches and pushed to GitHub.
     * Update configuration repositories on bare metal machine deployments (:ref:`Summit <Deployment-Activities-Summit-Update-Configuration>` only).
         * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
