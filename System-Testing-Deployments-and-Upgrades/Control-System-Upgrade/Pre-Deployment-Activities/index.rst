@@ -32,8 +32,8 @@ Deployment Configuration Repositories
 
 As noted above, following repositories contain the configuration as code.
 
+* https://github.com/lsst-sqre/phalanx
 * https://github.com/lsst-it/docker-compose-ops
-* https://github.com/lsst-ts/argocd-csc
 * https://github.com/lsst-ts/LOVE-integration-tools
 
 Deployment Helper Repositories
@@ -44,7 +44,6 @@ Specific uses for each repository are handled within the deployment documentatio
 
 * https://github.com/lsst-ts/docker-compose-admin
 * https://github.com/lsst-ts/k8s-admin
-* `https://github.com/lsst-ts/argocd-csc/bin <https://github.com/lsst-ts/argocd-csc/tree/main/bin>`_
 
 Site Specific Variations
 ========================

@@ -30,13 +30,13 @@ An upgrade for SAL may use the previous cycle's XML version in order to limit th
 The primary developer (Dave Mills) for SAL is responsible for ensuring the necessary work is completed and the new version is ready.
 
 
-Upgrading DDS (OpenSplice)
+Upgrading Kafka
 ==========================
 
-Upgrading the communication backplane via updating the OpenSplice version requires care and extra lead time.
-The DDS oversight committee (Dave Mills, Tiago Ribeiro, Michael Reuter [advisory]) will make the determination if a new version of OpenSplice is ready for incorporation into a new cycle.
+Upgrading the communication backplane via updating the Kafka version requires care and extra lead time.
+The Kafka oversight committee (Dave Mills, Tiago Ribeiro, Michael Reuter [advisory]) will make the determination if a new version of Kafka is ready for incorporation into a new cycle.
 This determination requires dedicated testing from the main members of committee to ensure readiness.
-Cycle builds upgrading OpenSplice have longer testing periods split into two phases.
+Cycle builds upgrading Kafka have longer testing periods split into two phases.
 The first phase builds a smaller section of the control system components and deploys them for testing on the TTS.
 Work is done to ensure that this small system is operating within the normal parameters.
 The second phase happens when the full system is built as part of the standard deployment operations.
@@ -52,15 +52,15 @@ While below is an example, use your best judgment to set dates and make sure the
 * Close of release work : Day 1.
 * Artifact (RPMs/JARs) build on Day 2 to Day 3.
 * Build conda packages and deployment artifacts Day 4 to Day 10.
-* Initial deployment to TTS on Day 13 with all CSCs available on TTS by Day 15 at noon PT.
+* Initial deployment to BTS on Day 13 with all CSCs available on BTS by Day 15 at noon PT.
 * Integration testing from Day 15 to Day 17.
 * Summit deployment on Day 20.
 
 From the time that the work closes to the end of building the deployment artifacts is about one week.
 The one week time-frame allows for issues to be discovered and resolved.
-After the initial TTS deployment the CSC developers have about 2.5 days to react to changes in the interface.
+After the initial BTS deployment the CSC developers have about 2.5 days to react to changes in the interface.
 If possible, try to inform folks of those changes ahead of time, but this is not always possible.
 Integration testing is confined to three days.
-The summit deployment time is always at 9 AM summit time the following Monday after the TTS deployment.
+The summit deployment time is always at 9 AM summit time the following Monday after the BTS deployment.
 
 .. _vanward: https://vanward.lsst.io
