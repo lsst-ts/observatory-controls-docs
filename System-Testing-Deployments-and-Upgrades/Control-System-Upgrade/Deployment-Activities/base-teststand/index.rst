@@ -8,7 +8,7 @@ This section contains site specific variations for the Base test stand.
 Resources
 ---------
 
-* LOVE: http:/base-lsp.lsst.codes/love
+* LOVE: https://base-lsp.lsst.codes/love
 * Argo CD: https://base-lsp.lsst.codes/argo-cd
 * Chronograf: https://base-lsp.lsst.codes/chronograf
 * Nublado: https://base-lsp.lsst.codes/
