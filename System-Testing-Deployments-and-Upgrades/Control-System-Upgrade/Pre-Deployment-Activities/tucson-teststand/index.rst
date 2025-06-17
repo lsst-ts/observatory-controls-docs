@@ -8,22 +8,16 @@ This section contains site specific variations for the Tucson test stand.
 Configuration Repository Information
 ------------------------------------
 
-Use the following options:
+Deployment configuration files are kept in https://github.com/lsst-sqre/phalanx. 
+* Site specific configurations are under ``phalanx/environments/values-tucson-teststand.yaml``. One can enable applications and set a specific cycle tag there.
+* Application specific configurations are found under:
+    * ``phalanx/applications/<name-of-app>/values-tucson-teststand.yaml``
+    * ``phalanx/applications/<name-of-app>/secrets-tucson-teststand.yaml`` (In the case of secrets specific to one site).
 
-* ``docker-compose-ops``: ``tucson-teststand``
-* ``argocd-csc``: ``values-tucson-teststand.yaml``
-* ``LOVE-integration-tools``: ``deploy/tucson``
 
 .. _Pre-Deployment-Activities-TTS-Slack-Announce:
 
 Slack Channel for Announcements
 -------------------------------
 
-#rubinobs-tucson-teststand
-
-.. _Pre-Deployment-Activities-TTS-RSP-Config:
-
-RSP Configuration File
-----------------------
-
-``applications/cachemachine/values-tucson-teststand.yaml``
+``#tucson-teststand``

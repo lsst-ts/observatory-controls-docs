@@ -3,15 +3,10 @@ Deploying the Upgrade
 
 These are the activities that are performed when the time of deployment comes around.
 You will need access to a number of resources (:ref:`Summit <Deployment-Activities-Summit-Resources>`, :ref:`TTS <Deployment-Activities-TTS-Resources>`, :ref:`BTS <Deployment-Activities-BTS-Resources>`) at the sites so be sure that you have the credentials to do so.
-A number of scripts are available for easing the bare metal docker-compose deployment handling.
-The scripts can be retrieved from this repo: https://github.com/lsst-ts/docker-compose-admin.
-Use the scripts from the appropriate site directory.
-If changes are necessary to these scripts from work described in the previous section, use the appropriate site Jira ticket.
-
-.. note::
-
-  The deployment is only concerned with CSCs and systems (:ref:`Summit <Deployment-Activities-Summit-Non-Production>`, :ref:`TTS <Deployment-Activities-TTS-Non-Production>`, :ref:`BTS <Deployment-Activities-BTS-Non-Production>`) in the production domain (domainId = 0).
-  All other domains are left alone.
+.. A number of scripts are available for easing the bare metal docker-compose deployment handling.
+.. The scripts can be retrieved from this repo: https://github.com/lsst-ts/docker-compose-admin.
+.. Use the scripts from the appropriate site directory.
+.. If changes are necessary to these scripts from work described in the previous section, use the appropriate site Jira ticket.
 
 .. attention::
 
@@ -22,11 +17,14 @@ If changes are necessary to these scripts from work described in the previous se
 
   Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs to be done with care and should be coordinated with the hardware/software experts for those systems.
 
-#. Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under  ``STANDARD``). This will send all CSC systems to OFFLINE state.
+#. Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state.
 
-    * **WARNING**: Not all CSCs report OFFLINE; these will instead report STANDBY as the last state seen.
-      Check for heartbeats to be sure. (:ref:`Summit <Deployment-Activities-Summit-Odd-State>`)
-    * Preference is to use LOVE, but if LOVE isn't working, Nublado can be used as fall back.
+    * If CSCs do not transition to ``OFFLINE`` with ``system_wide_shutdown.py``, try running ``set_summary_state.py``. An example configuration would be:
+        .. code:: bash
+            data:
+            - [ESS:118, OFFLINE]
+    * **WARNING**: Not all CSCs report ``OFFLINE``; these will instead report ``STANDBY`` as the last state seen. To check that they are indeed ``OFFLINE`` check for heartbeats using Chronograf.
+    * It is recommended to use LOVE for this, but if it's not working, Nublado is a good fallback.
     * An overall status view is available from LOVE in the Summary state view (:ref:`Summit <Deployment-Activities-Summit-LOVE-Summary>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Summary>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Summary>`).
     * You can also consult these dashboards on Chronograf. The names are the same across sites.
         * ``Heartbeats``
@@ -46,9 +44,9 @@ If changes are necessary to these scripts from work described in the previous se
     #. Cleanup Kubernetes Deployment.
         * Below uses scripts in this repo: https://github.com/lsst-ts/k8s-admin.
         * Execute the following to clean up all T&S running jobs(:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`):
-            *./cleanup_all*
+            ``./cleanup_all``
         * To clean up Nublado, run:
-            *./cleanup_nublado*
+            ``./cleanup_nublado``
 #. With everything shutdown, the configurations need to be updated before deployment starts.
     * Ensure Phalanx branch (https://github.com/lsst-sqre/phalanx) contains all the necessary updates, then create a PR and merge it.
     * All other configuration repositories should have the necessary commits already on branches and pushed to GitHub.
@@ -61,15 +59,15 @@ If changes are necessary to these scripts from work described in the previous se
     #. Log into the site specific ArgoCD UI to sync the relevant applications:
         * Start by syncing ``science-platform``.
         * If told to do so beforehand, sync ``nublado``.
-        * Sync ``sasquatch`` if necessary, but check first, in case there are configuration changes that we don't want to apply yet.
-        * Sync T&S applications, all under the ``telescope`` project. While the order doesn't matter in principle, it is a good idea to start with a small application (like ``control-system-test``). It is also useful to update LOVE before the rest of the control system applications, as we can monitor the state of the different CSCs from the summary state view.
+        * Sync ``sasquatch`` if necessary, but check first, in case there are configuration changes that we don't want to apply just yet.
+        * Sync T&S applications, all under the ``telescope`` ArgoCD project. While the order doesn't matter in principle, it is a good idea to start with a small application (like ``control-system-test``). It is also useful to update LOVE before the rest of the control system applications, as we can monitor the state of the different CSCs from the summary state view.
     #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
         * This is done by the deployment team for a system restart, but is handled by the Camera team for a Cycle upgrade.
     #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>` only).
-#. Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into STANDBY. 
-    * Some CSCs (Script Queues) should come up ENABLED.
-    * Report any issues directly to the system principles (DMs are OK) to get issue corrected.
+#. Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into ``STANDBY``. 
+    * Some CSCs (Script Queues) should come up ``ENABLED``.
+    * Report any issues directly to the system principles (DMs are OK).
     * This step is completed when either all CSCs are in STANDBY/OFFLINE or CSCs with issues cannot be fixed in a reasonable (~30 minutes) amount of time.
     * If leaving this step with CSCs in non-working order, make sure to report that on the site specific Slack channel.
 #. Some CSCs need to be ENABLED (:ref:`Summit <Deployment-Activities-Summit-Enabled-CSCs>`, :ref:`TTS <Deployment-Activities-TTS-Enabled-CSCs>`, :ref:`BTS <Deployment-Activities-BTS-Enabled-CSCs>`).

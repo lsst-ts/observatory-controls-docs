@@ -13,7 +13,7 @@ Resources
 * Chronograf: https://tucson-teststand.lsst.codes/chronograf
 * Nublado: https://tucson-teststand.lsst.codes/
 * Rancher: https://rancher.tu.lsst.org
-* Slack: #tucson-teststand
+* Slack: ``#tucson-teststand``
 
 .. .. _Deployment-Activities-TTS-Non-Production:
 
@@ -45,16 +45,23 @@ The overall system summary state view is called ``Summary State``.
 
 Interacting with Kubernetes
 ---------------------------
-Commands can be executed from your own machine with ``kubectl`` and the ``manke.yaml`` kubeconfig file.
+Commands can be executed from your own machine with ``kubectl`` and the ``pillan.yaml`` kubeconfig file.
 You can obtain the kubeconfig file from https://rancher.tu.lsst.org. If you don't have access, file a `Jira ticket <https://rubinobs.atlassian.net/jira/software/c/projects/IHS/boards/201>`_ with IT.
 Once you're able to log into Rancher:
 
-#. Select the manke cluster.
+#. Select the pillan cluster.
 #. Click the Kubeconfig File button in top-right.
 #. Near bottom of dialog, click the download link.
 #. Save the config file under your local ``.kube`` directory as ``pillan.yaml``
-#. Point to the required cluster by doing ``export KUBECONFIG=~/.kube/pillan.yaml`` and ``kubectl config use-context pillan``.
-#. Ensure you are pointing to the right cluster by doing ``kubectl config current-context``.
+#. Point to the required cluster by doing::
+    
+    export KUBECONFIG=~/.kube/pillan.yaml
+    kubectl config use-context pillan
+
+#. Ensure you are pointing to the right cluster by doing::
+    
+    kubectl config current-context
+
 
 .. _Deployment-Activities-TTS-BareMetal:
 
@@ -69,30 +76,42 @@ Bare Metal Machines
 Shutdown Camera Services
 ------------------------
 
-* Shutdown ATCamera OCS Bridges:
-    * from ``auxtel-mcm.tu.lsst.org`` run ``sudo systemctl stop ats-ocs-bridge.service``.
-* Shutdown CCCamera OCS Bridges:
-    * from ``comcam-mcm.tu.lsst.org`` run ``sudo systemctl stop ocs-bridge.service``.
+* Shutdown ATCamera OCS Bridge  
+  From ``auxtel-mcm.tu.lsst.org`` run::
+
+    sudo systemctl stop ats-ocs-bridge.service
+
+* Shutdown CCCamera OCS Bridge  
+  From ``comcam-mcm.tu.lsst.org`` run::
+
+    sudo systemctl stop comcam-ocs-bridge.service
+
 
 .. _Deployment-Activities-TTS-Camera-Startup:
 
 Startup Camera Services
 -----------------------
 
-* Startup ATCamera OCS Bridges:
-    * from ``auxtel-mcm.tu.lsst.org`` run ``sudo systemctl start ats-ocs-bridge.service``.
-* Startup CCCamera OCS Bridges:
-    * from ``comcam-mcm.tu.lsst.org`` run ``sudo systemctl start ocs-bridge.service``.
-* Ensure bridge services are running using:
-    ``sudo systemctl status {name_of_bridge_service}.service``.
-* Transition to OFFLINE_AVAILABLE:
-    * *ccs-shell*
-    * ATCamera:
-        * *ccs> set target ats-ocs-bridge*
-    * MTCamera:
-        * *ccs> set target ocs-bridge*
-    * *ccs> setAvailable --withLock*
-    * *ccs> exit*
+* Startup ATCamera OCS Bridge  
+  From ``auxtel-mcm.tu.lsst.org`` run::
+
+    sudo systemctl start ats-ocs-bridge.service
+
+* Startup CCCamera OCS Bridge  
+  From ``comcam-mcm.tu.lsst.org`` run::
+
+    sudo systemctl start comcam-ocs-bridge.service
+
+* Ensure bridge services are running using::
+
+    sudo systemctl status <camera-name>-ocs-bridge.service
+
+* Transition to OFFLINE_AVAILABLE::
+
+    ccs-shell
+    ccs> set target <camera-name>-ocs-bridge
+    ccs> setAvailable --withLock
+    ccs> exit
 
 .. _Deployment-Activities-TTS-Enabled-CSCs:
 

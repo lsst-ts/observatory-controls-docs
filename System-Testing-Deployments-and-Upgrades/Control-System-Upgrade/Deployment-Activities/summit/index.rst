@@ -13,7 +13,7 @@ Resources
 * Chronograf: https://chronograf-summit-efd.lsst.codes/
 * Nublado: https://summit-lsp.lsst.codes/
 * Rancher: https://rancher.cp.lsst.org
-* Slack: #summit-announce
+* Slack: ``#summit-announce``
 
 .. _Deployment-Activities-Summit-BareMetal:
 
@@ -71,49 +71,55 @@ The overall system summary state view is called ``ASummary State View``.
 Shutdown Camera Services
 ------------------------
 
-* Shutdown ATCamera OCS Bridges:
-    * from ``auxtel-mcm.cp.lsst.org`` run ``sudo systemctl stop ats-ocs-bridge.service``.
-* Shutdown MTCamera OCS Bridges:
-    * from ``lsstcam-mcm.cp.lsst.org`` run ``sudo systemctl stop ocs-bridge.service``.
+* Shutdown ATCamera OCS Bridge  
+  From ``auxtel-mcm.cp.lsst.org`` run::
 
+    sudo systemctl stop ats-ocs-bridge.service
+
+* Shutdown MTCamera OCS Bridge  
+  From ``lsstcam-mcm.cp.lsst.org`` run::
+
+    sudo systemctl stop ocs-bridge.service
 
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 
-Shutdown LOVE
+Shutdown bare metal LOVE
 -------------
 
-This needs to be done from love01.lsst.org as ``dco`` user.
-* ``sudo -iu dco``
-* Run ``./shutdown_love``.
+This needs to be done from ``love01.lsst.org`` as ``dco`` user::
+
+    sudo -iu dco
+    ./shutdown_love
 
 .. _Deployment-Activities-Summit-TandS-BM-Shutdown:
 
 Shutdown T&S Bare Metal Services
 --------------------------------
 
-Handle azar03:
+* Handle azar03::
 
-* As ``dco`` user, run ``./shutdown_gc``
+    sudo -iu dco
+    ./shutdown_gc
 
-Handle M1M3 cRIO:
+* Handle M1M3 cRIO::
 
-* ``ssh admin@ m1m3-crio-ss.cp.lsst.org``
-* ``/etc/init.d/ts-M1M3support stop``
+    ssh admin@m1m3-crio-ss.cp.lsst.org
+    /etc/init.d/ts-M1M3support stop
 
-Handle M1M3 VMS cRIO:
+* Handle M1M3 VMS cRIO::
 
-* ``ssh admin@ m1m3-crio-vms.cp.lsst.org``
-* ``/etc/init.d/ts-VMS stop``
+    ssh admin@m1m3-crio-vms.cp.lsst.org
+    /etc/init.d/ts-VMS stop
 
-Handle M1M3 Thermal System cRIO:
+* Handle M1M3 Thermal System cRIO::
 
-* ``ssh admin@m1m3-crio-ts.cp.lsst.org``
-* ``/etc/init.d/ts-m1m3thermal stop``
+    ssh admin@m1m3-crio-ts.cp.lsst.org
+    /etc/init.d/ts-m1m3thermal stop
 
-Handle M2 VMS cRIO:
+* Handle M2 VMS cRIO::
 
-* ``ssh admin@m2-crio-vms01.cp.lsst.org``
-* ``/etc/init.d/ts-VMS stop``
+    ssh admin@m2-crio-vms01.cp.lsst.org
+    /etc/init.d/ts-VMS stop
 
 .. M2 Control:
 .. * ssh to that machine.
@@ -132,31 +138,38 @@ Once you're able to log into Rancher:
 #. Click the Kubeconfig File button in top-right.
 #. Near bottom of dialog, click the download link.
 #. Save the config file under your local ``.kube`` directory as ``yagan.yaml``
-#. Point to the required cluster by doing ``export KUBECONFIG=~/.kube/yagan.yaml`` and ``kubectl config use-context yagan``.
-#. Ensure you are pointing to the right cluster by doing ``kubectl config current-context``.
+#. Point to the required cluster by doing:: 
+    
+    export KUBECONFIG=~/.kube/yagan.yaml
+    kubectl config use-context yagan
+
+#. Ensure you are pointing to the right cluster by doing::
+     
+    kubectl config current-context
 
 
 .. _Deployment-Activities-Summit-Update-ESS-Controllers:
 
 Update ESS Controllers
 ----------------------
-    * Updating the ESS controllers requires logging into the following machines:
-        * hexrot-ess01.cp.lsst.org
-        * m2hex-ess01.cp.lsst.org
-        * m2-ess01.cp.lsst.org
-        * m2-ess02.cp.lsst.org
-        * m1m3-ess01.cp.lsst.org
-        * laser-rpi.cp.lsst.org
-        * camera-ess01.cp.lsst.org
-        * auxtel-ess01.cp.lsst.org
-        * auxtel-ess02.cp.lsst.org
-        * auxtel-lightning01.cp.lsst.org
-        * dimm.cp.lsst.org
-    * Most use docker-compose-ops. To stop, update and restart controllers:
-        * Become the dco user: ``sudo -iu dco``
-        * ``./shutdown_controller``
-        * ``sudo ./update_repo docker-compose-ops/ {name_of_deployment_branch}``
-        * ``./launch_controller``
+* Updating the ESS controllers requires logging into the following machines:
+    * hexrot-ess01.cp.lsst.org
+    * m2hex-ess01.cp.lsst.org
+    * m2-ess01.cp.lsst.org
+    * m2-ess02.cp.lsst.org
+    * m1m3-ess01.cp.lsst.org
+    * laser-rpi.cp.lsst.org
+    * camera-ess01.cp.lsst.org
+    * auxtel-ess01.cp.lsst.org
+    * auxtel-ess02.cp.lsst.org
+    * auxtel-lightning01.cp.lsst.org
+    * dimm.cp.lsst.org
+* Most use docker-compose-ops. To stop, update and restart controllers::
+
+    sudo -iu dco
+    ./shutdown_controller
+    sudo ./update_repo docker-compose-ops/ <name_of_deployment_branch>
+    ./launch_controller
 
 .. _Deployment-Activities-Summit-Update-Configuration:
 
@@ -164,53 +177,60 @@ Update Configuration
 --------------------
 
 * Most configurations for the different applications deployed to the Summit can be found in the Phalanx repo (https://github.com/lsst-sqre/phalanx). Make sure those are correct.
-* Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/summit/update_repo`` script, which is linked into the ``dco`` user home directory.
-To update this machines:
-    * Log into the machine.
-    * Become the dco user: ``sudo -iu dco``
-    * Run ``sudo ./update_repo <repo-path> <branch>``. The directories to be updated are:
-        * ``docker-compose-ops`` (azar2, azar03, love01, auxtel-ill-control)
-        * ``LOVE-integration-tools`` (love01)
+* Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/summit/update_repo`` script, which is linked into the ``dco`` user home directory. The directories to be updated are:
+    * ``docker-compose-ops`` (azar2, azar03, love01, auxtel-ill-control)
+    * ``LOVE-integration-tools`` (love01)
+    * To update these machines, log into them and run::
+
+        sudo -iu dco
+        sudo ./update_repo <repo-path> <branch>
+
 
 .. _Deployment-Activities-Summit-LOVE-Startup:
 
-Startup LOVE
+Startup bare metal LOVE
 -------------
 
-This needs to be done from ``love01``. After ``docker-compose-ops`` and ``LOVE-integration-tools`` have been updated:
+This needs to be done from ``love01``. After ``docker-compose-ops`` and ``LOVE-integration-tools`` have been updated::
 
-* Become the dco user: ``sudo -iu dco``
-* ``./launch_love``
+    sudo -iu dco
+    ./launch_love
 
 .. _Deployment-Activities-Summit-Camera-Startup:
 
 Startup Camera Services
 -----------------------
 
-This needs to be done from ``auxtel-mcm.cp.lsst.org`` and ``lsstcam-mcm.cp.lsst.org``. This step is usually performed by the camera team.
+* Startup ATCamera OCS Bridge  
+  From ``auxtel-mcm.cp.lsst.org`` run::
 
-* Startup ATCamera OCS Bridges:
-    * from ``auxtel-mcm.cp.lsst.org`` run ``sudo systemctl start ats-ocs-bridge.service``.
-* Startup MTCamera OCS Bridges:
-    * from ``lsstcam-mcm.cp.lsst.org`` run ``sudo systemctl start ocs-bridge.service``.
-* Ensure bridge services are running using:
-    ``sudo systemctl status {name_of_bridge_service}.service``.
-* Transition to OFFLINE_AVAILABLE:
-    * *ccs-shell*
-    * ATCamera:
-        * *ccs> set target ats-ocs-bridge*
-    * MTCamera:
-        * *ccs> set target ocs-bridge*
-    * *ccs> setAvailable --withLock*
-    * *ccs> exit*
+    sudo systemctl start ats-ocs-bridge.service
+
+* Startup MTCamera OCS Bridge  
+  From ``lsstcam-mcm.tu.lsst.org`` run::
+
+    sudo systemctl start ocs-bridge.service
+
+* Ensure bridge services are running using::
+
+    sudo systemctl status <camera-name>-ocs-bridge.service
+
+* Transition to OFFLINE_AVAILABLE::
+        
+    ccs-shell
+    ccs> set target <camera-name>-ocs-bridge
+    ccs> setAvailable --withLock
+    ccs> exit
+
 
 .. _Deployment-Activities-Summit-TandS-BM-Startup:
 
 Startup T&S Bare Metal Services
 -------------------------------
-Handle ``azar03``:
+* Handle azar03::
 
-* As ``dco`` user, run ``./launch_gc``
+    sudo -iu dco
+    ./launch_gc
 
 .. _Deployment-Activities-Summit-Enabled-CSCs:
 

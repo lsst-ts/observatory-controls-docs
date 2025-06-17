@@ -20,10 +20,6 @@ There are a few things that must be done before the deployment happens and while
     #. A final announcement must go out as the deployment begins.
     #. If you want to work with the System Principles for Camera and other machines, make sure to inform them you will require their help standing down services.
 #. Coordinate with SQuaRE to make sure that a new nublado with the current XML/SAL will be available for the deployment day.
-    #. Make a PR for the site specific science-platform configuration here: https://github.com/lsst-sqre/phalanx.
-    #. Edit the appropriate configuration file: :ref:`Summit <Pre-Deployment-Activities-Summit-RSP-Config>`, :ref:`TTS <Pre-Deployment-Activities-TTS-RSP-Config>`, :ref:`BTS <Pre-Deployment-Activities-BTS-RSP-Config>`.
-    #. Notify SQuaRE when the PR is ready to merge.
-    #. Syncing the ``cachemachine`` app will take place during the deployment.
 
 .. _Control-System-Upgrade-Pre-Deployment-Activities-Repositories:
 
