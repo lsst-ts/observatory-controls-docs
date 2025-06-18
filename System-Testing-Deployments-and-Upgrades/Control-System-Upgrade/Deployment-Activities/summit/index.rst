@@ -30,6 +30,9 @@ Bare Metal Machines
 * M1M3 VMS cRIO (Petr Kubánek): m1m3-crio-vms.cp.lsst.org
 * M1M3 TS cRIO (Petr Kubánek):m1m3-crio-ts.cp.lsst.org
 * M2 VMS cRIO (Petr Kubánek): m2-crio-vms01.cp.lsst.org
+* VMS Data Logger: vms-data.cp.lsst.org
+* Flat FiberSpectrograph Red: flat-fiberspecred.cp.lsst.org
+* Flat FiberSpectrograph Blue: flat-fiberspecblue.cp.lsst.org
 .. * M2 Control (Te-Wei Tsai): m2-control.cp.lsst.org
 * ESS:1 (Camera Hexapod/Rotator) Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
 * ESS:2 (M2 Hexapod) Controller RPi (Wouter van Reeven): m2hex-ess01.cp.lsst.org
@@ -43,28 +46,12 @@ Bare Metal Machines
 * ESS:204 (Auxtel Windsonic) Controller RPi (Wouter van Reeven): auxtel-ess02.cp.lsst.org
 * ESS:307 (DIMM): dimm.cp.lsst.org
 
-.. .. _Deployment-Activities-Summit-Odd-State:
-
-.. Odd State Components
-.. --------------------
-
-.. ATMCS does not yet respond properly to exitControl and will remain in STANDBY with heartbeats still present.
-.. ATPneumatics does not always respond to being sent to OFFLINE.  It may remain in STANDBY with heartbeats still present.
-
 .. _Deployment-Activities-Summit-LOVE-Summary:
 
 LOVE Summary View
 -----------------
 
 The overall system summary state view is called ``ASummary State View``.
-
-.. .. _Deployment-Activities-Summit-Federation-Check:
-
-.. Checking the Number of Federations
-.. ----------------------------------
-
-.. This uses a script in https://github.com/lsst-ts/k8s-admin.
-.. Run *./feds-check* from a machine with *kubectl* and the proper kubeconfig file.
 
 .. _Deployment-Activities-Summit-Camera-Shutdown:
 
@@ -121,6 +108,29 @@ Shutdown T&S Bare Metal Services
     ssh admin@m2-crio-vms01.cp.lsst.org
     /etc/init.d/ts-VMS stop
 
+* Handle VMS Data Logger::
+
+    ssh vms-data.cp.lsst.org
+    sudo systemctl stop docker.vmslogger
+
+* Handle Auxtel illumination control::
+
+    ssh auxtel-ill-control.cp.lsst.org
+    sudo -iu dco
+    ./shutdown_gc
+
+* Handle Flat FiberSpectrograph Red::
+
+    ssh flat-fiberspecred.cp.lsst.org
+    sudo -iu dco
+    ./shutdown_fiberspec
+
+* Handle Flat FiberSpectrograph Blue::
+
+    ssh flat-fiberspecblue.cp.lsst.org
+    sudo -iu dco
+    ./shutdown_fiberspec
+
 .. M2 Control:
 .. * ssh to that machine.
 .. * *ps wuax | grep splice*
@@ -163,7 +173,6 @@ Update ESS Controllers
     * auxtel-ess01.cp.lsst.org
     * auxtel-ess02.cp.lsst.org
     * auxtel-lightning01.cp.lsst.org
-    * dimm.cp.lsst.org
 * Most use docker-compose-ops. To stop, update and restart controllers::
 
     sudo -iu dco
@@ -232,6 +241,21 @@ Startup T&S Bare Metal Services
     sudo -iu dco
     ./launch_gc
 
+* Handle Auxtel illumination control::
+
+    sudo -iu dco
+    ./launch_gc
+
+* Handle Flat FiberSpectrograph Red::
+
+    sudo -iu dco
+    ./launch_fiberspec 
+
+* Handle Flat FiberSpectrograph Blue::
+
+    sudo -iu dco
+    ./launch_fiberspec 
+
 .. _Deployment-Activities-Summit-Enabled-CSCs:
 
 Enabled CSCs
@@ -241,6 +265,7 @@ The following CSCs are configured to go into ENABLED state automatically upon la
 
 * ScriptQueue:1
 * ScriptQueue:2
+* ScriptQueue:3
 
 There are a few CSCs that must be put into ENABLED state before declaring an end to the deployment.
 These are:

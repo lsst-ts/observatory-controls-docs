@@ -20,7 +20,7 @@ Upgrading the Interface (XML)
 #. Send reminders about the work closure deadline at least one day prior AND on the day of the deadline.
 #. Ensure all work tickets are closed when the deadline passes (use the Step 5 script).
 #. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
-#. For **mini incremental upgrades**, use the ``move_bucket_ticket_links`` script in the vanward_ package to transfer changes not included in the mini update to the next full release cycle.
+#. For **incremental upgrades**, use the ``move_bucket_ticket_links`` script in the vanward_ package to transfer changes not included in the mini update to the next full release cycle.
 
 
 Upgrading SAL
@@ -28,14 +28,14 @@ Upgrading SAL
 
 While upgrading SAL usually coincides with an upgrade to the XML, it does not have to be the case.
 An upgrade for SAL may use the previous cycle's XML version in order to limit the potential for surprises.
-The primary developer (Dave Mills) for SAL is responsible for ensuring the necessary work is completed and the new version is ready.
+The primary developers (Valerie Becker, Igor Suarez-Sola) for SAL is responsible for ensuring the necessary work is completed and the new version is ready.
 
 
 Upgrading Kafka
 ==========================
 
 Upgrading the communication backplane via updating the Kafka version requires care and extra lead time.
-The Kafka oversight committee (Dave Mills, Tiago Ribeiro, Michael Reuter [advisory]) will make the determination if a new version of Kafka is ready for incorporation into a new cycle.
+The Kafka oversight committee (Tiago Ribeiro, Michael Reuter) will make the determination if a new version of Kafka is ready for incorporation into a new cycle.
 This determination requires dedicated testing from the main members of committee to ensure readiness.
 Cycle builds upgrading Kafka have longer testing periods split into two phases.
 The first phase builds a smaller section of the control system components and deploys them for testing on the TTS.
@@ -54,13 +54,13 @@ While below is an example, use your best judgment to set dates and make sure the
 * **Days 2–3:** Build artifacts (RPMs/JARs).  
 * **Days 4–10:** Build conda packages and deployment artifacts.  
 * **Day 13:** Initial deployment to BTS.  
-* **By Day 15 (noon PT):** All CSCs available on BTS.  
+* **By Day 15 (9 AM PT):** All CSCs available on BTS.  
 * **Days 15–17:** Integration testing.  
 * **Day 20:** Summit deployment.
 
 It takes roughly one week from work closure to finishing the deployment artifacts, allowing time to identify and resolve problems.
 After the initial BTS deployment the CSC developers have about 2.5 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
 Integration testing is limited to three days.  
-Summit deployments always occur at 9 AM summit time on the Monday following the BTS deployment.
+Summit deployments always occur at 9 AM summit time on the Tuesday following the BTS deployment.
 
 .. _vanward: https://vanward.lsst.io

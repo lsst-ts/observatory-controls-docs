@@ -15,13 +15,6 @@ Resources
 * Rancher: https://rancher.tu.lsst.org
 * Slack: ``#tucson-teststand``
 
-.. .. _Deployment-Activities-TTS-Non-Production:
-
-.. Non-Production Systems
-.. ----------------------
-
-.. The Tucson test stand operates all CSCs and systems on the production domain.
-
 .. _Deployment-Activities-TTS-Update-Configuration:
 
 Update Configuration
@@ -34,14 +27,8 @@ Update Configuration
 LOVE Summary View
 -----------------
 
-The overall system summary state view is called ``Summary State``.
+The overall system summary state view is called ``SummaryState``.
 
-.. .. _Deployment-Activities-TTS-Federation-Check:
-
-.. Checking the Number of Federations
-.. ----------------------------------
-.. This uses a script in https://github.com/lsst-ts/k8s-admin.
-.. Run *./feds-check-k8s* from a machine with *kubectl* and the proper kubeconfig file.
 
 Interacting with Kubernetes
 ---------------------------
@@ -126,6 +113,7 @@ The following components will automatically transition to ENABLED state when lau
 * WeatherForecast
 * ScriptQueue:1
 * ScriptQueue:2
+* ScriptQueue:3
 * DSM:1
 * DSM:2
 

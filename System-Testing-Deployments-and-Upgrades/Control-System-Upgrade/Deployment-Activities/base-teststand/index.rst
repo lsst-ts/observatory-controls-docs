@@ -29,14 +29,6 @@ LOVE Summary View
 
 The overall system summary state view is called ``SummaryState``.
 
-.. .. _Deployment-Activities-BTS-Federation-Check:
-
-.. Checking the Number of Federations
-.. ----------------------------------
-
-.. This uses a script in https://github.com/lsst-ts/k8s-admin.
-.. Run ``./feds-check`` from a machine with ``kubectl`` and the proper kubeconfig file.
-
 Interacting with Kubernetes
 ---------------------------
 Commands can be executed from your own machine with ``kubectl`` and the ``manke.yaml`` kubeconfig file.
@@ -116,6 +108,7 @@ The following components will automatically transition to ENABLED state when lau
 * WeatherForecast
 * ScriptQueue:1
 * ScriptQueue:2
+* ScriptQueue:3
 * DSM:1
 * DSM:2
 
