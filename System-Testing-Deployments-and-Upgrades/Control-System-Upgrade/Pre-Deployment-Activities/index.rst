@@ -18,7 +18,7 @@ There are a few things that must be done before the deployment happens and while
     #. The announcement must go out the calendar day before the deployment.
     #. Another announcement must go out one hour before the deployment.
     #. A final announcement must go out as the deployment begins.
-#. Coordinate with SQuaRE to make sure that a new nublado with the current XML/SAL will be available for the deployment day.
+    #. If you want to work with the System Principles for Camera and other machines, make sure to inform them you will require their help standing down services.
 
 .. _Control-System-Upgrade-Pre-Deployment-Activities-Repositories:
 
