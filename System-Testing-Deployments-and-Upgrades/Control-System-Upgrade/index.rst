@@ -8,11 +8,11 @@ Instructions for building base artifacts and component containers are covered el
 
 Deployment steps are described in a general way, with site-specific differences highlighted as needed. Please read this guide in advance, as you'll need to set up credentials and code beforehand.
 Control system upgrades follow a cycle model, similar to Data Management’s six-month development cycles.
-However, in the case of the control system, a cycle build happens roughly every two months, though the cadence can vary- often extending longer, but on occation the period between cycles can be shorter.
+However, in the case of the control system, a cycle build happens roughly every two months, though the cadence can vary- often extending longer, but on occasion the period between cycles can be shorter.
 
-In addition to full cycle upgrades, we now support mini incremental upgrades. These smaller updates apply a limited set of changes and can be requested as needed, as long as the associated XML modifications are backward-compatible and do not break the schema.
+In addition to full cycle upgrades, we now support incremental upgrades. These smaller updates apply a limited set of changes and can be requested as needed, as long as the associated XML modifications do not break schema compatibility.
 
-Upgrades are labeled using the format Cycle N for full upgrades, where N is the next revision in the cycle sequence. For mini incremental upgrades, we use Cycle N, Revision M, where M denotes the incremental revision within that cycle.
+Upgrades are labeled using the format Cycle N for full upgrades, where N is the next revision in the cycle sequence. For incremental upgrades, we use Cycle N, Revision M, where M denotes the incremental revision within that cycle.
 
 When referencing deployment sites, we use the following shorthand for the various test stands:
 

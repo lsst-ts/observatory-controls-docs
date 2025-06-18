@@ -68,6 +68,12 @@ Shutdown Camera Services
 
     sudo systemctl stop ocs-bridge.service
 
+* Shutdown CCCamera OCS Bridge  
+  From ``comcam-mcm.cp.lsst.org`` run::
+
+    sudo systemctl stop comcam-ocs-bridge.service
+
+
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 
 Shutdown bare metal LOVE
@@ -117,7 +123,7 @@ Shutdown T&S Bare Metal Services
 
     ssh auxtel-ill-control.cp.lsst.org
     sudo -iu dco
-    ./shutdown_gc
+    ./launch_fiberspec
 
 * Handle Flat FiberSpectrograph Red::
 
@@ -180,14 +186,24 @@ Update ESS Controllers
     sudo ./update_repo docker-compose-ops/ <name_of_deployment_branch>
     ./launch_controller
 
+* ESS:107 (laser-rpi.cp.lsst.org) has two containers. To stop, update and restart them::
+
+    sudo -iu dco
+    ./shutdown_ess 
+    ./shutdown_audiotrigger 
+    ./update_repo docker-compose-ops/ <name_of_deployment_branch>
+    ./launch_ess 
+    ./launch_audiotrigger 
+
+
 .. _Deployment-Activities-Summit-Update-Configuration:
 
 Update Configuration
 --------------------
 
 * Most configurations for the different applications deployed to the Summit can be found in the Phalanx repo (https://github.com/lsst-sqre/phalanx). Make sure those are correct.
-* Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/summit/update_repo`` script, which is linked into the ``dco`` user home directory. The directories to be updated are:
-    * ``docker-compose-ops`` (azar2, azar03, love01, auxtel-ill-control)
+* Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/bin/update_repo`` script, which is linked into the ``dco`` user home directory. The directories to be updated are:
+    * ``docker-compose-ops`` (azar2, azar03, auxtel-ill-control, flat-fiberspecred, flat-fiberspecblue)
     * ``LOVE-integration-tools`` (love01)
     * To update these machines, log into them and run::
 
@@ -200,7 +216,7 @@ Update Configuration
 Startup bare metal LOVE
 -------------
 
-This needs to be done from ``love01``. After ``docker-compose-ops`` and ``LOVE-integration-tools`` have been updated::
+This needs to be done from ``love01``. After ``LOVE-integration-tools`` has been updated::
 
     sudo -iu dco
     ./launch_love
@@ -216,9 +232,14 @@ Startup Camera Services
     sudo systemctl start ats-ocs-bridge.service
 
 * Startup MTCamera OCS Bridge  
-  From ``lsstcam-mcm.tu.lsst.org`` run::
+  From ``lsstcam-mcm.cp.lsst.org`` run::
 
     sudo systemctl start ocs-bridge.service
+
+* Startup CCCamera OCS Bridge  
+  From ``comcam-mcm.cp.lsst.org`` run::
+
+    sudo systemctl start comcam-ocs-bridge.service
 
 * Ensure bridge services are running using::
 
@@ -266,6 +287,8 @@ The following CSCs are configured to go into ENABLED state automatically upon la
 * ScriptQueue:1
 * ScriptQueue:2
 * ScriptQueue:3
+* HVAC
+* WeatherForecast
 
 There are a few CSCs that must be put into ENABLED state before declaring an end to the deployment.
 These are:
@@ -275,8 +298,6 @@ These are:
   .. code:: bash
 
     data:
-      - [EAS, ENABLED]
-      - [DREAM, ENABLED]
       - [ESS:1, ENABLED]
       - [ESS:2, ENABLED]
       - [ESS:104, ENABLED]
@@ -302,4 +323,5 @@ These are:
       - [ESS:304, ENABLED]
       - [ESS:305, ENABLED]
       - [ESS:306, ENABLED]
+      - [GIS, ENABLED]
       - [Watcher, ENABLED]

@@ -36,7 +36,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
        * ``Calibration Systems Summary State Monitor``
        * ``Observatory Systems Summary State Monitor``
     
-    * The Watcher should come down FIRST, to avoid a flurry of alarms going off.
+    * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
     
     * The ScriptQueues MUST come down last.
 
@@ -73,13 +73,13 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     #. Log into the site specific ArgoCD UI to sync the relevant applications:
        
        * Start by syncing ``science-platform``.
-       * If told to do so beforehand, sync ``nublado``.
+       * Sync ``nublado``.
        * Sync ``sasquatch`` if necessary, but check first, in case there are configuration changes that we don't want to apply just yet.
        * Sync T&S applications, all under the ``telescope`` ArgoCD project. While the order doesn't matter in principle, it is a good idea to start with a small application (like ``control-system-test``). It is also useful to update LOVE before the rest of the control system applications, as we can monitor the state of the different CSCs from the summary state view.
     
     #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
        
-       * This is done by the deployment team for a system restart, but is handled by the Camera team for a Cycle upgrade.
+       * This is handled by the Camera team for a Cycle upgrade, but it is done by the deployment team for a system restart.
     
     #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     
@@ -87,7 +87,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 #. **Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into** ``STANDBY``
    
-   * Some CSCs (Script Queues) should come up ``ENABLED``.
+   * Some CSCs (ScriptQueues) should come up ``ENABLED``.
    * Report any issues directly to the system principles (DMs are OK).
    * This step is completed when either all CSCs are in STANDBY/OFFLINE or CSCs with issues cannot be fixed in a reasonable (~30 minutes) amount of time.
    * If leaving this step with CSCs in non-working order, make sure to report that on the site specific Slack channel.

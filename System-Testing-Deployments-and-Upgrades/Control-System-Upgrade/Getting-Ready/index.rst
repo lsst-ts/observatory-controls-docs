@@ -20,7 +20,7 @@ Upgrading the Interface (XML)
 #. Send reminders about the work closure deadline at least one day prior AND on the day of the deadline.
 #. Ensure all work tickets are closed when the deadline passes (use the Step 5 script).
 #. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
-#. For **incremental upgrades**, use the ``move_bucket_ticket_links`` script in the vanward_ package to transfer changes not included in the mini update to the next full release cycle.
+#. For **incremental upgrades**, use the ``move_bucket_ticket_links`` script in the vanward_ package to transfer changes not included in the upgrade to the next full release cycle.
 
 
 Upgrading SAL
@@ -28,7 +28,7 @@ Upgrading SAL
 
 While upgrading SAL usually coincides with an upgrade to the XML, it does not have to be the case.
 An upgrade for SAL may use the previous cycle's XML version in order to limit the potential for surprises.
-The primary developers (Valerie Becker, Igor Suarez-Sola) for SAL is responsible for ensuring the necessary work is completed and the new version is ready.
+The primary developers (Valerie Becker, Igor Suarez-Sola) for SAL are responsible for ensuring the necessary work is completed and the new version is ready.
 
 
 Upgrading Kafka
@@ -59,7 +59,7 @@ While below is an example, use your best judgment to set dates and make sure the
 * **Day 20:** Summit deployment.
 
 It takes roughly one week from work closure to finishing the deployment artifacts, allowing time to identify and resolve problems.
-After the initial BTS deployment the CSC developers have about 2.5 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
+After the initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
 Integration testing is limited to three days.  
 Summit deployments always occur at 9 AM summit time on the Tuesday following the BTS deployment.
 
