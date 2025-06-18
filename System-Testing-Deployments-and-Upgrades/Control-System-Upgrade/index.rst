@@ -2,23 +2,24 @@
 Control System Upgrade
 ######################
 
-These pages will document the process for going about an upgrade of the control system software interface.
-Since the control system is highly coupled to the interface specification (XML), the communication backplane (DDS) and the abstraction layer (SAL), this documentation focuses on upgrades to those dependencies.
-The process for building the base artifacts and component containers is handled in other documentation: TSSW Build System :ref:`TSSW-Build-System-Introduction` and `Cycle Build <https://ts-cycle-build.lsst.io>`_.
-The deployment part of the documentation will be written generically with sections highlighting the specific differences between the various sites.
-It is best to read this documentation ahead of time as there are necessary credentials and code to setup before executing the outlined steps.
+This documentation outlines the upgrade process for the control system software interface.
+Since the control system is tightly coupled with the interface specification (XML), the communication backplane (Kafka) and the abstraction layer (SAL), this documentation focuses on upgrades to those dependencies.
+Instructions for building base artifacts and component containers are covered elsewhere (see :ref:`TSSW-Build-System-Introduction` and `Cycle Build <https://ts-cycle-build.lsst.io>`_).
 
-The control system upgrades are designated by a cycle concept similar to Data Management's fixed six month development period.
-However, in the case of the control system, the cycle build happens roughly on a two month cadence, but the cadence can sometimes be irregular.
-The irregularity is usually in longer periods between cycles, but on occasion can be shorter.
-We identify an upgrade with a label: ``Cycle N`` where ``N`` is the next revision in the cycle process.
+Deployment steps are described in a general way, with site-specific differences highlighted as needed. Please read this guide in advance, as you'll need to set up credentials and code beforehand.
+Control system upgrades follow a cycle model, similar to Data Management’s six-month development cycles.
+However, in the case of the control system, a cycle build happens roughly every two months, though the cadence can vary- often extending longer, but on occasion the period between cycles can be shorter.
+
+In addition to full cycle upgrades, we now support incremental upgrades. These smaller updates apply a limited set of changes and can be requested as needed, as long as the associated XML modifications do not break schema compatibility.
+
+Upgrades are labeled using the format Cycle N for full upgrades, where N is the next revision in the cycle sequence. For incremental upgrades, we use Cycle N, Revision M, where M denotes the incremental revision within that cycle.
 
 When referencing deployment sites, we use the following shorthand for the various test stands:
 
 * TTS: Tucson test stand
 * BTS: Base (La Serena) test stand
 
-We refer to Cerro Pachon as the summit when talking about it as a deployment site.
+We refer to Cerro Pachon as the Summit when talking about it as a deployment site.
 
 .. _Control-System-Upgrade-Getting-Ready:
 

@@ -8,22 +8,18 @@ This section contains site specific variations for the Base test stand.
 Configuration Repository Information
 ------------------------------------
 
-Use the following options:
+Deployment configuration files are kept in https://github.com/lsst-sqre/phalanx.
 
-* ``docker-compose-ops``: ``base-teststand``
-* ``argocd-csc``: ``values-base-teststand.yaml``
-* ``LOVE-integration-tools``: ``deploy/base``
+* Site specific configurations are under ``phalanx/environments/values-base.yaml``. One can enable applications and set a specific cycle tag there.
+
+* Application specific configurations are found under:
+   * ``phalanx/applications/<name-of-app>/values-base.yaml``
+   * ``phalanx/applications/<name-of-app>/secrets-base.yaml`` (In the case of secrets specific to one site).
+
 
 .. _Pre-Deployment-Activities-BTS-Slack-Announce:
 
 Slack Channel for Announcements
 -------------------------------
 
-#rubinobs-base-teststand
-
-.. _Pre-Deployment-Activities-BTS-RSP-Config:
-
-RSP Configuration File
-----------------------
-
-``applications/cachemachine/values-base.yaml``
+``#base-teststand``
