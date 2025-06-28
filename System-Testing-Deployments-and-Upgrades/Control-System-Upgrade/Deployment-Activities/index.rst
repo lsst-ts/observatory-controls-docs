@@ -96,6 +96,38 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 #. If not carrying on with integration testing, folks can be told they can use Nublado again via the site specific Slack channel.
 
+
+Deploying an Incremental Upgrade
+================================
+
+The process is similar to that of deploying a full upgrade, but with some key differences:
+
+#. **Send only relevant CSCs to** ``OFFLINE`` **state**
+
+   * Use the ``set_summary_state.py`` script in LOVE to send the affected components to ``OFFLINE``.
+   * The ScriptQueues should also be sent to ``OFFLINE``, as they too need to be updated to be able to interact with the interface.      
+   
+#. **Clean up jobs for relevant CSCs, ScriptQueues and Nublado**
+
+   * For CSCs, this can be done by logging into ``ArgoCD``, finding the job and deleting it.
+   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. 
+      * Make sure you are in the correct cluster context and run::
+
+         kubectl delete job -n <namespace> -l csc-class=<csc-class>
+
+      * For example, to delete ScriptQueue jobs, you would run::
+
+         kubectl delete job -n obssys -l csc-class=scriptqueue
+
+   * For nublado, use the ``cleanup_nublado`` script in the k8s-admin repository.
+
+#. **Once you have updated the configurations, update the relevant components only**
+
+   * Sync ``science-platform`` and ``nublado``.
+   * Sync the ScriptQueues and any other CSCs that need to be updated.
+   * If ESSs are affected, update the relevant ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>`)
+
+
 Site Specific Variations
 ========================
 

@@ -10,7 +10,8 @@ Deployment steps are described in a general way, with site-specific differences 
 Control system upgrades follow a cycle model, similar to Data Management’s six-month development cycles.
 However, in the case of the control system, a cycle build happens roughly every two months, though the cadence can vary- often extending longer, but on occasion the period between cycles can be shorter.
 
-In addition to full cycle upgrades, we now support incremental upgrades. These smaller updates apply a limited set of changes and can be requested as needed, as long as the associated XML modifications do not break schema compatibility.
+In addition to full cycle upgrades, we now support incremental upgrades, which happen in between cycles. These smaller updates apply a limited set of changes and can be requested as needed, as long as the associated XML modifications do not break schema compatibility.
+Throught this documentation, there will be sections specific to the case of an incremental upgrade, as these are handled slightly differently from full cycle upgrades. Keep in mind that this process is still undergoing formalization and so it is likely that the documentation will change as we refine the process.
 
 Upgrades are labeled using the format Cycle N for full upgrades, where N is the next revision in the cycle sequence. For incremental upgrades, we use Cycle N, Revision M, where M denotes the incremental revision within that cycle.
 
