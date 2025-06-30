@@ -107,7 +107,7 @@ The process is similar to that of deploying a full upgrade, but with some key di
    * Use the ``set_summary_state.py`` script in LOVE to send the affected components to ``OFFLINE``.
    * The ScriptQueues should also be sent to ``OFFLINE``, as they too need to be updated to be able to interact with the interface.      
    
-#. **Clean up jobs for relevant CSCs, ScriptQueues and Nublado**
+#. **Clean up jobs for relevant CSCs, ScriptQueues**
 
    * For CSCs, this can be done by logging into ``ArgoCD``, finding the job and deleting it.
    * Alternatively, and more conviniently, it can be achieved through ``kubectl``. 
@@ -119,13 +119,10 @@ The process is similar to that of deploying a full upgrade, but with some key di
 
          kubectl delete job -n obssys -l csc-class=scriptqueue
 
-   * For nublado, use the ``cleanup_nublado`` script in the k8s-admin repository.
 
 #. **Once you have updated the configurations, update the relevant components only**
 
-   * Sync ``science-platform`` and ``nublado``.
    * Sync the ScriptQueues and any other CSCs that need to be updated.
-   * If ESSs are affected, update the relevant ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>`)
 
 
 Site Specific Variations

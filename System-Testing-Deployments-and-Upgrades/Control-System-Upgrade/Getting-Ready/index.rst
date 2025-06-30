@@ -23,15 +23,15 @@ Upgrading the Interface (XML)
 
 
 Incremental Upgrades to the Interface (XML)
-==========================================
+===========================================
 
 Incremental upgrades to the interface (XML) are handled similarly to full upgrades, but with some key differences:
 
-#. They can be requested through slack in the ``#cap-software`` channel as the need arises. The request will then proceed to be discussed in the next CAP meeting.
+#. They can be requested through Slack in the ``#cap-software`` channel as the need arises. The request will then proceed to be discussed in the next CAP meeting.
 #. Since an incremental upgrade does not require a full Cycle build, nor the whole suite of integration tests, the time between the closure of XML work and deployment to the Summit will be shorter than that of a full Cycle upgrade. The schedule will thus depend on the amount of components updated.
-#. Notes detailing the configuration tickets, components affected, CSCs changes and software versions will be added to the current Cycle's confluence page. 
+#. Notes detailing the components affected, XML changes and software versions will be added to the current Cycle's confluence page. 
 #. The Jira tickets tracking the relevant changes for the affected components need to be identified and kept in the current release in the Jira CAP project. While this process is handled manually for now, a script will be added to the _vanward package to automate it.
-#. The ``move_bucket_ticket_links`` script in the vanward_ package can then be used to transfer the changes not included in the upgrade to the next relase for the full Cycle.
+#. The ``move_bucket_ticket_links`` script in the _vanward package can then be used to transfer the changes not included in the upgrade to the next release for the full Cycle.
 
 
 Upgrading SAL
