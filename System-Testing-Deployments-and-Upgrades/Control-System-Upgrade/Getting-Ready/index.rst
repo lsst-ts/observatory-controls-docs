@@ -34,7 +34,7 @@ Incremental upgrades to the interface (XML) are handled similarly to full upgrad
    It is advisable to double check with folks that they have specified all necessary tickets, as it has been the case before that people forget a relevant one.
 #. Once the relevant tickets have been identified, the commit SHAs associated with them need to be found so they can be included in the new release. The ``The collect_ticket_commits`` in the vanward_ can help with that.
 #. All XML changes not included in the incremental upgrade need to be moved to the next release in the CAP project. The ``move_bucket_ticket_links`` script in the vanward_ package can be used to take care of that.
-#. Since an incremental upgrade changes the XML interface only partially, it is important to check that the changes do not break schema compatibility.
+#. Since an incremental upgrade changes the XML interface only partially, it is important to check that the changes do not break schema compatibility. See :ref:`Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility` for further instructions.
 
 Upgrading SAL
 =============
@@ -72,8 +72,77 @@ While below is an example, use your best judgment to set dates and make sure the
 * **Day 20:** Summit deployment.
 
 It takes roughly one week from work closure to finishing the deployment artifacts, allowing time to identify and resolve problems.
-After the initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
+After t
+
+he initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
 Integration testing is limited to three days.  
 Summit deployments always occur at 9 AM summit time on the Tuesday following the BTS deployment.
 
+.. _Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility:
+
+Checking Schema compatibility for an Incremental upgrade
+=============================================
+
+* To check that the changes made to the XML interface for the incremental upgrade are compatible, you will need to start a local Kafka Server and schema registry.
+  You can do so by running::
+
+    docker compose -f {path/to/ts_salobj}/docker-compose.yaml up -d
+
+  This will run the ``docker-compose.yaml`` file found in the ts_salobj_ repo.
+
+* Create a conda environment and make sure that the branches for the repos ts_xml_ and ts_salobj_ are installed::
+
+    conda create -n schema-checker-dev pip -y
+    conda activate schema-checker-dev
+    cd {/path/to/ts_xml}
+    pip install -e .   
+    cd {/path/to/ts_salobj}
+    pip install -e .
+
+* Now you will need to build the topic_registrar container. 
+  You can do by running::
+
+    docker build . --tag ts-dockerhub.lsst.org/topic_registrar:c00{NN}
+
+  Where ``NN`` corresponds to the cycle number. The docker file for the container is::
+
+    ARG cycle=c00{NN}
+    ARG hub=ts-dockerhub.lsst.org
+    FROM ${hub}/deploy-env:${cycle}
+    LABEL maintainer="Michael Reuter <mareuter@lsst.org>"
+    WORKDIR /home/saluser
+    RUN source /home/saluser/.setup_sal_env.sh && \
+        conda install -c lsstts ts-xml={xml_version}
+    COPY startup.sh /home/saluser/.startup.sh
+    USER root
+    RUN chown saluser:saluser /home/saluser/.startup.sh && \
+        chmod a+x /home/saluser/.startup.sh
+    USER saluser
+
+  And ``startup.sh``::
+
+    #!/usr/bin/env bash
+    source $HOME/.setup_sal_env.sh
+    create_topics --all
+
+* Run the following script to register the topics::
+  
+    docker run --rm --name topic_registrar \
+    --env LSST_TOPIC_SUBNAME=chk \
+    --env LSST_SCHEMA_REGISTRY_URL=http://schema-registry:8081 \
+    --env LSST_KAFKA_BROKER_ADDR=broker:29092 \
+    --network kafka \
+    --platform linux/amd64 \
+    ts-dockerhub.lsst.org/topic_registrar:c0041
+
+* To generate the report of all differences found, run the following::
+
+    #!/usr/bin/env bash
+    export LSST_TOPIC_SUBNAME=chk
+  
+  Notice that the scripts will only report when a new topic is created or an old one removed.
+  It will not produce results for variables added to topics.
+
+.. _ts_xml: https://github/lsst-ts/ts_xml
+.. _ts_salobj: https://github.com/lsst-ts/ts_salobj
 .. _vanward: https://vanward.lsst.io
