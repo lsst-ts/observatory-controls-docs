@@ -124,13 +124,19 @@ The process is similar to that of deploying a full upgrade, but with some key di
 
    * Sync the ScriptQueues and any other CSCs that need to be updated.
 
-#. **Recovering the Control System OS/K8s upgrade**
 
-   * After an OS/K8s upgrade the Control Syem will need to be recovered.
-     In order to do this, the running jobs need to be cleaned (See step 2).
+Recovering the Control System OS/K8s upgrade
 
-   * 
+================================
 
+After an OS/K8s upgrade the Control Syem will need to be recovered.
+In order to do this:
+
+#. **The running jobs need to be cleaned (See step 2).**
+
+#. **Sync the relevant Components**
+
+   Note that the 
 
 
 Site Specific Variations
