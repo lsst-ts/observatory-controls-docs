@@ -119,7 +119,8 @@ Checking Schema compatibility for an Incremental upgrade
         chmod a+x /home/saluser/.startup.sh
     USER saluser
 
-  And ``startup.sh``::
+  Where ``xml_version``corresponds to the version of the current relase. 
+  The ``startup.sh`` file should contain::
 
     #!/usr/bin/env bash
     source $HOME/.setup_sal_env.sh
@@ -133,7 +134,7 @@ Checking Schema compatibility for an Incremental upgrade
     --env LSST_KAFKA_BROKER_ADDR=broker:29092 \
     --network kafka \
     --platform linux/amd64 \
-    ts-dockerhub.lsst.org/topic_registrar:c0041
+    ts-dockerhub.lsst.org/topic_registrar:c00{NN}
 
 * To generate the report of all differences found, run the following::
 
