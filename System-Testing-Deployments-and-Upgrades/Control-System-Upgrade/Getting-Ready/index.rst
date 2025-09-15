@@ -136,11 +136,15 @@ Checking Schema compatibility for an Incremental upgrade
     --platform linux/amd64 \
     ts-dockerhub.lsst.org/topic_registrar:c00{NN}
 
-* To generate the report of all differences found, run the following::
+* To generate the report of all differences found, run the following script::
 
     #!/usr/bin/env bash
     export LSST_TOPIC_SUBNAME=chk
+    export LSST_KAFKA_BROKER_ADDR=localhost:9092
+    export LSST_SCHEMA_REGISTRY_URL=http://localhost:8081
+    check_schema --all
   
+  The output of this script should be recorder in the Confluence page for the Cycle, under the section for the Incremental Upgrade.
   Notice that the scripts will only report when a new topic is created or an old one removed.
   It will not produce results for variables added to topics.
 
