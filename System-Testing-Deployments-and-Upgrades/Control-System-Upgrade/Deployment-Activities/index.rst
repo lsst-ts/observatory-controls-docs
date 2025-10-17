@@ -103,7 +103,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
        
-       * This is handled by the Camera team for a Cycle upgrade, but it is done by the deployment team for a system restart.
+       * This is generally handled by the Camera team.
     
     #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     
