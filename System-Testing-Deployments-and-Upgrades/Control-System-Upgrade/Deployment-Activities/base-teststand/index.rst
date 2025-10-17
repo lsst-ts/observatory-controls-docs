@@ -29,6 +29,8 @@ LOVE Summary View
 
 The overall system summary state view is called ``SummaryState``.
 
+.. _Deployment-Activities-BTS-Kubernetes:
+
 Interacting with Kubernetes
 ---------------------------
 Commands can be executed from your own machine with ``kubectl`` and the ``manke.yaml`` kubeconfig file.
