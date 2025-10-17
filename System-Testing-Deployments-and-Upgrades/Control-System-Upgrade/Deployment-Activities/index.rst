@@ -40,7 +40,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     * The ScriptQueues MUST come down last.
 
-
+.. _Control-System-Upgrade-Pre-Deployment-Activities-Clean-up:
 #. **Clean up still running CSCs/systems**
 
    * To shut down the cameras, log into the ``mcm`` machines and stop the bridges using ``sudo systemctl stop`` (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
@@ -104,6 +104,7 @@ The process is similar to that of deploying a full upgrade, but with some key di
 
 #. **Send only relevant CSCs to** ``OFFLINE`` **state**
 
+   * Remember to send the Watcher to ``OFFLINE`` state first.
    * Use the ``set_summary_state.py`` script in LOVE to send the affected components to ``OFFLINE``.
    * The ScriptQueues should also be sent to ``OFFLINE``, as they too need to be updated to be able to interact with the interface.      
    
@@ -123,6 +124,23 @@ The process is similar to that of deploying a full upgrade, but with some key di
 #. **Once you have updated the configurations, update the relevant components only**
 
    * Sync the ScriptQueues and any other CSCs that need to be updated.
+
+
+Recovering the Control System after an OS/K8s upgrade
+=====================================================
+
+After IT performs a routine OS/K8s upgrade the Control System will need to be brought back.
+In order to do this:
+
+#. **The running Kubernetes jobs need to be cleaned.** 
+
+#. **Sync Components**
+
+#. **For the Summit** the cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started.
+   See :ref:`Deployment-Activities-Summit-TandS-BM-Startup`.
+
+#. **For test stands, minimal testing is required.**
+   This involves tracking and taking an image using both telescopes.
 
 
 Site Specific Variations
