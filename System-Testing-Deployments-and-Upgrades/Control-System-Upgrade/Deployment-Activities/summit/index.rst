@@ -79,7 +79,7 @@ Shutdown Camera Services
 Shutdown bare metal LOVE
 -------------
 
-This needs to be done from ``love01.lsst.org`` as ``dco`` user::
+This needs to be done from ``love01.cp.lsst.org`` as ``dco`` user::
 
     sudo -iu dco
     ./shutdown_love
@@ -91,6 +91,7 @@ Shutdown T&S Bare Metal Services
 
 * Handle azar03::
 
+    ssh azar03.cp.lsst.org
     sudo -iu dco
     ./shutdown_gc
 
