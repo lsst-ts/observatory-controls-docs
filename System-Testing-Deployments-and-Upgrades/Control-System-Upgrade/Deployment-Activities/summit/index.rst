@@ -100,7 +100,7 @@ Shutdown T&S Bare Metal Services
     ssh admin@m1m3-crio-ss.cp.lsst.org
     /etc/init.d/ts-M1M3support stop
 
-* Handle M1M3 VMS:1 cRIO::
+* Handle M1M3 VMS cRIO::
 
     ssh admin@m1m3-crio-vms.cp.lsst.org
     /etc/init.d/ts-VMS stop
@@ -110,7 +110,7 @@ Shutdown T&S Bare Metal Services
     ssh admin@m1m3-crio-ts.cp.lsst.org
     /etc/init.d/ts-m1m3thermal stop
 
-* Handle M2 VMS:2 cRIO::
+* Handle M2 VMS cRIO::
 
     ssh admin@m2-crio-vms01.cp.lsst.org
     /etc/init.d/ts-VMS stop
@@ -202,6 +202,7 @@ Update cRIOs
 ------------
 
 These steps are usually taken care of by the person responsible for the MTM1M3, MTM1M3TS and MTVMs CSCs (Petr Kubánek), but they need to be followed in case he is unable to perform them for whatever reason.
+In the case of an OS update, the cRIO services will need to be started, as detailed in the last step in this section.
 
 * SSH into the cRIO machines:
     * ``m1m3-crio-ss`` for MTM1M3 Support System.
@@ -325,7 +326,6 @@ Startup Camera Services
 
 Startup T&S Bare Metal Services
 -------------------------------
-
 * Handle azar03::
 
     sudo -iu dco
@@ -344,30 +344,7 @@ Startup T&S Bare Metal Services
 * Handle Flat FiberSpectrograph Blue::
 
     sudo -iu dco
-    ./launch_fiberspec
-
-The following cRIOs are usually handled by the person responsible for them during a Cycle upgrade,
-but by the deployment team during a system recovery: 
-
-* Handle M1M3 cRIO::
-
-    ssh admin@m1m3-crio-ss.cp.lsst.org
-    /etc/init.d/ts-M1M3support start
-
-* Handle M1M3 VMS:1 cRIO::
-
-    ssh admin@m1m3-crio-vms.cp.lsst.org
-    /etc/init.d/ts-VMS start
-
-* Handle M2 VMS:2 cRIO::
-
-    ssh admin@m2-crio-vms01.cp.lsst.org
-    /etc/init.d/ts-VMS start
-
-* Handle M1M3 Thermal System cRIO::
-
-    ssh admin@m1m3-crio-ts.cp.lsst.org
-    /etc/init.d/ts-m1m3thermal start
+    ./launch_fiberspec 
 
 
 .. _Deployment-Activities-Summit-Enabled-CSCs:

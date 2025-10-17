@@ -75,6 +75,21 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
       * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
       * Also, only certain T&S systems are handled here, the rest need to be coordinated with system principles.
 
+
+#. In the case that the changes to be applied break schema compatibility, it will be necessary to change the schema registry compatibility setting. To do so:
+
+   * Exec into the schema registry pod.
+   * Check the current setting, which should be ``FORWARD``::
+      
+      curl $SCHEMA_REGISTRY_LISTENERS/config 
+   
+   * Change the setting to ``NONE`` by doing::
+
+      curl -s -X PUT -H 'Content-Type: application/vnd.schemaregistry.v1+json' --data '{  "compatibility": "NONE" }' $SCHEMA_REGISTRY_LISTENERS/config
+
+   * Remember to change the compatibility setting back to ``FORWARD`` later.
+
+
 #. Once all configurations are in place, deployment of the new system can begin.
     * **Be patient with container pulling (goes for everything containerized here).**
     #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
@@ -93,6 +108,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     
     #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>` only).
+
 
 #. **Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into** ``STANDBY``
    
@@ -145,8 +161,10 @@ In order to do this:
 
 #. **Sync Components**
 
-#. **For the Summit** the cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started.
-   See :ref:`Deployment-Activities-Summit-TandS-BM-Startup`.
+#. **For the Summit** 
+
+   * The cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started. See last step in :ref:`Deployment-Activities-Summit-Update-cRIOs`.
+   * ``azar02.cp.lsst.org`` and ``allsky2-cam.cp.lsst.org`` will need to be rebooted. 
 
 #. **For test stands, minimal testing is required.**
    This involves tracking and taking an image using both telescopes.
