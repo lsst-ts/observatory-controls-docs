@@ -13,13 +13,20 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
   Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs to be done with care and should be coordinated with the hardware/software experts for those systems.
 
+.. important::
+
+   If deploying the upgrade to the Summit, make sure that after the Control System has been shut down, M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
+   The same goes for OS/k8s upgrades.
+
 #. Send all CSC to ``OFFLINE`` state
     * Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state. 
-    * If CSCs do not transition to ``OFFLINE`` with ``system_wide_shutdown.py``, try running ``set_summary_state.py``. An example configuration would be::
+    * The ScriptQueues (and any other CSC that fails to transition to ``OFFLINE``state) need to be shut down using the ``set_summary_state.py`` script. Assuming the script is run using ``MTQueue``, use the following configuration::
 
         data:
-        - [ESS:118, OFFLINE]
-   
+        - [ScriptQueue:3, OFFLINE]
+        - [ScriptQueue:2, OFFLINE]
+        - [ScriptQueue:1, OFFLINE]
+        mute_alarms: false
 
     * **WARNING**: Not all CSCs report ``OFFLINE``; these will instead report ``STANDBY`` as the last state seen. To check that they are indeed ``OFFLINE`` check for heartbeats using Chronograf.
     
@@ -38,7 +45,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
     
-    * The ScriptQueues MUST come down last.
+    * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScripQueue where the script is run last.
 
 
 #. **Clean up still running CSCs/systems**
