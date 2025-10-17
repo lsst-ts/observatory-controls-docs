@@ -32,7 +32,7 @@ Incremental upgrades to the interface (XML) are handled similarly to full upgrad
 #. Notes detailing the components affected, XML changes and software versions will be added to the current Cycle's confluence page. 
 #. The Jira tickets tracking the relevant changes for the affected components need to be identified and kept in the current release in the Jira CAP project. The people requesting the incremental upgrade are responsible for providing the Jira ticket keys for the work that needs to be included in the upgrade.
    It is advisable to double check with folks that they have specified all necessary tickets, as it has been the case before that people forget a relevant one.
-#. Once the relevant tickets have been identified, the commit SHAs associated with them need to be found so they can be included in the new release. The ``The collect_ticket_commits`` in the vanward_ can help with that.
+#. Once the relevant tickets have been identified, the commit SHAs associated with them need to be found so they can be included in the new release. The ``collect_ticket_commits`` in the vanward_ can help with that.
 #. All XML changes not included in the incremental upgrade need to be moved to the next release in the CAP project. The ``move_bucket_ticket_links`` script in the vanward_ package can be used to take care of that.
 #. Since an incremental upgrade changes the XML interface only partially, it is important to check that the changes do not break schema compatibility. See :ref:`Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility` for further instructions.
 
@@ -72,18 +72,16 @@ While below is an example, use your best judgment to set dates and make sure the
 * **Day 20:** Summit deployment.
 
 It takes roughly one week from work closure to finishing the deployment artifacts, allowing time to identify and resolve problems.
-After t
-
-he initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
+After the initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
 Integration testing is limited to three days.  
 Summit deployments always occur at 9 AM summit time on the Tuesday following the BTS deployment.
 
 .. _Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility:
 
 Checking Schema compatibility for an Incremental upgrade
-=============================================
+========================================================
 
-* To check that the changes made to the XML interface for the incremental upgrade are compatible, you will need to start a local Kafka Server and schema registry.
+* To check that the changes made to the XML interface for the incremental upgrade are schema compatible, you will need to start a local Kafka Server and schema registry.
   You can do so by running::
 
     docker compose -f {path/to/ts_salobj}/docker-compose.yaml up -d

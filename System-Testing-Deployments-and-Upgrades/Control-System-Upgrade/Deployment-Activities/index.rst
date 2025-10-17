@@ -127,9 +127,9 @@ The process is similar to that of deploying a full upgrade, but with some key di
 
 
 Recovering the Control System after an OS/K8s upgrade
-================================
+=====================================================
 
-After IT performs a routine OS/K8s upgrade the Control Syem will need to be brought back.
+After IT performs a routine OS/K8s upgrade the Control System will need to be brought back.
 In order to do this:
 
 #. **The running Kubernetes jobs need to be cleaned.** 
