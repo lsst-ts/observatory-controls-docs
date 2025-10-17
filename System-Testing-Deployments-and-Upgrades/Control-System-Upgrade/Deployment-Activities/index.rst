@@ -55,6 +55,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    * Notify the camera upgrade team that the system is ready for :ref:`Stage 1<camera-install-stage-1>`.
    * Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
    * Clean up Kubernetes deployments:
+      * To do this you will need to point to the correct Kubernetes cluster for each site (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>` )
       * Scripts are in https://github.com/lsst-ts/k8s-admin.
       * Ensure the correct cluster is set, then run::
 
@@ -77,6 +78,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 #. Once all configurations are in place, deployment of the new system can begin.
     * **Be patient with container pulling (goes for everything containerized here).**
     #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
+    #. Update cRIOs if not done already (:ref:`Summit <Deployment-Activities-Summit-Update-cRIOs>` only)
     #. Log into the site specific ArgoCD UI to sync the relevant applications:
        
        * Start by syncing ``science-platform``.
@@ -117,7 +119,7 @@ The process is similar to that of deploying a full upgrade, but with some key di
 #. **Clean up jobs for relevant CSCs, ScriptQueues**
 
    * For CSCs, this can be done by logging into ``ArgoCD``, finding the job and deleting it.
-   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. 
+   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. Be sure to point to the correct cluster (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`,  :ref:`TTS <Deployment-Activities-TTS-Kubernetes>` ).
       * Make sure you are in the correct cluster context and run::
 
          kubectl delete job -n <namespace> -l csc-class=<csc-class>
