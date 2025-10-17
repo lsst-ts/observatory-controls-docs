@@ -184,7 +184,7 @@ Update ESS Controllers
 
     sudo -iu dco
     ./shutdown_controller
-    sudo ./update_repo docker-compose-ops/ <name_of_deployment_branch>
+    ./update_repo docker-compose-ops/ <name_of_deployment_branch>
     ./launch_controller
 
 * ESS:107 (laser-rpi.cp.lsst.org) has two containers. To stop, update and restart them::
@@ -209,7 +209,7 @@ Update Configuration
     * To update these machines, log into them and run::
 
         sudo -iu dco
-        sudo ./update_repo <repo-path> <branch>
+        ./update_repo <repo-path> <branch>
 
 
 .. _Deployment-Activities-Summit-LOVE-Startup:
