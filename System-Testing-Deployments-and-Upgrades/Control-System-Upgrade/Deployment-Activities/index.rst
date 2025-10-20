@@ -13,13 +13,20 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
   Upgrading systems which are controlling hardware, especially the camera CCD, cold, cryo and vacuum systems, needs to be done with care and should be coordinated with the hardware/software experts for those systems.
 
+.. important::
+
+   If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
+   The same goes for OS/k8s upgrades.
+
 #. Send all CSC to ``OFFLINE`` state
     * Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state. 
-    * If CSCs do not transition to ``OFFLINE`` with ``system_wide_shutdown.py``, try running ``set_summary_state.py``. An example configuration would be::
+    * The ScriptQueues (and any other CSC that fails to transition to ``OFFLINE``state) need to be shut down using the ``set_summary_state.py`` script. Assuming the script is run using ``MTQueue``, use the following configuration::
 
         data:
-        - [ESS:118, OFFLINE]
-   
+        - [ScriptQueue:3, OFFLINE]
+        - [ScriptQueue:2, OFFLINE]
+        - [ScriptQueue:1, OFFLINE]
+        mute_alarms: false
 
     * **WARNING**: Not all CSCs report ``OFFLINE``; these will instead report ``STANDBY`` as the last state seen. To check that they are indeed ``OFFLINE`` check for heartbeats using Chronograf.
     
@@ -38,9 +45,11 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
     
-    * The ScriptQueues MUST come down last.
+    * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
+
 
 .. _Control-System-Upgrade-Pre-Deployment-Activities-Clean-up:
+
 #. **Clean up still running CSCs/systems**
 
    * To shut down the cameras, log into the ``mcm`` machines and stop the bridges using ``sudo systemctl stop`` (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
@@ -48,6 +57,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    * Notify the camera upgrade team that the system is ready for :ref:`Stage 1<camera-install-stage-1>`.
    * Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
    * Clean up Kubernetes deployments:
+      * To do this you will need to point to the correct Kubernetes cluster for each site (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>` )
       * Scripts are in https://github.com/lsst-ts/k8s-admin.
       * Ensure the correct cluster is set, then run::
 
@@ -67,9 +77,27 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
       * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
       * Also, only certain T&S systems are handled here, the rest need to be coordinated with system principles.
 
+
+#. In the case that the changes to be applied break schema compatibility, it will be necessary to change the schema registry compatibility setting. To do so:
+
+   * Exec into a schema registry pod.
+   * Check the current setting, which should be ``FORWARD``::
+      
+      curl $SCHEMA_REGISTRY_LISTENERS/config 
+   
+   * Change the setting to ``NONE`` by doing::
+
+      curl -s -X PUT -H 'Content-Type: application/vnd.schemaregistry.v1+json' --data '{  "compatibility": "NONE" }' $SCHEMA_REGISTRY_LISTENERS/config
+
+   * Remember to change the compatibility setting back to ``FORWARD`` later.
+
+
 #. Once all configurations are in place, deployment of the new system can begin.
+    
     * **Be patient with container pulling (goes for everything containerized here).**
+
     #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
+    #. Update cRIOs if not done already (:ref:`Summit <Deployment-Activities-Summit-Update-cRIOs>` only)
     #. Log into the site specific ArgoCD UI to sync the relevant applications:
        
        * Start by syncing ``science-platform``.
@@ -79,11 +107,12 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
        
-       * This is handled by the Camera team for a Cycle upgrade, but it is done by the deployment team for a system restart.
+       * This is generally handled by the Camera team.
     
     #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
     
     #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>` only).
+
 
 #. **Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into** ``STANDBY``
    
@@ -111,7 +140,7 @@ The process is similar to that of deploying a full upgrade, but with some key di
 #. **Clean up jobs for relevant CSCs, ScriptQueues**
 
    * For CSCs, this can be done by logging into ``ArgoCD``, finding the job and deleting it.
-   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. 
+   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. Be sure to point to the correct cluster (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`,  :ref:`TTS <Deployment-Activities-TTS-Kubernetes>` ).
       * Make sure you are in the correct cluster context and run::
 
          kubectl delete job -n <namespace> -l csc-class=<csc-class>
@@ -136,8 +165,10 @@ In order to do this:
 
 #. **Sync Components**
 
-#. **For the Summit** the cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started.
-   See :ref:`Deployment-Activities-Summit-TandS-BM-Startup`.
+#. **For the Summit** 
+
+   * The cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started. See last step in :ref:`Deployment-Activities-Summit-Update-cRIOs`.
+   * ``azar02.cp.lsst.org`` and ``allsky2-cam.cp.lsst.org`` will need to be rebooted. 
 
 #. **For test stands, minimal testing is required.**
    This involves tracking and taking an image using both telescopes.

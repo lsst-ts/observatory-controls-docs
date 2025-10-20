@@ -77,9 +77,9 @@ Shutdown Camera Services
 .. _Deployment-Activities-Summit-LOVE-Shutdown:
 
 Shutdown bare metal LOVE
--------------
+------------------------
 
-This needs to be done from ``love01.lsst.org`` as ``dco`` user::
+This needs to be done from ``love01.cp.lsst.org`` as ``dco`` user::
 
     sudo -iu dco
     ./shutdown_love
@@ -91,6 +91,7 @@ Shutdown T&S Bare Metal Services
 
 * Handle azar03::
 
+    ssh azar03.cp.lsst.org
     sudo -iu dco
     ./shutdown_gc
 
@@ -99,7 +100,7 @@ Shutdown T&S Bare Metal Services
     ssh admin@m1m3-crio-ss.cp.lsst.org
     /etc/init.d/ts-M1M3support stop
 
-* Handle M1M3 VMS:1 cRIO::
+* Handle M1M3 VMS cRIO::
 
     ssh admin@m1m3-crio-vms.cp.lsst.org
     /etc/init.d/ts-VMS stop
@@ -109,7 +110,7 @@ Shutdown T&S Bare Metal Services
     ssh admin@m1m3-crio-ts.cp.lsst.org
     /etc/init.d/ts-m1m3thermal stop
 
-* Handle M2 VMS:2 cRIO::
+* Handle M2 VMS cRIO::
 
     ssh admin@m2-crio-vms01.cp.lsst.org
     /etc/init.d/ts-VMS stop
@@ -183,7 +184,7 @@ Update ESS Controllers
 
     sudo -iu dco
     ./shutdown_controller
-    sudo ./update_repo docker-compose-ops/ <name_of_deployment_branch>
+    ./update_repo docker-compose-ops/ <name_of_deployment_branch>
     ./launch_controller
 
 * ESS:107 (laser-rpi.cp.lsst.org) has two containers. To stop, update and restart them::
@@ -194,6 +195,74 @@ Update ESS Controllers
     ./update_repo docker-compose-ops/ <name_of_deployment_branch>
     ./launch_ess 
     ./launch_audiotrigger 
+
+.. _Deployment-Activities-Summit-Update-cRIOs:
+
+Update cRIOs
+------------
+
+These steps are usually taken care of by the person responsible for the MTM1M3, MTM1M3TS and MTVMs CSCs (Petr Kubánek), but they need to be followed in case he is unable to perform them for whatever reason.
+In the case of an OS update, the cRIO services will need to be started, as detailed in the last step in this section.
+
+* SSH into the cRIO machines:
+    * ``m1m3-crio-ss`` for MTM1M3 Support System.
+    * ``m1m3-crio-ts`` for the Thermal System.
+    * ``m2-crio-vms01`` and ``m1m3-crio-vms`` for the VMSs.
+    
+* Update ``ts_xml`` and set up the kafka environment::
+
+    cd ts_xml
+    git checkout main
+    git pull
+    pip3 install .
+    . ~/kafka.env
+    . ~/ts_sal/setupKafka.env
+    . ~/kafka.env
+
+* Run ``salgeneratorKafka``:
+    *  In ``m1m3-crio-ss``::
+
+        salgeneratorKafka generate cpp MTM1M3
+        salgeneratorKafka generate cpp MTMount
+
+    *  In ``m1m3-crio-ts``::
+
+        salgeneratorKafka generate cpp MTM1M3TS
+
+    *  In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+
+        salgeneratorKafka generate cpp MTVMS
+
+
+    This should take about an hour to run. For convinience, it is a good idea to run the terminal on the background using screen.
+        
+
+* Update the following repos:
+    * ``ts_cRIOcpp`` in all machines.
+    * ``ts_m1m3support`` in  ``m1m3-crio-ss``.
+    * ``ts_m1m3thermal`` in ``m1m3-crio-ts``.
+    * ``ts_vms`` in ``m2-crio-vms01`` and ``m1m3-crio-vms``.
+* After ``salgeneratorKafka`` finishes and the C++ binding is done, clean and compile ``ts_cRIOcpp`` in all machines::
+
+    cd ../ts_cRIOcpp
+    make clean && make
+
+* The same needs to be after for ``ts_m1m3support``, ``ts_m1m3thermal`` and ``ts_vms`` in their corresponding machines.
+* Copy the binaries to ``/usr/sbin`` and start up the services:
+    * In ``m1m3-crio-ss``::
+
+        cp ts-M1M3supportd /usr/sbin/ts-M1M3supportd
+        etc/init.d/ts-M1M3supportd start
+
+    * In ``m1m3-crio-ts``::
+
+        cp ts-M1M3thermald /usr/sbin/ts-M1M3thermald
+        /etc/init.d/ts-m1m3thermal start
+
+    * In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+
+        cp ts-VMSd /usr/sbin/ts-VMSd
+        /etc/init.d/ts-VMS start
 
 
 .. _Deployment-Activities-Summit-Update-Configuration:
@@ -208,13 +277,13 @@ Update Configuration
     * To update these machines, log into them and run::
 
         sudo -iu dco
-        sudo ./update_repo <repo-path> <branch>
+        ./update_repo <repo-path> <branch>
 
 
 .. _Deployment-Activities-Summit-LOVE-Startup:
 
 Startup bare metal LOVE
--------------
+-----------------------
 
 This needs to be done from ``love01``. After ``LOVE-integration-tools`` has been updated::
 
@@ -257,7 +326,6 @@ Startup Camera Services
 
 Startup T&S Bare Metal Services
 -------------------------------
-
 * Handle azar03::
 
     sudo -iu dco
@@ -276,30 +344,7 @@ Startup T&S Bare Metal Services
 * Handle Flat FiberSpectrograph Blue::
 
     sudo -iu dco
-    ./launch_fiberspec
-
-The following cRIOs are usually handled by the person responsible for them during a Cycle upgrade,
-but by the deployment team during a system recovery: 
-
-* Handle M1M3 cRIO::
-
-    ssh admin@m1m3-crio-ss.cp.lsst.org
-    /etc/init.d/ts-M1M3support start
-
-* Handle M1M3 VMS:1 cRIO::
-
-    ssh admin@m1m3-crio-vms.cp.lsst.org
-    /etc/init.d/ts-VMS start
-
-* Handle M2 VMS:2 cRIO::
-
-    ssh admin@m2-crio-vms01.cp.lsst.org
-    /etc/init.d/ts-VMS start
-
-* Handle M1M3 Thermal System cRIO::
-
-    ssh admin@m1m3-crio-ts.cp.lsst.org
-    /etc/init.d/ts-m1m3thermal start
+    ./launch_fiberspec 
 
 
 .. _Deployment-Activities-Summit-Enabled-CSCs:
@@ -323,11 +368,10 @@ These are:
   .. code:: bash
 
     data:
-      - [ESS:1, ENABLED]
-      - [ESS:2, ENABLED]
       - [ESS:104, ENABLED]
       - [ESS:105, ENABLED]
       - [ESS:106, ENABLED]
+      - [ESS:107, ENABLED]
       - [ESS:108, ENABLED]
       - [ESS:109 ENABLED]
       - [ESS:110, ENABLED]
@@ -338,9 +382,13 @@ These are:
       - [ESS:115, ENABLED]
       - [ESS:116, ENABLED]
       - [ESS:117, ENABLED]
+      - [ESS:118, ENABLED]
+      - [ESS:119, ENABLED]
+      - [ESS:120, ENABLED]
+      - [ESS:121, ENABLED]
+      - [ESS:122, ENABLED]
       - [ESS:201, ENABLED]
       - [ESS:202, ENABLED]
-      - [ESS:203, ENABLED] 
       - [ESS:204, ENABLED]
       - [ESS:301, ENABLED]
       - [ESS:302, ENABLED]
@@ -348,5 +396,6 @@ These are:
       - [ESS:304, ENABLED]
       - [ESS:305, ENABLED]
       - [ESS:306, ENABLED]
+      - [ESS:308, ENABLED] 
       - [GIS, ENABLED]
       - [Watcher, ENABLED]
