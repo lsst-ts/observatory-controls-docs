@@ -47,7 +47,9 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
 
+
 .. _Control-System-Upgrade-Pre-Deployment-Activities-Clean-up:
+
 #. **Clean up still running CSCs/systems**
 
    * To shut down the cameras, log into the ``mcm`` machines and stop the bridges using ``sudo systemctl stop`` (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
@@ -91,7 +93,9 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 
 #. Once all configurations are in place, deployment of the new system can begin.
+    
     * **Be patient with container pulling (goes for everything containerized here).**
+
     #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
     #. Update cRIOs if not done already (:ref:`Summit <Deployment-Activities-Summit-Update-cRIOs>` only)
     #. Log into the site specific ArgoCD UI to sync the relevant applications:
