@@ -231,7 +231,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
 
     *  In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
 
-        salgeneratorKafka generate cpp MTVMLS
+        salgeneratorKafka generate cpp MTVMS
 
 
     This should take about an hour to run. For convinience, it is a good idea to run the terminal on the background using screen.

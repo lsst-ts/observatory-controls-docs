@@ -15,7 +15,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 .. important::
 
-   If deploying the upgrade to the Summit, make sure that after the Control System has been shut down, M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
+   If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
    The same goes for OS/k8s upgrades.
 
 #. Send all CSC to ``OFFLINE`` state
@@ -45,7 +45,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
     
     * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
     
-    * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScripQueue where the script is run last.
+    * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
 
 .. _Control-System-Upgrade-Pre-Deployment-Activities-Clean-up:
 #. **Clean up still running CSCs/systems**
@@ -78,7 +78,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 #. In the case that the changes to be applied break schema compatibility, it will be necessary to change the schema registry compatibility setting. To do so:
 
-   * Exec into the schema registry pod.
+   * Exec into a schema registry pod.
    * Check the current setting, which should be ``FORWARD``::
       
       curl $SCHEMA_REGISTRY_LISTENERS/config 
