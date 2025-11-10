@@ -118,7 +118,7 @@ However, if a more visual user-friendly interface is required, users should cons
     :titlesonly:
     :glob:
 
-    Control-User-Interfaces/efd
+    Control-User-Interfaces/EFD.rst
 
 .. _Control-System-User-Interfaces-LSST-Camera-Image-Visualization:
 

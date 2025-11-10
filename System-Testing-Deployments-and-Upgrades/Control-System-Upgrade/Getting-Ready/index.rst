@@ -146,6 +146,5 @@ Checking Schema compatibility for an Incremental upgrade
   Notice that the scripts will only report when a new topic is created or an old one removed.
   It will not produce results for variables added to topics.
 
-.. _ts_xml: https://github/lsst-ts/ts_xml
 .. _ts_salobj: https://github.com/lsst-ts/ts_salobj
 .. _vanward: https://vanward.lsst.io

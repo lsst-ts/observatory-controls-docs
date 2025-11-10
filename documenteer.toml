@@ -43,5 +43,10 @@ ignore = [
     "https://foreman.tu.lsst.org",
     "https://foreman.ls.lsst.org",
     "^https://jira.lsstcorp.org",
-    "^https://confluence.lsstcorp.org"
+    "^https://confluence.lsstcorp.org",
+    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-150/",  
+    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-70",
+    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-209",
+    "https://docushare.lsst.org/docushare/dsweb/Get/LTS-306",
+    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-307"
 ]
