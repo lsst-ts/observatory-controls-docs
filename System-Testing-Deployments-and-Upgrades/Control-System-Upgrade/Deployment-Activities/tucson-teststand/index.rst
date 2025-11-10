@@ -128,3 +128,10 @@ Required configurations will be given for each script execution.
     data:
       - [ESS:*, ENABLED]
       - [Watcher, ENABLED]
+
+.. _Deployment-Activities-TTS-Minimal-Testing:
+
+Minimal Testing
+---------------
+
+It is ufortunately not possible to take images in TTS at the moment, as both cameras need to be updated and neither of them is currently functional. For this reason, proceed with tracking only.
