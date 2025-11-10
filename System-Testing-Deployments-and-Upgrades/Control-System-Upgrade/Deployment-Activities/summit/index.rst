@@ -33,7 +33,6 @@ Bare Metal Machines
 * VMS Data Logger: vms-data.cp.lsst.org
 * Flat FiberSpectrograph Red: flat-fiberspecred.cp.lsst.org
 * Flat FiberSpectrograph Blue: flat-fiberspecblue.cp.lsst.org
-.. * M2 Control (Te-Wei Tsai): m2-control.cp.lsst.org
 * ESS:1 (Camera Hexapod/Rotator) Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
 * ESS:2 (M2 Hexapod) Controller RPi (Wouter van Reeven): m2hex-ess01.cp.lsst.org
 * ESS:106 (M2 Mirror): m2-ess01.cp.lsst.org

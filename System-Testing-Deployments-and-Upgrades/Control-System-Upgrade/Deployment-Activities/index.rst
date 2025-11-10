@@ -154,6 +154,9 @@ The process is similar to that of deploying a full upgrade, but with some key di
 
    * Sync the ScriptQueues and any other CSCs that need to be updated.
 
+#. **For test stands, minimal testing is required.**
+   See further information in (:ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`)
+
 
 Recovering the Control System after an OS/K8s upgrade
 =====================================================
@@ -171,11 +174,89 @@ In order to do this:
    * ``azar02.cp.lsst.org`` and ``allsky2-cam.cp.lsst.org`` will need to be rebooted. 
 
 #. **For test stands, minimal testing is required.**
-   This involves tracking and taking an image using both telescopes.
+   See further information in :ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`.
 
 
-Site Specific Variations
-========================
+.. _Control-System-Upgrade-Deployment-Activities-Minimal-Testing:
+
+Minimal Testing
+===============
+
+#. In the case of an OS/K8s upgrades, both telescopes need to be tested to ensure they are able to track and take images.
+#. In the case of an Incremental Upgrade:
+
+   * It is important to ensure that all the new topics (if any) were created. This can be done both through Kafdrop and by looking at the logs in the ``schema-registry`` pod in ``sasquatch``.
+   * The CSCs affected should be cycled through states, to ensure that they don't go into ``FAULT`` and that the correct topics get populated.
+   * If components in either of the telescopes were affected, it is necessary to test that the one that was updated can still track and take images.
+
+
+#. To get AT to track and take images:
+
+   * Run ``auxtel/enable_atcs.py`` in LOVE.
+   * Run ``auxtel/enable_lattis.py``.
+   * Run ``auxtel_housekeeping.py``. This can be done either through nublado or through ``argo-workflows``.
+   * Load the playlist. You can do this by running the ``run_command.py`` script in LOVE with the following configuration::
+
+      component: ATCamera
+      cmd: play
+      parameters:
+         playlist: bias
+         repeat: true
+
+   * Run ``auxtel/prepare_for/onsky.py``.
+   * Run ``auxtel/track_target.py``. One possible configuration is::
+
+      target_name: HD164461
+      rot_value: 80.0
+      rot_type: PhysicalSky
+      track_for: 30
+
+   * Run ``auxtel/take_image_latiss.py``. One possible configuration is::
+
+      nimages: 5
+      image_type: BIAS
+      program: IntegrationTesting
+      reason: Minimal testing  
+
+   * Ensure that the images have been properly ingested. You can do this in Chronograf by checking the ``LATISS Exposure Table``, ``LATISS Header Status``and ``LATISS OODS ingest status`` dashboards.
+
+   * Remember to run ``auxtel/stop_tracking.py`` after.
+
+
+#. To get MT to track and take images:
+
+   * Run ``maintel/enable_atcs.py`` in LOVE.
+   * Run ``maintel/enable_lsstcam.py``.
+   * Run ``maintel_housekeeping.py``. This can be done either through nublado or through ``argo-workflows``.
+   * Load the playlist. You can do this by running the ``run_command.py`` script in LOVE with the following configuration::
+
+      component: MTCamera
+      cmd: play
+      parameters:
+         playlist: lsstcam-20250530
+         repeat: true
+
+   * Run ``maintel/m1m3/raise_m1m3.py``.
+   * Run ``maintel/track_target.py``. One possible configuration is::
+
+      target_name: HD164461
+      rot_value: 80.0
+      rot_type: PhysicalSky
+      track_for: 30
+
+   * Run ``auxtel/take_image_latiss.py``. One possible configuration is::
+
+      exp_times: 30
+      nimages: 5
+      image_type: "ACQ"
+      reason: minimal_testing
+
+   * Ensure that the images have been properly ingested. You can do this in Chronograf by checking the ``LSSTCam Exposure Table``, ``LSSTCam Header Status``and ``LSSTCam OODS ingest status`` dashboards.
+   * Remember to run ``maintel/stop_tracking.py`` or ``maintel/csc_end_of_night.py``.
+
+#. There are some site specific variations (:ref:`TTS <Deployment-Activities-TTS-Minimal-Testing>`).
+
+
 
 .. toctree::
     :maxdepth: 2

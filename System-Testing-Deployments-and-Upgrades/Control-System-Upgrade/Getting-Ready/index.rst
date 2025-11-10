@@ -21,41 +21,6 @@ Upgrading the Interface (XML)
 #. Ensure all work tickets are closed when the deadline passes (use the Step 5 script).
 #. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
 
-
-Incremental Upgrades to the Interface (XML)
-===========================================
-
-Incremental upgrades to the interface (XML) are handled similarly to full upgrades, but with some key differences:
-
-#. They can be requested through Slack in the ``#recap-software`` channel as the need arises. The request will then proceed to be discussed in the next CAP meeting.
-#. Since an incremental upgrade does not require a full Cycle build, nor the whole suite of integration tests, the time between the closure of XML work and deployment to the Summit will be shorter than that of a full Cycle upgrade. The schedule will thus depend on the amount of components updated.
-#. Notes detailing the components affected, XML changes and software versions will be added to the current Cycle's confluence page. 
-#. The Jira tickets tracking the relevant changes for the affected components need to be identified and kept in the current release in the Jira CAP project. The people requesting the incremental upgrade are responsible for providing the Jira ticket keys for the work that needs to be included in the upgrade.
-   It is advisable to double check with folks that they have specified all necessary tickets, as it has been the case before that people forget a relevant one.
-#. Once the relevant tickets have been identified, the commit SHAs associated with them need to be found so they can be included in the new release. The ``collect_ticket_commits`` in the vanward_ can help with that.
-#. All XML changes not included in the incremental upgrade need to be moved to the next release in the CAP project. The ``move_bucket_ticket_links`` script in the vanward_ package can be used to take care of that.
-#. Since an incremental upgrade changes the XML interface only partially, it is important to check that the changes do not break schema compatibility. See :ref:`Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility` for further instructions.
-
-Upgrading SAL
-=============
-
-While upgrading SAL usually coincides with an upgrade to the XML, it does not have to be the case.
-An upgrade for SAL may use the previous cycle's XML version in order to limit the potential for surprises.
-The primary developers (Valerie Becker, Igor Suarez-Sola) for SAL are responsible for ensuring the necessary work is completed and the new version is ready.
-
-
-Upgrading Kafka
-==========================
-
-Upgrading the communication backplane via updating the Kafka version requires care and extra lead time.
-The Kafka oversight committee (Tiago Ribeiro, Michael Reuter) will make the determination if a new version of Kafka is ready for incorporation into a new cycle.
-This determination requires dedicated testing from the main members of committee to ensure readiness.
-Cycle builds upgrading Kafka have longer testing periods split into two phases.
-The first phase builds a smaller section of the control system components and deploys them for testing on the TTS.
-Work is done to ensure that this small system is operating within the normal parameters.
-The second phase happens when the full system is built as part of the standard deployment operations.
-
-
 .. _Control-System-Upgrade-Getting-Ready-Setting-Schedule:
 
 Setting a Schedule for a full Cycle upgrade
@@ -75,6 +40,39 @@ It takes roughly one week from work closure to finishing the deployment artifact
 After the initial BTS deployment the CSC developers have about 2 days to react to changes in the interface. While it’s ideal to notify folks of these changes in advance, this may not always be possible.  
 Integration testing is limited to three days.  
 Summit deployments always occur at 9 AM summit time on the Tuesday following the BTS deployment.
+
+Incremental Upgrades to the Interface (XML)
+===========================================
+
+Incremental upgrades to the interface (XML) are handled similarly to full upgrades, but with some key differences:
+
+#. They can be requested through Slack in the ``#recap-software`` channel as the need arises.
+#. Notes detailing the components affected, XML changes and software versions will be added to the current Cycle's confluence page. 
+#. The requesters should note down the changes they want to include in the appropiate Cycle's Confluence page (`Software Upgrades <https://confluence.lsstcorp.org/pages/viewpage.action?spaceKey=LSSTCOM&title=Software+Upgrades>`_). 
+#. At minimum, the requesters need to detail which components are affected and the associated Jira tickets, since they are the ones responsible for listing which changes specifically are to be included in the upgrade.
+#. It is still advisable to double check with folks that they have specified all necessary tickets, as it has been the case before that people forget a relevant one.
+#. The request will then proceed to be discussed in the next CAP meeting.
+#. Since an incremental upgrade does not require a full Cycle build, nor the whole suite of integration tests, the time between the closure of XML work and deployment to the Summit will be shorter than that of a full Cycle upgrade. See :ref:`Control-System-Upgrade-Getting-Ready-Setting-Schedule-Incremental-Upgrade` for further instructions.
+#. The Jira tickets tracking the relevant changes for the affected components need to be identified and kept in the current release in the Jira CAP project. 
+#. A new release will need to be created so the changes not included in the incremental upgrade can be moved there. The ``move_bucket_ticket_links`` script in the vanward_ package can help with that.
+#. Once the relevant tickets have been identified, the commit SHAs associated with them need to be found so they can be included in the new release. The ``collect_ticket_commits`` in the vanward_ can help with that.
+#. Since an incremental upgrade changes the XML interface only partially, it is important to check that the changes do not break schema compatibility. See :ref:`Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility` for further instructions.
+
+.. _Control-System-Upgrade-Getting-Ready-Setting-Schedule-Incremental-Upgrade:
+
+Setting a Schedule for an incremental Upgrade
+=============================================
+
+While below is an example, use your best judgment to set dates and make sure the major stakeholders are informed of the schedule by the CAP meeting.
+
+* **Day 1:** Close of release work.  
+* **Days 2:** Build artifacts (RPMs/JARs).  
+* **Days 3-4:** Build conda packages and deployment artifacts.  
+* **Day 5-6:** Deployment to BTS and minimal testing.    
+* **Day 7** Summit deployment.
+
+This schedule template is based on previous incremental upgrades, where 1 or 2 components have been involved. The actual schedule will depend on the amount of components affected. 
+Summit deployments always occur at 9 AM summit time, not necessarily on a Tuesday. Deployments should not happen on a Friday.
 
 .. _Control-System-Upgrade-Getting-Ready-Checking-Schema-Compatibility:
 
@@ -146,6 +144,25 @@ Checking Schema compatibility for an Incremental upgrade
   Notice that the scripts will only report when a new topic is created or an old one removed.
   It will not produce results for variables added to topics.
 
-.. _ts_xml: https://github/lsst-ts/ts_xml
+
+Upgrading SAL
+=============
+
+While upgrading SAL usually coincides with an upgrade to the XML, it does not have to be the case.
+An upgrade for SAL may use the previous cycle's XML version in order to limit the potential for surprises.
+The primary developers (Valerie Becker, Igor Suarez-Sola) for SAL are responsible for ensuring the necessary work is completed and the new version is ready.
+
+
+Upgrading Kafka
+==========================
+
+Upgrading the communication backplane via updating the Kafka version requires care and extra lead time.
+The Kafka oversight committee (Tiago Ribeiro, Michael Reuter) will make the determination if a new version of Kafka is ready for incorporation into a new cycle.
+This determination requires dedicated testing from the main members of committee to ensure readiness.
+Cycle builds upgrading Kafka have longer testing periods split into two phases.
+The first phase builds a smaller section of the control system components and deploys them for testing on the TTS.
+Work is done to ensure that this small system is operating within the normal parameters.
+The second phase happens when the full system is built as part of the standard deployment operations.
+
 .. _ts_salobj: https://github.com/lsst-ts/ts_salobj
 .. _vanward: https://vanward.lsst.io
