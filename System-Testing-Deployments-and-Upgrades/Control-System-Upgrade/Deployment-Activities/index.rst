@@ -239,7 +239,7 @@ Minimal Testing
    * Run ``maintel/home_both_axes.py``
    * Run ``maintel/enable_hexapod_compensation_mode.py``
    * Run ``maintel/m1m3/raise_m1m3.py``.
-   * Run ``maintel/track_target.py``. One possible conf`guration is::
+   * Run ``maintel/track_target.py``. One possible configuration is::
 
       target_name: HD164461
       rot_value: 80.0
