@@ -206,22 +206,22 @@ Minimal Testing
    * Run ``auxtel/prepare_for/onsky.py``.
    * Run ``auxtel/track_target.py``. One possible configuration is::
 
-      target_name: HD164461
-      rot_value: 80.0
-      rot_type: PhysicalSky
-      track_for: 30
+      slew_icrs:
+      dec: -20
+      ra: 18
 
    * Run ``auxtel/take_image_latiss.py``. One possible configuration is::
 
       nimages: 5
       image_type: BIAS
       program: IntegrationTesting
-      reason: Minimal testing  
+      reason: minimal_testing 
 
    * Ensure that the images have been properly ingested. You can do this in Chronograf by checking the ``LATISS Exposure Table``, ``LATISS Header Status``and ``LATISS OODS ingest status`` dashboards.
 
    * Remember to run ``auxtel/stop_tracking.py`` after.
 
+   * Once the testing is done, run ``auxtel/standby_atcs.py`` to leave the test stand in its default state.
 
 #. To get MT to track and take images:
 
@@ -236,15 +236,17 @@ Minimal Testing
          playlist: lsstcam-20250530
          repeat: true
 
+   * Run ``maintel/home_both_axes.py``
+   * Run ``maintel/enable_hexapod_compensation_mode.py``
    * Run ``maintel/m1m3/raise_m1m3.py``.
-   * Run ``maintel/track_target.py``. One possible configuration is::
+   * Run ``maintel/track_target.py``. One possible conf`guration is::
 
       target_name: HD164461
       rot_value: 80.0
       rot_type: PhysicalSky
       track_for: 30
 
-   * Run ``auxtel/take_image_latiss.py``. One possible configuration is::
+   * Run ``maintel/take_image_lsstcam.py``. One possible configuration is::
 
       exp_times: 30
       nimages: 5
