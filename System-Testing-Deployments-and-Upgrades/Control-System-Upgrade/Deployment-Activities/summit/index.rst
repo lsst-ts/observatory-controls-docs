@@ -20,7 +20,7 @@ Resources
 Bare Metal Machines
 -------------------
 
-* T&S CSCs: azar2.cp.lsst.org, azar03.cp.lsst.org
+* T&S CSCs: tel-hw1.cp.lsst.org, azar03.cp.lsst.org
 * Auxtel illumination control machine: auxtel-ill-control.cp.lsst.org
 * LOVE: love01.cp.lsst.org
 * ATCamera (Tony Johnson): auxtel-mcm.cp.lsst.org
@@ -271,8 +271,8 @@ Update Configuration
 
 * Most configurations for the different applications deployed to the Summit can be found in the Phalanx repo (https://github.com/lsst-sqre/phalanx). Make sure those are correct.
 * Some bare metal machine configurations also need to be updated. To do so, we use the ``docker-compose-admin/bin/update_repo`` script, which is linked into the ``dco`` user home directory. The directories to be updated are:
-    * ``docker-compose-ops`` (azar2, azar03, auxtel-ill-control, flat-fiberspecred, flat-fiberspecblue)
-    * ``LOVE-integration-tools`` (love01)
+    * ``docker-compose-ops`` (in tel-hw1, azar03, auxtel-ill-control, flat-fiberspecred, flat-fiberspecblue)
+    * ``LOVE-integration-tools`` (in love01)
     * To update these machines, log into them and run::
 
         sudo -iu dco
