@@ -18,6 +18,11 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
    The same goes for OS/k8s upgrades.
 
+.. important::
+
+   If deploying the upgrade to the Summit, keep MTM1M3TS in ENABLED state and MTM1M3 in DISABLED state. This will be fixed at some point.
+   The same goes for OS/k8s upgrades.
+
 #. Send all CSC to ``OFFLINE`` state
     * Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state. 
     * The ScriptQueues (and any other CSC that fails to transition to ``OFFLINE``state) need to be shut down using the ``set_summary_state.py`` script. Assuming the script is run using ``MTQueue``, use the following configuration::
@@ -171,7 +176,8 @@ In order to do this:
 #. **For the Summit** 
 
    * The cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started. See last step in :ref:`Deployment-Activities-Summit-Update-cRIOs`.
-   * ``azar02.cp.lsst.org`` and ``allsky2-cam.cp.lsst.org`` will need to be rebooted. 
+   * The CSCs on ``azar03.cp.lsst.org`` will need to be restarted.
+   * ``azar02.cp.lsst.org`` will need to be rebooted. 
 
 #. **For test stands, minimal testing is required.**
    See further information in :ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`.
@@ -238,7 +244,9 @@ Minimal Testing
 
    * Run ``maintel/home_both_axes.py``
    * Run ``maintel/enable_hexapod_compensation_mode.py``
-   * Run ``maintel/m1m3/raise_m1m3.py``.
+   * Run ``maintel/mtdome/open_dome.py``
+   * Run ``maintel/mtdome/enable_dome_following.py``
+   * Run ``maintel/m1m3/raise_m1m3.py``. In the test stands this script will not work at low elevations (it will hang). If this happens, use ``point_azel.py`` to bring it to 80 degrees elevation. 
    * Run ``maintel/track_target.py``. One possible configuration is::
 
       target_name: HD164461
@@ -254,6 +262,7 @@ Minimal Testing
       reason: minimal_testing
 
    * Ensure that the images have been properly ingested. You can do this in Chronograf by checking the ``LSSTCam Exposure Table``, ``LSSTCam Header Status``and ``LSSTCam OODS ingest status`` dashboards.
+   * Ensure that there are no retrieval failures in RubinTV.
    * Remember to run ``maintel/stop_tracking.py`` or ``maintel/csc_end_of_night.py``.
 
 #. There are some site specific variations (:ref:`TTS <Deployment-Activities-TTS-Minimal-Testing>`).

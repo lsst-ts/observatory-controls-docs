@@ -48,5 +48,8 @@ ignore = [
     "https://docushare.lsst.org/docushare/dsweb/Get/LSE-70",
     "https://docushare.lsst.org/docushare/dsweb/Get/LSE-209",
     "https://docushare.lsst.org/docushare/dsweb/Get/LTS-306",
-    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-307"
+    "https://docushare.lsst.org/docushare/dsweb/Get/LSE-307",
+    "https://docutils.sourceforge.io/docs/user/rst/quickstart.html",
+    "https://docutils.sourceforge.io/rst.html",
+    "https://docutils.sourceforge.io/docs/user/rst/quickref.html"
 ]
