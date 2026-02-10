@@ -16,7 +16,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 .. important::
 
    If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
-   The same goes for OS/k8s upgrades.
+   In the case of an OS/k8s upgrade, ensure that the M2 CSC is back into ``ENABLED`` state before rebooting the Hexrot VM (where the EUI for M2 runs), otherwise it will go out of closed loop again.
 
 .. important::
 
