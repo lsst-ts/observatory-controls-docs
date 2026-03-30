@@ -186,7 +186,7 @@ They can take care of the shutdown themselves, but they may need support.
 After IT performs a routine OS/K8s upgrade the Control System will need to be brought back.
 In order to do this:
 
-#. Resume Strimzi reconciliation as specified in the `Sasquatch documentation <https://sasquatch.lsst.io/admin/kafka-shutdown.html#restarting-kafka>`_.
+#. Resume Strimzi reconciliation as specified in the `Sasquatch documentation <https://sasquatch.lsst.io/admin/kafka-shutdown.html>`_.
 #. Wait for the Kafka brokers and controllers to be back and healthy. 
 #. Like with a Cycle deployment, sync the telescope namespaces in Argo-cd, do LOVE last.
 #. **For the Summit** 
