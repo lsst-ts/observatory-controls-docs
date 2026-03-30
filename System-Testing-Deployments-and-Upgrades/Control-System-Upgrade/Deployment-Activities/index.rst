@@ -15,7 +15,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 .. important::
 
-   If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` beforehand.
+   If deploying the upgrade to the Summit, before shutting down the Control System, make sure that M2 is switched to closed loop control from the EUI. You should ask for help with this in ``#summit-simonyitel`` and/or ``#summit-control-room`` beforehand.
    In the case of an OS/k8s upgrade, ensure that the M2 CSC is back into ``ENABLED`` state before rebooting the Hexrot VM (where the EUI for M2 runs), otherwise it will go out of closed loop again.
 
 .. important::
@@ -23,80 +23,83 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    If deploying the upgrade to the Summit, keep MTM1M3TS in ENABLED state and MTM1M3 in DISABLED state. This will be fixed at some point.
    The same goes for OS/k8s upgrades.
 
-#. Send all CSC to ``OFFLINE`` state
-    * Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state. 
-    * The ScriptQueues (and any other CSC that fails to transition to ``OFFLINE``state) need to be shut down using the ``set_summary_state.py`` script. Assuming the script is run using ``MTQueue``, use the following configuration::
+1. Shutting down the Control System
+-----------------------------------
 
-        data:
-        - [ScriptQueue:3, OFFLINE]
-        - [ScriptQueue:2, OFFLINE]
-        - [ScriptQueue:1, OFFLINE]
-        mute_alarms: false
+* Go to the LOVE interface for the specific site and use any of the ScriptQueues to run the ``system_wide_shutdown.py`` script (under STANDARD). This will send all CSC systems to ``OFFLINE`` state. 
+* The ScriptQueues (and any other CSC that fails to transition to ``OFFLINE``state) need to be shut down using the ``set_summary_state.py`` script. Assuming the script is run using ``MTQueue``, use the following configuration::
 
-    * **WARNING**: Not all CSCs report ``OFFLINE``; these will instead report ``STANDBY`` as the last state seen. To check that they are indeed ``OFFLINE`` check for heartbeats using Chronograf.
-    
-    * It is recommended to use LOVE for this, but if it's not working, Nublado is a good fallback.
-    
-    * An overall status view is available from LOVE in the Summary state view (:ref:`Summit <Deployment-Activities-Summit-LOVE-Summary>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Summary>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Summary>`).
-    
-    * You can also consult these dashboards on Chronograf. The names are the same across sites.
-       
-       * ``Heartbeats``
-       * ``AT Summary State Monitor``
-       * ``MT Summary State Monitor``
-       * ``Envsys Summary State Monitor``
-       * ``Calibration Systems Summary State Monitor``
-       * ``Observatory Systems Summary State Monitor``
-    
-    * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
-    
-    * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
+   data:
+   - [ScriptQueue:3, OFFLINE]
+   - [ScriptQueue:2, OFFLINE]
+   - [ScriptQueue:1, OFFLINE]
+   ignore: #only if deploying to Summit
+      - MTM1M3
+      - MTM1M3TS
+   mute_alarms: false
 
+* The VMSs do not report ``OFFLINE``. To check that they are indeed ``OFFLINE`` check for heartbeats using Chronograf.
 
-.. _Control-System-Upgrade-Pre-Deployment-Activities-Clean-up:
+* An overall status view is available from LOVE in the Summary state view (:ref:`Summit <Deployment-Activities-Summit-LOVE-Summary>`, :ref:`TTS <Deployment-Activities-TTS-LOVE-Summary>`, :ref:`BTS <Deployment-Activities-BTS-LOVE-Summary>`).
 
-#. **Clean up still running CSCs/systems**
+* You can also consult these dashboards on Chronograf. The names are the same across sites.
+   
+   * ``Heartbeats``
+   * ``AT Summary State Monitor``
+   * ``MT Summary State Monitor``
+   * ``Envsys Summary State Monitor``
+   * ``Calibration Systems Summary State Monitor``
+   * ``Observatory Systems Summary State Monitor``
 
-   * To shut down the cameras, log into the ``mcm`` machines and stop the bridges using ``sudo systemctl stop`` (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
-   * One can work with the system principles to shut down the services.
-   * Notify the camera upgrade team that the system is ready for :ref:`Stage 1<camera-install-stage-1>`.
-   * Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
-   * Make sure that the love-producers and the telegraf connectors have finished consuming messages in the queue. This is because, for some changes that break schema compatibility,
-      there can be a missmatch between old messages in a topic and the new ones after the upgrade. When this happens and there are old messages, the love-producers and telegraf connectors will fail to start,
-      because they try to process the old messages with the new schema. Ensuring that they have lag 0 before turning them off prevents this issue. To check the lag of these consumers, you can use the `lag`
-      function in the `kafka-tools` repository (in https://github.com/lsst-ts/kafka-tools).
-      * To check the lag of the telegraf connectors::
+* The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
+
+* The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
+
+2. Clean up CSCs/systems still running 
+--------------------------------------
+
+* To shut down the cameras, log into the ``mcm`` machines and stop the bridges using ``sudo systemctl stop`` (:ref:`Summit <Deployment-Activities-Summit-Camera-Shutdown>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Shutdown>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Shutdown>`).
+* One can work with the system principles to shut down the services.
+* Notify the camera upgrade team that the system is ready for :ref:`Stage 1<camera-install-stage-1>`.
+* Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
+* Make sure that the love-producers and the telegraf connectors have finished consuming messages in the queue. 
+   * This is because, for some changes that break schema compatibility, there can be a mismatch between old messages in a topic and the new ones after the upgrade. When this happens and there are old messages, the love-producers and telegraf connectors will fail to start.
+   * You can use the `lag` function in the `kafka-tools` repository (in https://github.com/lsst-ts/kafka-tools).
+   * To check the lag of the telegraf connectors::
       
-         kt consumers summit lag --telegraf --summary
+      kt consumers summit lag --telegraf --summary
       
-      * To check the lag of the love-producers::
+   * To check the lag of the love-producers::
       
-         kt consumers summit lag --love-producer --summary
+      kt consumers summit lag --love-producer --summary
 
-   * Clean up Kubernetes deployments:
-      * To do this you will need to point to the correct Kubernetes cluster for each site (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>` )
-      * Scripts are in https://github.com/lsst-ts/k8s-admin.
-      * Ensure the correct cluster is set, then run::
+* Clean up Kubernetes deployments:
+   * To do this you will need to point to the correct Kubernetes cluster for each site (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>` )
+   * Scripts are in https://github.com/lsst-ts/k8s-admin.
+   * Ensure the correct cluster is set, then run::
 
-          ./cleanup_all
+         ./cleanup_all
 
-      * To clean up Nublado::
+   * To clean up Nublado::
 
-          ./cleanup_nublado
+         ./cleanup_nublado
 
+* Scale down telegraf connectors by doing in the appropiate cluster::
 
-#. **With everything shutdown, the configurations need to be updated before deployment starts**
+   kubectl scale deploy -n sasquatch --selector app.kubernetes.io/name=sasquatch-telegraf --replicas=0
 
-   * Ensure Phalanx branch (https://github.com/lsst-sqre/phalanx) contains all the necessary updates, then create a PR and merge it.
-   * All other configuration repositories should have the necessary commits already on branches and pushed to GitHub.
-   * Update configuration repositories on bare metal machine deployments (:ref:`Summit <Deployment-Activities-Summit-Update-Configuration>` only).
-      
-      * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
-      * Also, only certain T&S systems are handled here, the rest need to be coordinated with system principles.
+3. Update Configurations
+------------------------
 
+* Ensure Phalanx branch (https://github.com/lsst-sqre/phalanx) contains all the necessary updates, then create a PR and merge it.
+* All other configuration repositories should have the necessary commits already on branches and pushed to GitHub.
+* Update configuration repositories on bare metal machine deployments (:ref:`Summit <Deployment-Activities-Summit-Update-Configuration>` only).
+   * Unlike shutdown, only the T&S systems are handled here. DM and Camera are handled by the system principles.
+   * Also, only certain T&S systems are handled here, the rest need to be coordinated with system principles.
 
-#. In the case that the changes to be applied break schema compatibility, it will be necessary to change the schema registry compatibility setting. To do so:
+* Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
 
+* In the case that the changes to be applied break schema compatibility, it will be necessary to change the schema registry compatibility setting. To do so:
    * Exec into a schema registry pod.
    * Check the current setting, which should be ``FORWARD``::
       
@@ -108,88 +111,89 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
    * Remember to change the compatibility setting back to ``FORWARD`` later.
 
-
-#. Once all configurations are in place, deployment of the new system can begin.
+4. Deploy the Upgrade
+---------------------
     
-    * **Be patient with container pulling (goes for everything containerized here).**
+* **Be patient with container pulling (goes for everything containerized here).**
+* Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
+* Update cRIOs if not done already (:ref:`Summit <Deployment-Activities-Summit-Update-cRIOs>` only)
+* Log into the site specific ArgoCD UI to sync the relevant applications:
+   * Start by syncing ``science-platform``.
+   * Sync ``nublado``.
+   * Sync ``sasquatch`` if necessary, but check first, in case there are configuration changes that we don't want to apply just yet.
+   * Sync T&S applications, all under the ``telescope`` ArgoCD project. While the order doesn't matter in principle, it is a good idea to start with a small application (like ``control-system-test``). Update LOVE last, otherwise some love-producers might not come up properly.
 
-    #. Update ESS Controllers (:ref:`Summit <Deployment-Activities-Summit-Update-ESS-Controllers>` only)
-    #. Update cRIOs if not done already (:ref:`Summit <Deployment-Activities-Summit-Update-cRIOs>` only)
-    #. Log into the site specific ArgoCD UI to sync the relevant applications:
-       
-       * Start by syncing ``science-platform``.
-       * Sync ``nublado``.
-       * Sync ``sasquatch`` if necessary, but check first, in case there are configuration changes that we don't want to apply just yet.
-       * Sync T&S applications, all under the ``telescope`` ArgoCD project. While the order doesn't matter in principle, it is a good idea to start with a small application (like ``control-system-test``). It is also useful to update LOVE before the rest of the control system applications, as we can monitor the state of the different CSCs from the summary state view.
-    
-    #. Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
-       
-       * This is generally handled by the Camera team.
-    
-    #. Use the site specific Slack channel (:ref:`Summit <Pre-Deployment-Activities-Summit-Slack-Announce>`, :ref:`TTS <Pre-Deployment-Activities-TTS-Slack-Announce>`, :ref:`BTS <Pre-Deployment-Activities-BTS-Slack-Announce>`) to notify the people doing the camera upgrade that they can proceed to :ref:`Stage 2<camera-install-stage-2>`.
-    
-    #. Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>` only).
+* Startup Camera Services (:ref:`Summit <Deployment-Activities-Summit-Camera-Startup>`, :ref:`TTS <Deployment-Activities-TTS-Camera-Startup>`, :ref:`BTS <Deployment-Activities-BTS-Camera-Startup>`).
+   * This is generally handled by the Camera team.
 
+* Startup Services on Bare Metal Deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Startup>` only).
 
-#. **Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into** ``STANDBY``
-   
-   * Some CSCs (ScriptQueues) should come up ``ENABLED``.
+* Once the deployment steps have been executed, the system should be monitored to see if all CSCs come up into ``STANDBY``
+   * Some CSCs (ScriptQueues, WeatherForecast) should come up ``ENABLED``.
    * Report any issues directly to the system principles (DMs are OK).
-   * This step is completed when either all CSCs are in STANDBY/OFFLINE or CSCs with issues cannot be fixed in a reasonable (~30 minutes) amount of time.
+   * This step is completed when either all CSCs are in STANDBY or CSCs with issues cannot be fixed in a reasonable (~30 minutes) amount of time.
    * If leaving this step with CSCs in non-working order, make sure to report that on the site specific Slack channel.
 
-#. Some CSCs need to be ENABLED (:ref:`Summit <Deployment-Activities-Summit-Enabled-CSCs>`, :ref:`TTS <Deployment-Activities-TTS-Enabled-CSCs>`, :ref:`BTS <Deployment-Activities-BTS-Enabled-CSCs>`).
+* Some CSCs need to be ENABLED (:ref:`Summit <Deployment-Activities-Summit-Enabled-CSCs>`, :ref:`TTS <Deployment-Activities-TTS-Enabled-CSCs>`, :ref:`BTS <Deployment-Activities-BTS-Enabled-CSCs>`).
 
-#. If not carrying on with integration testing, folks can be told they can use Nublado again via the site specific Slack channel.
+* Once everything is back, scale the telegraf connectors back to 1::
 
+   kubectl scale deploy -n sasquatch --selector app.kubernetes.io/name=sasquatch-telegraf --replicas=1
+
+* Ensure that the telegraf connectors are sending data to the EFD as expected. Check Chronograf for this.
+
+* If not carrying on with integration testing, folks can be told they can use Nublado again via the site specific Slack channel.
 
 Deploying an Incremental Upgrade
 ================================
 
 The process is similar to that of deploying a full upgrade, but with some key differences:
 
-#. **Send only relevant CSCs to** ``OFFLINE`` **state**
-
+#. Send only relevant CSCs to ``OFFLINE``.
    * Remember to send the Watcher to ``OFFLINE`` state first.
    * Use the ``set_summary_state.py`` script in LOVE to send the affected components to ``OFFLINE``.
-   * The ScriptQueues should also be sent to ``OFFLINE``, as they too need to be updated to be able to interact with the interface.      
-   
-#. **Clean up jobs for relevant CSCs, ScriptQueues**
+   * The ScriptQueues should also be sent to ``OFFLINE``, as they too need to be updated to be able to interact with the interface.
 
+#. Clean up the jobs for the relevant components only.
    * For CSCs, this can be done by logging into ``ArgoCD``, finding the job and deleting it.
-   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. Be sure to point to the correct cluster (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`,  :ref:`TTS <Deployment-Activities-TTS-Kubernetes>` ).
-      * Make sure you are in the correct cluster context and run::
+   * Alternatively, and more conviniently, it can be achieved through ``kubectl``. Be sure to point to the correct cluster (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>`,  :ref:`TTS <Deployment-Activities-TTS-Kubernetes>` )::
+         
+      kubectl delete job -n <namespace> -l csc-class=<csc-class>
 
-         kubectl delete job -n <namespace> -l csc-class=<csc-class>
-
-      * For example, to delete ScriptQueue jobs, you would run::
-
-         kubectl delete job -n obssys -l csc-class=scriptqueue
-
-
-#. **Once you have updated the configurations, update the relevant components only**
-
+#. Deploy the Upgrade
+   * Update the necessary configurations.
    * Sync the ScriptQueues and any other CSCs that need to be updated.
 
-#. **For test stands, minimal testing is required.**
-   See further information in (:ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`)
+#. For test stands, minimal testing is required. See further information in (:ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`)
 
+Providing support during an OS/K8s upgrade
+==========================================
 
-Recovering the Control System after an OS/K8s upgrade
-=====================================================
+Whenever IT performs an OS/K8s upgrade, the Control System needs to be brought down and then recovered:
+They can take care of the shutdown themselves, but they may need support. 
+
+#. When bringing the Control System down:
+   * Once again, make sure that M2 is in closed loop control.
+   * M1M3TS should be left ``ENABLED``. M1M3 should be in ``DISABLED``. Use the ``ignore`` flag in ``system_wide_shutdown`` to achieve this.
+   * It is not necessary to bring down the ESS controllers at the Summit, as these are not updated.
+
+#. It is extremely important that the Kafka brokers are shut down gracefully, otherwise the startup of the system later can take an excruciatingly long time.
+   * Clean up the stopped jobs and check the overall consumer lag before bringing the brokers down, as detailed above.
+   * Follow the instructions for a clean shutdown detailed in the `Sasquatch documentation <https://sasquatch.lsst.io/admin/kafka-shutdown.html>`_.
+   * Monitor the broker logs closely to ensure their shutdown is gracefully completed.
+   * Stop the telegraf connectors by scaling them to 0 replicas.
 
 After IT performs a routine OS/K8s upgrade the Control System will need to be brought back.
 In order to do this:
 
-#. **The running Kubernetes jobs need to be cleaned.** 
-
-#. **Sync Components**
-
+#. Resume Strimzi reconciliation as specified in the `Sasquatch documentation <https://sasquatch.lsst.io/admin/kafka-shutdown.html#restarting-kafka>`_.
+#. Wait for the Kafka brokers and controllers to be back and healthy. 
+#. Like with a Cycle deployment, sync the telescope namespaces in Argo-cd, do LOVE last.
 #. **For the Summit** 
 
-   * The cRIOs for MTM1M3, MTVMS:1, MTVMS:2 and MTM1M3TS will need to be started. See last step in :ref:`Deployment-Activities-Summit-Update-cRIOs`.
+   * The cRIOs for MTM1M3, MTVMS:1, MTVMS:2, MTVMS:3 and MTM1M3TS will need to be started. See last step in :ref:`Deployment-Activities-Summit-Update-cRIOs`.
    * The CSCs on ``azar03.cp.lsst.org`` will need to be restarted.
-   * ``azar02.cp.lsst.org`` will need to be rebooted. 
+#. Lastly, scale telegraf connectors back to 1 replica.
 
 #. **For test stands, minimal testing is required.**
    See further information in :ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`.
@@ -258,7 +262,7 @@ Minimal Testing
    * Run ``maintel/enable_hexapod_compensation_mode.py``
    * Run ``maintel/mtdome/open_dome.py``
    * Run ``maintel/mtdome/enable_dome_following.py``
-   * Run ``maintel/m1m3/raise_m1m3.py``. In the test stands this script will not work at low elevations (it will hang). If this happens, use ``point_azel.py`` to bring it to 80 degrees elevation. 
+   * Run ``maintel/m1m3/raise_m1m3.py``. In the test stands this script will not work at low elevations (it will hang). Raising it usually wors at 0 degrees azimuth and 80 degrees elevation. 
    * Run ``maintel/track_target.py``. One possible configuration is::
 
       target_name: HD164461

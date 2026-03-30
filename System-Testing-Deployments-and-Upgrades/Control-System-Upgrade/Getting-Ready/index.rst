@@ -21,9 +21,12 @@ Upgrading the Interface (XML)
     * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/development-guidelines/xml/reporting-xml-release-work.html#reporting-xml-release-work>`_ procedure.
     * Use the ``find_merges_without_release_tickets`` script in the vanward_ package.
 #. Send reminders about the work closure deadline one week and one day before. Also send one on the day of the deadline.
-#. Ensure all work tickets are closed when the deadline passes (use the Step 5 script).
+#. Ensure all work tickets are closed when the deadline passes.
     * Review the release in the `CAP Jira project <https://rubinobs.atlassian.net/projects/CAP?selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page>`_, identified by the label ``ts_xml X.Y``.
     * Use the ``release_tickets`` script from the vanward_  package.
+#. Before Starting the release/build process, the Software Acceptance Board needs to approve the proposed changes. 
+    * The Software Architect is responsible for drafting a Summary with changes and presenting them to the board.
+    * Make sure the changes have been approved (bug whoever necessary).
 #. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
 
 .. _Control-System-Upgrade-Getting-Ready-Setting-Schedule:
@@ -65,7 +68,7 @@ Incremental upgrades to the interface (XML) are handled similarly to full upgrad
 
 .. _Control-System-Upgrade-Getting-Ready-Setting-Schedule-Incremental-Upgrade:
 
-Setting a Schedule for an incremental Upgrade
+Setting a Schedule for an Incremental Upgrade
 =============================================
 
 While below is an example, use your best judgment to set dates and make sure the major stakeholders are informed of the schedule by the CAP meeting.
