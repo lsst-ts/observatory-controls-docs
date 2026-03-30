@@ -61,6 +61,18 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    * One can work with the system principles to shut down the services.
    * Notify the camera upgrade team that the system is ready for :ref:`Stage 1<camera-install-stage-1>`.
    * Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
+   * Make sure that the love-producers and the telegraf connectors have finished consuming messages in the queue. This is because, for some changes that break schema compatibility,
+      there can be a missmatch between old messages in a topic and the new ones after the upgrade. When this happens and there are old messages, the love-producers and telegraf connectors will fail to start,
+      because they try to process the old messages with the new schema. Ensuring that they have lag 0 before turning them off prevents this issue. To check the lag of these consumers, you can use the `lag`
+      function in the `kafka-tools` repository (in https://github.com/lsst-ts/kafka-tools).
+      * To check the lag of the telegraf connectors::
+      
+         kt consumers summit lag --telegraf --summary
+      
+      * To check the lag of the love-producers::
+      
+         kt consumers summit lag --love-producer --summary
+
    * Clean up Kubernetes deployments:
       * To do this you will need to point to the correct Kubernetes cluster for each site (:ref:`Summit <Deployment-Activities-Summit-Kubernetes>`, :ref:`TTS <Deployment-Activities-TTS-Kubernetes>`, :ref:`BTS <Deployment-Activities-BTS-Kubernetes>` )
       * Scripts are in https://github.com/lsst-ts/k8s-admin.

@@ -30,6 +30,7 @@ Bare Metal Machines
 * M1M3 VMS cRIO (Petr Kubánek): m1m3-crio-vms.cp.lsst.org
 * M1M3 TS cRIO (Petr Kubánek):m1m3-crio-ts.cp.lsst.org
 * M2 VMS cRIO (Petr Kubánek): m2-crio-vms01.cp.lsst.org
+* Camera Rotator VMS (Petr Kubánek): rot-crio-vms.cp.lsst.org
 * VMS Data Logger: vms-data.cp.lsst.org
 * Flat FiberSpectrograph Red: flat-fiberspecred.cp.lsst.org
 * Flat FiberSpectrograph Blue: flat-fiberspecblue.cp.lsst.org
@@ -112,6 +113,11 @@ Shutdown T&S Bare Metal Services
 * Handle M2 VMS cRIO::
 
     ssh admin@m2-crio-vms01.cp.lsst.org
+    /etc/init.d/ts-VMS stop
+
+* Handle Camera Rotator VMS cRIO::
+
+    ssh admin@rot-crio-vms.cp.lsst.org
     /etc/init.d/ts-VMS stop
 
 * Handle VMS Data Logger::
@@ -206,8 +212,8 @@ In the case of an OS update, the cRIO services will need to be started, as detai
 * SSH into the cRIO machines:
     * ``m1m3-crio-ss`` for MTM1M3 Support System.
     * ``m1m3-crio-ts`` for the Thermal System.
-    * ``m2-crio-vms01`` and ``m1m3-crio-vms`` for the VMSs.
-    
+    * ``m2-crio-vms01``, ``m1m3-crio-vms`` and ``rot-crio-vms`` for the VMSs.
+
 * Update ``ts_xml`` and set up the kafka environment::
 
     cd ts_xml
@@ -228,7 +234,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
 
         salgeneratorKafka generate cpp MTM1M3TS
 
-    *  In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+    *  In ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``::
 
         salgeneratorKafka generate cpp MTVMS
 
@@ -240,7 +246,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
     * ``ts_cRIOcpp`` in all machines.
     * ``ts_m1m3support`` in  ``m1m3-crio-ss``.
     * ``ts_m1m3thermal`` in ``m1m3-crio-ts``.
-    * ``ts_vms`` in ``m2-crio-vms01`` and ``m1m3-crio-vms``.
+    * ``ts_vms`` in ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``.
 * After ``salgeneratorKafka`` finishes and the C++ binding is done, clean and compile ``ts_cRIOcpp`` in all machines::
 
     cd ../ts_cRIOcpp
@@ -258,7 +264,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
         cp ts-M1M3thermald /usr/sbin/ts-M1M3thermald
         /etc/init.d/ts-m1m3thermal start
 
-    * In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+    * In ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``::
 
         cp ts-VMSd /usr/sbin/ts-VMSd
         /etc/init.d/ts-VMS start
