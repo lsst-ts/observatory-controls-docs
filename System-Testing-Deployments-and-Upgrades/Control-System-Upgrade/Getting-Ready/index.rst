@@ -10,15 +10,20 @@ Upgrading the Interface (XML)
     * This period may be extended if extra testing or other circumstances require it.
     * See :ref:`Control-System-Upgrade-Getting-Ready-Setting-Schedule` for further instructions.
     * Once the deployment date is set, run the ``create_summit_upgrade_ticket`` script in the vanward_ package to create the appropriate Jira ticket.
-#. Create a cycle build Confluence page (`Software Upgrades <https://confluence.lsstcorp.org/pages/viewpage.action?spaceKey=LSSTCOM&title=Software+Upgrades>`_) listing core package versions and any operational changes.
+#. Create a cycle build Confluence page (`Software Upgrades <https://confluence.lsstcorp.org/pages/viewpage.action?spaceKey=LSSTCOM&title=Software+Upgrades>`_) record schedule and list core packages.
+    * You can use the ``create_confluence_page`` script in vanward_ for that.
+    * Be sure to add an entry for the page for the cycle under `Software Upgrades <https://confluence.lsstcorp.org/pages/viewpage.action?spaceKey=LSSTCOM&title=Software+Upgrades>`_.
+    * Under the Confluence page for the Cycle, create a 'Work for Cycle X' page to record proposed changes.
+    * Also create a 'Software Versions' checklist, so folks can explicitly write down which versions of their components need to be built later.
 #. Present the schedule at the CAP meeting at least one week before the work closure deadline.
-#. Review the release in the `CAP Jira project <https://rubinobs.atlassian.net/projects/CAP?selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page>`_, identified by the label ``ts_xml X.Y``.
-    * Use the ``release_tickets`` script from the vanward_  package.
+#. If you haven't yet, create a release in the CAP Jira project to track the work for the upgrade. You can use the ``create_cap_release`` script in the vanward_ package.
 #. Confirm all merged work in the `ts_xml <https://github.com/lsst-ts/ts_xml.git>`_ repository is linked to a Jira ticket in the release.
     * Folks should be following the `XML Work Reporting <https://tssw-developer.lsst.io/development-guidelines/xml/reporting-xml-release-work.html#reporting-xml-release-work>`_ procedure.
     * Use the ``find_merges_without_release_tickets`` script in the vanward_ package.
-#. Send reminders about the work closure deadline at least one day prior AND on the day of the deadline.
+#. Send reminders about the work closure deadline one week and one day before. Also send one on the day of the deadline.
 #. Ensure all work tickets are closed when the deadline passes (use the Step 5 script).
+    * Review the release in the `CAP Jira project <https://rubinobs.atlassian.net/projects/CAP?selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page>`_, identified by the label ``ts_xml X.Y``.
+    * Use the ``release_tickets`` script from the vanward_  package.
 #. Work with the Telescope and Site Build Engineer on the day of the artifact build to go over any potentially open work and sign off on all software versions being used.
 
 .. _Control-System-Upgrade-Getting-Ready-Setting-Schedule:
