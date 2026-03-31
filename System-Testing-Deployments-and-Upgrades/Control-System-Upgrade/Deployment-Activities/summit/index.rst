@@ -22,28 +22,29 @@ Bare Metal Machines
 
 * T&S CSCs: tel-hw1.cp.lsst.org, azar03.cp.lsst.org
 * Auxtel illumination control machine: auxtel-ill-control.cp.lsst.org
-* LOVE: love01.cp.lsst.org
+* LOVE: love01.cp.lsst.org (This is one currently offline).
 * ATCamera (Tony Johnson): auxtel-mcm.cp.lsst.org
 * CCCamera(Tony Johnson): comcam-mcm.cp.lsst.org
 * MTCamera (Tony Johnson): lsstcam-mcm.cp.lsst.org
 * M1M3 Support cRIO (Petr Kubánek): m1m3-crio-ss.cp.lsst.org
 * M1M3 VMS cRIO (Petr Kubánek): m1m3-crio-vms.cp.lsst.org
-* M1M3 TS cRIO (Petr Kubánek):m1m3-crio-ts.cp.lsst.org
 * M2 VMS cRIO (Petr Kubánek): m2-crio-vms01.cp.lsst.org
+* Camera Rotator VMS (Petr Kubánek): rot-crio-vms.cp.lsst.org
+* M1M3 TS cRIO (Petr Kubánek):m1m3-crio-ts.cp.lsst.org
 * VMS Data Logger: vms-data.cp.lsst.org
 * Flat FiberSpectrograph Red: flat-fiberspecred.cp.lsst.org
 * Flat FiberSpectrograph Blue: flat-fiberspecblue.cp.lsst.org
-* ESS:1 (Camera Hexapod/Rotator) Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
-* ESS:2 (M2 Hexapod) Controller RPi (Wouter van Reeven): m2hex-ess01.cp.lsst.org
 * ESS:106 (M2 Mirror): m2-ess01.cp.lsst.org
-* ESS:107 (Laser Enclosure): laser-rpi.cp.lsst.org
 * ESS:111 (Camera Inlet Humidity) Controller RPi: camera-ess01.cp.lsst.org
 * ESS:112 (M2 Humidity) Controller RPi: m2-ess02.cp.lsst.org
 * ESS:113 (M1M3 Humidity) Controller RPi: m1m3-ess01.cp.lsst.org
+* ESS:121 (Camera Hexapod/Rotator) Controller RPi (Wouter van Reeven): hexrot-ess01.cp.lsst.org
+* ESS:122 (M2 Hexapod) Controller RPi (Wouter van Reeven): m2hex-ess01.cp.lsst.org
 * ESS:201 (Auxtel Misc) Controller RPi (Wouter van Reeven): auxtel-ess01.cp.lsst.org
-* ESS:203 (Auxtel Lightning) Controller RPi (Wouter van Reeven): auxtel-lightning01.cp.lsst.org
 * ESS:204 (Auxtel Windsonic) Controller RPi (Wouter van Reeven): auxtel-ess02.cp.lsst.org
 * ESS:307 (DIMM): dimm.cp.lsst.org
+* ESS:308 (Auxtel Lightning) Controller RPi (Wouter van Reeven): auxtel-lightning01.cp.lsst.org
+* ESS:404 (Laser Enclosure): laser-rpi.cp.lsst.org
 
 .. _Deployment-Activities-Summit-LOVE-Summary:
 
@@ -67,7 +68,7 @@ Shutdown Camera Services
 
     sudo systemctl stop ocs-bridge.service
 
-* Shutdown CCCamera OCS Bridge  
+* (This one is currently not in use) Shutdown CCCamera OCS Bridge  
   From ``comcam-mcm.cp.lsst.org`` run::
 
     sudo systemctl stop comcam-ocs-bridge.service
@@ -112,6 +113,11 @@ Shutdown T&S Bare Metal Services
 * Handle M2 VMS cRIO::
 
     ssh admin@m2-crio-vms01.cp.lsst.org
+    /etc/init.d/ts-VMS stop
+
+* Handle Camera Rotator VMS cRIO::
+
+    ssh admin@rot-crio-vms.cp.lsst.org
     /etc/init.d/ts-VMS stop
 
 * Handle VMS Data Logger::
@@ -206,8 +212,8 @@ In the case of an OS update, the cRIO services will need to be started, as detai
 * SSH into the cRIO machines:
     * ``m1m3-crio-ss`` for MTM1M3 Support System.
     * ``m1m3-crio-ts`` for the Thermal System.
-    * ``m2-crio-vms01`` and ``m1m3-crio-vms`` for the VMSs.
-    
+    * ``m2-crio-vms01``, ``m1m3-crio-vms`` and ``rot-crio-vms`` for the VMSs.
+
 * Update ``ts_xml`` and set up the kafka environment::
 
     cd ts_xml
@@ -228,7 +234,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
 
         salgeneratorKafka generate cpp MTM1M3TS
 
-    *  In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+    *  In ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``::
 
         salgeneratorKafka generate cpp MTVMS
 
@@ -240,7 +246,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
     * ``ts_cRIOcpp`` in all machines.
     * ``ts_m1m3support`` in  ``m1m3-crio-ss``.
     * ``ts_m1m3thermal`` in ``m1m3-crio-ts``.
-    * ``ts_vms`` in ``m2-crio-vms01`` and ``m1m3-crio-vms``.
+    * ``ts_vms`` in ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``.
 * After ``salgeneratorKafka`` finishes and the C++ binding is done, clean and compile ``ts_cRIOcpp`` in all machines::
 
     cd ../ts_cRIOcpp
@@ -258,7 +264,7 @@ In the case of an OS update, the cRIO services will need to be started, as detai
         cp ts-M1M3thermald /usr/sbin/ts-M1M3thermald
         /etc/init.d/ts-m1m3thermal start
 
-    * In ``m2-crio-vms01`` and ``m1m3-crio-vms``::
+    * In ``m2-crio-vms01``, ``rot-crio-vms`` and ``m1m3-crio-vms``::
 
         cp ts-VMSd /usr/sbin/ts-VMSd
         /etc/init.d/ts-VMS start
@@ -281,7 +287,7 @@ Update Configuration
 
 .. _Deployment-Activities-Summit-LOVE-Startup:
 
-Startup bare metal LOVE
+Startup bare metal LOVE (Offline at the moment)
 -----------------------
 
 This needs to be done from ``love01``. After ``LOVE-integration-tools`` has been updated::
@@ -304,7 +310,7 @@ Startup Camera Services
 
     sudo systemctl start ocs-bridge.service
 
-* Startup CCCamera OCS Bridge  
+* (Offline at the moment) Startup CCCamera OCS Bridge  
   From ``comcam-mcm.cp.lsst.org`` run::
 
     sudo systemctl start comcam-ocs-bridge.service
@@ -370,9 +376,7 @@ These are:
       - [ESS:104, ENABLED]
       - [ESS:105, ENABLED]
       - [ESS:106, ENABLED]
-      - [ESS:107, ENABLED]
-      - [ESS:108, ENABLED]
-      - [ESS:109 ENABLED]
+      - [ESS:109, ENABLED]
       - [ESS:110, ENABLED]
       - [ESS:111, ENABLED]
       - [ESS:112, ENABLED]
@@ -381,11 +385,15 @@ These are:
       - [ESS:115, ENABLED]
       - [ESS:116, ENABLED]
       - [ESS:117, ENABLED]
-      - [ESS:118, ENABLED]
-      - [ESS:119, ENABLED]
-      - [ESS:120, ENABLED]
       - [ESS:121, ENABLED]
       - [ESS:122, ENABLED]
+      - [ESS:123, ENABLED]
+      - [ESS:124, ENABLED]
+      - [ESS:125, ENABLED]
+      - [ESS:126, ENABLED]
+      - [ESS:127, ENABLED]
+      - [ESS:128, ENABLED]
+      - [ESS:129, ENABLED]
       - [ESS:201, ENABLED]
       - [ESS:202, ENABLED]
       - [ESS:204, ENABLED]
@@ -395,6 +403,13 @@ These are:
       - [ESS:304, ENABLED]
       - [ESS:305, ENABLED]
       - [ESS:306, ENABLED]
-      - [ESS:308, ENABLED] 
+      - [ESS:308, ENABLED]
+      - [ESS:404, ENABLED]
+      - [ESS:405, ENABLED]
+      - [ESS:441, ENABLED]
+      - [ESS:442, ENABLED]
+      - [ESS:443, ENABLED]
+      - [EAS, ENABLED]
+      - [DREAM, ENABLED]
       - [GIS, ENABLED]
       - [Watcher, ENABLED]
