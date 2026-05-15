@@ -70,7 +70,7 @@ Shutdown Camera Services
 * Shutdown MTCamera OCS Bridge  
   From ``lsstcam-mcm.ls.lsst.org`` run::
 
-    sudo systemctl stop lsstcam-ocs-bridge.service
+    sudo systemctl stop ocs-bridge.service
 
 .. _Deployment-Activities-BTS-Camera-Startup:
 
@@ -85,11 +85,11 @@ Startup Camera Services
 * Startup MTCamera OCS Bridge  
   From ``lsstcam-mcm.ls.lsst.org`` run::
 
-    sudo systemctl start lsstcam-ocs-bridge.service
+    sudo systemctl start ocs-bridge.service
 
 * Ensure bridge services are running using::
 
-    sudo systemctl status <camera-name>-ocs-bridge.service
+    systemctl status <camera-name>-ocs-bridge.service
 
 * Transition to OFFLINE_AVAILABLE::
 
