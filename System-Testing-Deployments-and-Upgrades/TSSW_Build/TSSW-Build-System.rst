@@ -295,7 +295,7 @@ Since each job will run a cleanup routine, to prevent filling the disk on the ho
 Additionally, every node will have user accounts for the IT staff, Build Engineer and other members of the build team, with appropriate personnel assigned admin privileges.
 These users are responsible for OS and software maintenance on the nodes.
 
-The Jenkins and Docker services on all machines are configured as `systemd services <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/chap-managing_services_with_systemd>`_.
+The Jenkins and Docker services on all machines are configured as `systemd services <https://systemd.io>`_.
 Jenkins is run as the \`jenkins\` user, Docker is run as the \`root\` user.
 Running these as system services is important for two key reasons.
 First, the services on each build node will not terminate if they lose communication with the master and will continue to process any assigned jobs.
