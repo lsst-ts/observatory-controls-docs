@@ -23,6 +23,8 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
    If deploying the upgrade to the Summit, keep MTM1M3TS in ENABLED state and MTM1M3 in DISABLED state. This will be fixed at some point.
    The same goes for OS/k8s upgrades.
 
+.. _Control-System-Upgrade-Deployment-Activities-Shutdown:
+
 1. Shutting down the Control System
 -----------------------------------
 
@@ -54,6 +56,8 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 * The Watcher MUST come down FIRST, to avoid a flurry of alarms going off.
 
 * The ScriptQueues MUST come down last, taking care that the order in the script's configuration shuts down the ScriptQueue where the script is run last.
+
+.. _Control-System-Upgrade-Deployment-Activities-Cleanup:
 
 2. Clean up CSCs/systems still running 
 --------------------------------------
@@ -88,6 +92,8 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
    kubectl scale deploy -n sasquatch --selector app.kubernetes.io/name=sasquatch-telegraf --replicas=0
 
+.. _Control-System-Upgrade-Deployment-Activities-Configuration:
+
 3. Update Configurations
 ------------------------
 
@@ -110,6 +116,8 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
       curl -s -X PUT -H 'Content-Type: application/vnd.schemaregistry.v1+json' --data '{  "compatibility": "NONE" }' $SCHEMA_REGISTRY_LISTENERS/config
 
    * Remember to change the compatibility setting back to ``FORWARD`` later.
+
+.. _Control-System-Upgrade-Deployment-Activities-Deploy:
 
 4. Deploy the Upgrade
 ---------------------
@@ -144,6 +152,8 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 
 * If not carrying on with integration testing, folks can be told they can use Nublado again via the site specific Slack channel.
 
+.. _Control-System-Upgrade-Deployment-Activities-Incremental:
+
 Deploying an Incremental Upgrade
 ================================
 
@@ -165,6 +175,8 @@ The process is similar to that of deploying a full upgrade, but with some key di
    * Sync the ScriptQueues and any other CSCs that need to be updated.
 
 #. For test stands, minimal testing is required. See further information in (:ref:`Control-System-Upgrade-Deployment-Activities-Minimal-Testing`)
+
+.. _Control-System-Upgrade-Deployment-Activities-OS-K8s:
 
 Providing support during an OS/K8s upgrade
 ==========================================
