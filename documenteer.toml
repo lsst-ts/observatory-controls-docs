@@ -1,6 +1,6 @@
 [project]
 title = "Controls Documentation"
-copyright = "2020-2025 Association of Universities for Research in Astronomy, Inc. (AURA)"
+copyright = "2020-2026 Association of Universities for Research in Astronomy, Inc. (AURA)"
 version = "Latest"
 base_url = "https://obs-controls.lsst.io"
 github_url = "https://github.com/lsst-ts/observatory-controls-docs"
