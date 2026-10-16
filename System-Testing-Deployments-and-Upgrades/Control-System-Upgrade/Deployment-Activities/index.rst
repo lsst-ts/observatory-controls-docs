@@ -68,7 +68,7 @@ You will need access to a number of resources (:ref:`Summit <Deployment-Activiti
 * Shut down and clean up bare metal deployments (:ref:`Summit <Deployment-Activities-Summit-TandS-BM-Shutdown>` only).
 * Make sure that the love-producers and the telegraf connectors have finished consuming messages in the queue. 
    * This is because, for some changes that break schema compatibility, there can be a mismatch between old messages in a topic and the new ones after the upgrade. When this happens and there are old messages, the love-producers and telegraf connectors will fail to start.
-   * You can use the `lag` function in the `kafka-tools` repository (in https://github.com/lsst-ts/kafka-tools).
+   * You can use the ``lag`` function in the ``kafka-tools`` repository (in https://github.com/lsst-ts/kafka-tools).
    * To check the lag of the telegraf connectors::
       
       kt consumers summit lag --telegraf --summary

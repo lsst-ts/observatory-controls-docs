@@ -288,7 +288,7 @@ Update Configuration
 .. _Deployment-Activities-Summit-LOVE-Startup:
 
 Startup bare metal LOVE (Offline at the moment)
------------------------
+-----------------------------------------------
 
 This needs to be done from ``love01``. After ``LOVE-integration-tools`` has been updated::
 

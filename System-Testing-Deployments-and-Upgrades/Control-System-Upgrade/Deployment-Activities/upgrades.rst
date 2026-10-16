@@ -1,6 +1,6 @@
-########
-Upgrades
-########
+#################
+Upgrade Checklist
+#################
 
 Use this page as the operational checklist for a control-system deployment or
 an OS/K8s maintenance window. The detailed :ref:`Control System Upgrade
@@ -302,7 +302,7 @@ Further detail
 ^^^^^^^^^^^^^^
 
 Use the detailed :doc:`deployment activities
-<Control-System-Upgrade/Deployment-Activities/index>` and its site-specific
+<index>` and its site-specific
 sections for recovery steps, Kubernetes access, camera coordination, and
 minimal-test configurations. Report any CSC that cannot be restored promptly
 in the appropriate site Slack channel before ending the deployment.
