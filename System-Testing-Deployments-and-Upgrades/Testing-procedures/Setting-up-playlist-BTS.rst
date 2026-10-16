@@ -23,7 +23,7 @@
 Setting up a playlist for testing in BTS
 ########################################
 
-For testing that requires using the Cameras at BTS, a playlist with simulated images is needed. There are several already available playlist, but ocassionally, one may desire to either update
+For testing that requires using the Cameras at BTS, a playlist with simulated images is needed. There are several already available playlists, but occasionally, one may desire to either update
 or create a new one. This document describes how to go about it.
 
 Setting up a playlist for LATISS
