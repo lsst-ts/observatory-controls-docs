@@ -60,7 +60,7 @@ If the CSC, that you are going to test, is in STANDBY (S) or ENABLED (E) mode, y
 This can be done by returning to the main LOVE page and selecting the MTQueue or ATQueue, depending on which group the CSC belongs to.
 From the list of Standard Scripts, select ``set_summary_state.py`` by clicking on the blue icon to the right of the script name.
 
-.. figure:: ./_static/love-standard-scripts.png
+.. figure:: ../_static/love-standard-scripts.png
     :name: love-standard-scripts
 
 In the popup, specify the configuration data for the script, for instance:
@@ -75,7 +75,7 @@ In the popup, specify the configuration data for the script, for instance:
 
 would set the DIMM CSC with index 1 OFFLINE.
 
-.. figure:: ./_static/love-configuring.png
+.. figure:: ../_static/love-configuring.png
     :name: love-configuring
 
 Connect to the deploy-env container
@@ -97,7 +97,7 @@ This can be done with
 
 You should see at least two docker containers running.
 
-.. figure:: ./_static/azar-docker-ps.png
+.. figure:: ../_static/azar-docker-ps.png
     :name: azar-docker-ps
 
 One is the ``ts-dockerhub.lsst.org/develop-env`` container, the other the ``ts-dockerhub.lsst.org/ospl-daemon`` container.
@@ -164,23 +164,23 @@ This can be done via ArgoCD.
 
 - Once logged in, you can search for your CSC in the upper left.
 
-.. figure:: ./_static/argocd-search.png
+.. figure:: ../_static/argocd-search.png
     :name: argocd-search
 
 - Click on the CSC name in the app summary box containing your CSC.
 
-.. figure:: ./_static/argocd-select.png
+.. figure:: ../_static/argocd-select.png
     :name: argocd-select
 
 - You should be taken to a new screen with three boxes connected by arrows:one box for the app, one for the job and one for the pod.
 - Click the three dots on the right side of the job box (that is the center box) and click Delete.
 
-.. figure:: ./_static/argocd-delete.png
+.. figure:: ../_static/argocd-delete.png
     :name: argocd-delete
 
 - Then in the menu at the upper left, click on the SYNC box (the third box from the left).
 
-.. figure:: ./_static/argocd-sync.png
+.. figure:: ../_static/argocd-sync.png
     :name: argocd-sync
 
 - Once syncing has finished, the CSC is in STANDBY mode again.

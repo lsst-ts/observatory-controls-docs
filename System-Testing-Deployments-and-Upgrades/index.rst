@@ -31,6 +31,5 @@ System Testing, Deployments, and Upgrades
     :titlesonly:
     :glob:
 
-    *
     */index
 
